@@ -27,11 +27,7 @@ function Table(props) {
               }
             })}
             {action && (
-              <td className="p-2 flex gap-2 justify-center">
-                <button>
-                  <FontAwesomeIcon icon={faEllipsisVertical} />
-                </button>
-              </td>
+              <td className="p-2 flex gap-2 justify-center">{action}</td>
             )}
           </tr>
         ))}
