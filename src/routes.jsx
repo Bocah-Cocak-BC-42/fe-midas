@@ -3,6 +3,8 @@ import LandingPage from "./pages/LandingPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import LayoutUmum from "./components/layout/LayoutUmum";
 import DataMasterBank from "./pages/Karyawan/DataMasterBank";
+import DataMasterKantorCabang from "./pages/Karyawan/DataMasterKantorCabang"
+import DataMasterKaryawanKantorCabang from "./pages/Karyawan/DataMasterKaryawanKantorCabang"
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +20,22 @@ export const router = createBrowserRouter([
     element: (
       // <LayoutKhusus breadcrumb="Data Master Bank">
       <DataMasterBank />
+      // </LayoutKhusus>
+    ),
+  },
+  {
+    path: "/data-master/kantor-cabang",
+    element: (
+      // <LayoutKhusus breadcrumb="Data Master Bank">
+      <DataMasterKantorCabang />
+      // </LayoutKhusus>
+    ),
+  },
+  {
+    path: "/data-master/kantor-cabang/karyawan",
+    element: (
+      // <LayoutKhusus breadcrumb="Data Master Bank">
+      <DataMasterKaryawanKantorCabang />
       // </LayoutKhusus>
     ),
   },
