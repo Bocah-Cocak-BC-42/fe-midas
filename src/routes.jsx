@@ -3,8 +3,7 @@ import LandingPage from "./pages/LandingPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import LayoutUmum from "./components/layout/LayoutUmum";
 import DataMasterBank from "./pages/Karyawan/DataMasterBank";
-import DataMasterRole from "./pages/Karyawan/DataMasterRole";
-
+import LayoutKhusus from "./components/layout/LayoutKhusus";
 
 export const router = createBrowserRouter([
   {
@@ -24,12 +23,11 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "/data-master/role",
-    element: (
-      // <LayoutKhusus breadcrumb="Data Master Bank">
-      <DataMasterRole />
-      // </LayoutKhusus>
-    ),
+    path: "/khusus",
+    element: 
+        <LayoutKhusus>
+            
+        </LayoutKhusus>
   },
   {
     path: "*",
