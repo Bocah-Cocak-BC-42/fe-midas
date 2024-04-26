@@ -3,6 +3,7 @@ import LandingPage from "./pages/LandingPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import LayoutUmum from "./components/layout/LayoutUmum";
 import DataMasterBank from "./pages/Karyawan/DataMasterBank";
+import LayoutKhusus from "./components/layout/LayoutKhusus";
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +21,13 @@ export const router = createBrowserRouter([
       <DataMasterBank />
       // </LayoutKhusus>
     ),
+  },
+  {
+    path: "/khusus",
+    element: 
+        <LayoutKhusus>
+            
+        </LayoutKhusus>
   },
   {
     path: "*",
