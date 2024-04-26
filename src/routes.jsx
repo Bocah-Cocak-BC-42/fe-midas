@@ -18,7 +18,7 @@ export const router = createBrowserRouter([
   {
     path: "/data-master/bank",
     element: (
-      <LayoutKhusus breadcrumb="Data Master Bank">
+      <LayoutKhusus breadcrumbs="Data Master Bank">
         <DataMasterBank />
       </LayoutKhusus>
     ),
@@ -26,7 +26,7 @@ export const router = createBrowserRouter([
   {
     path: "/data-master/role",
     element: (
-      <LayoutKhusus breadcrumb="Data Master Role">
+      <LayoutKhusus breadcrumbs="Data Master Role">
         <DataMasterRole />
       </LayoutKhusus>
     ),

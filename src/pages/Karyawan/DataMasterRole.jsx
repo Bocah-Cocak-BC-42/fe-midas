@@ -3,6 +3,7 @@ import Button from "../../components/Button";
 import FormUpsertRole from "../../components/Form/FormUpsertRole";
 import Modal from "../../components/Modal";
 import Table from "../../components/Table";
+import TableActions from "../../components/TableActions";
 
 function DataMasterRole() {
   const [roles, setRoles] = useState([]);
@@ -74,7 +75,13 @@ function DataMasterRole() {
           getDataByPagination={(pageNumber) => {
             console.log(pageNumber);
           }}
-          action={["Edit", "Delete", "Detail"]}
+          action={<TableActions>
+              <Button variant="warning">Edit</Button>
+              <Button variant="info">Detail</Button>
+              <Button variant="danger">Delete</Button>
+          </TableActions>
+
+          }
         />
       </div>
       <Modal onClose={handleCloseModal} visible={showModal} title={title}>
