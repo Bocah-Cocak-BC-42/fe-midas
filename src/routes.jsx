@@ -32,13 +32,6 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "/khusus",
-    element: 
-        <LayoutKhusus>
-            
-        </LayoutKhusus>
-  },
-  {
     path: "*",
     element: <NotFoundPage />,
   },

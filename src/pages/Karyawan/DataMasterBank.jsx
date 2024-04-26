@@ -3,6 +3,7 @@ import Button from "../../components/Button";
 import FormUpsertBank from "../../components/Form/FormUpsertBank";
 import Modal from "../../components/Modal";
 import Table from "../../components/Table";
+import TableActions from "../../components/TableActions";
 
 function DataMasterBank() {
   const [banks, setBanks] = useState([]);
@@ -74,7 +75,11 @@ function DataMasterBank() {
           getDataByPagination={(pageNumber) => {
             console.log(pageNumber);
           }}
-          action={["Edit", "Delete", "Detail"]}
+          action={<TableActions>
+            <Button variant="warning">Edit</Button>
+            <Button variant="info">Edit</Button>
+            <Button variant="danger">Edit</Button>
+          </TableActions>}
         />
       </div>
       <Modal onClose={handleCloseModal} visible={showModal} title={title}>
