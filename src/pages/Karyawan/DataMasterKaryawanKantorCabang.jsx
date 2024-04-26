@@ -1,7 +1,7 @@
 import Button from "../../components/Button";
 import Table from "../../components/Table";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightToBracket } from "@fortawesome/free-solid-svg-icons";
+import TableActions from "../../components/TableActions";
+
 
 function DataKaryawanKantorCabang(){
     const dataJson = [
@@ -45,13 +45,19 @@ function DataKaryawanKantorCabang(){
             </div>
             <div className="rounded-md border mt-4 shadow">
                 <Table 
-                    tableHeaders={["Nama Lengkap", "NIP",  "Jabatan","Tanggal Pendaftaran", "Aksi"]}
+                    tableHeaders={["Nama Lengkap","NIP","Jabatan","Tanggal Daftar", "Aksi"]}
                     data={dataJson}
                     pagination={{ pageNumber: 1, totalPages: 1}}
                     getDataByPagination={(pageNumber) => {
                         console.log(pageNumber);
                     }}
-                    action={["Edit", "Detile", "Delete"]}
+                    action={
+                        <TableActions>
+                            <Button variant="info">Detail</Button>
+                            <Button variant="warning">Edit</Button>
+                            <Button variant="danger">Delete</Button>
+                        </TableActions>
+                    }
                 />
             </div>
         </>

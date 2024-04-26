@@ -19,31 +19,26 @@ export const router = createBrowserRouter([
   {
     path: "/data-master/bank",
     element: (
-      // <LayoutKhusus breadcrumb="Data Master Bank">
-      <DataMasterBank />
-      // </LayoutKhusus>
+      <LayoutKhusus breadcrumbs="Data Master Bank">
+        <DataMasterBank />
+      </LayoutKhusus>
     ),
   },
   {
     path: "/data-master/kantor-cabang",
     element: (
-      // <LayoutKhusus breadcrumb="Data Master Bank">
-      <DataMasterKantorCabang />
-      // </LayoutKhusus>
+      <LayoutKhusus breadcrumbs="Data Master/Kantor Cabang">
+        <DataMasterKantorCabang />
+      </LayoutKhusus>
     ),
   },
   {
     path: "/data-master/kantor-cabang/karyawan",
     element: (
-      // <LayoutKhusus breadcrumb="Data Master Bank">
-      <DataMasterKaryawanKantorCabang />
-      // </LayoutKhusus>
+      <LayoutKhusus breadcrumbs="Kantor Cabang/Karyawan">
+        <DataMasterKaryawanKantorCabang />
+      </LayoutKhusus>
     ),
-    path: "/khusus",
-    element: 
-        <LayoutKhusus>
-            
-        </LayoutKhusus>
   },
   {
     path: "*",

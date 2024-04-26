@@ -1,5 +1,6 @@
 import Button from "../../components/Button";
 import Table from "../../components/Table";
+import TableActions from "../../components/TableActions";
 
 function DaftarKantorCabang() {
     const dataJson = [
@@ -50,7 +51,13 @@ function DaftarKantorCabang() {
                     getDataByPagination={(pageNumber) => {
                         console.log(pageNumber);
                     }}
-                    action={["Edit", "Delete", "Detile"]}
+                    action={
+                        <TableActions className="right-4">
+                            <Button variant="info">Detail</Button>
+                            <Button variant="warning">Edit</Button>
+                            <Button variant="danger">Delete</Button>
+                        </TableActions>
+                    }
                 />
             </div>
         </>
