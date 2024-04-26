@@ -5,6 +5,7 @@ import LayoutUmum from "./components/layout/LayoutUmum";
 import DataMasterBank from "./pages/Karyawan/DataMasterBank";
 import DataMasterKantorCabang from "./pages/Karyawan/DataMasterKantorCabang"
 import DataMasterKaryawanKantorCabang from "./pages/Karyawan/DataMasterKaryawanKantorCabang"
+import LayoutKhusus from "./components/layout/LayoutKhusus";
 
 export const router = createBrowserRouter([
   {
@@ -38,6 +39,11 @@ export const router = createBrowserRouter([
       <DataMasterKaryawanKantorCabang />
       // </LayoutKhusus>
     ),
+    path: "/khusus",
+    element: 
+        <LayoutKhusus>
+            
+        </LayoutKhusus>
   },
   {
     path: "*",
