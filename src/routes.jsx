@@ -17,17 +17,10 @@ export const router = createBrowserRouter([
   {
     path: "/data-master/bank",
     element: (
-      // <LayoutKhusus breadcrumb="Data Master Bank">
-      <DataMasterBank />
-      // </LayoutKhusus>
+      <LayoutKhusus breadcrumbs="Data Master Bank">
+        <DataMasterBank />
+      </LayoutKhusus>
     ),
-  },
-  {
-    path: "/khusus",
-    element: 
-        <LayoutKhusus>
-            
-        </LayoutKhusus>
   },
   {
     path: "*",
