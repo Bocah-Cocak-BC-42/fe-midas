@@ -30,12 +30,14 @@ export const router = createBrowserRouter([
   {
     path: "/data-master/role",
     element: (
-      <LayoutKhusus breadcrumbs="Data Master Role">
+      <LayoutKhusus 
+        breadcrumbs="Data Master Role"
+        navLinkActive="Data Master"
+        subNavLinkActive="Role"
+      >
         <DataMasterRole />
       </LayoutKhusus>
     ),
-    path: "/khusus",
-    element: <LayoutKhusus></LayoutKhusus>,
   },
   {
     path: "*",
