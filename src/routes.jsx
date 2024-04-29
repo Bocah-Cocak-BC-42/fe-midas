@@ -4,6 +4,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import LayoutUmum from "./components/layout/LayoutUmum";
 import DataMasterBank from "./pages/Karyawan/DataMasterBank";
 import LayoutKhusus from "./components/layout/LayoutKhusus";
+import DataSektorUsaha from "./pages/Karyawan/DataSektorUsaha";
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +22,14 @@ export const router = createBrowserRouter([
         <DataMasterBank />
       </LayoutKhusus>
     ),
+  },
+  {
+    path: "/data-master/sektor-usaha",
+    element: (
+      <LayoutKhusus breadcrumbs="Data Master / Sektor Usaha">
+        <DataSektorUsaha />
+      </LayoutKhusus>
+    )
   },
   {
     path: "*",
