@@ -29,36 +29,36 @@ function DataKaryawanKantorCabang(){
     ];
     return(
         <>
-            <div>
-                <Button icon="arrow-left" variant="danger">
-                    Kembali
-                </Button>
-            </div>
-            <div>
-                KCA Sudirman
-            </div>
-            <div>
-                Karyawan
-            </div>
-            <div>
-                <Button>Tambah Karyawan</Button>
-            </div>
-            <div className="rounded-md border mt-4 shadow">
-                <Table 
-                    tableHeaders={["Nama Lengkap","NIP","Jabatan","Tanggal Daftar", "Aksi"]}
-                    data={dataJson}
-                    pagination={{ pageNumber: 1, totalPages: 1}}
-                    getDataByPagination={(pageNumber) => {
-                        console.log(pageNumber);
-                    }}
-                    action={
-                        <TableActions>
-                            <Button variant="info">Detail</Button>
-                            <Button variant="warning">Edit</Button>
-                            <Button variant="danger">Delete</Button>
-                        </TableActions>
-                    }
-                />
+            <div className="m-4">
+                <div>
+                    <Button icon="arrow-left" variant="danger">
+                        Kembali
+                    </Button>
+                </div>
+                <div className="mt-2">
+                    <p className="text-base">KCA Sudirman</p>
+                    <h3 className="text-3xl">Karyawan</h3>
+                </div>
+                <div className="mt-2">
+                    <Button>Tambah Karyawan</Button>
+                </div>
+                <div className="rounded-md border mt-4 shadow">
+                    <Table 
+                        tableHeaders={["Nama Lengkap","NIP","Jabatan","Tanggal Daftar", "Aksi"]}
+                        data={dataJson}
+                        pagination={{ pageNumber: 1, totalPages: 1}}
+                        getDataByPagination={(pageNumber) => {
+                            console.log(pageNumber);
+                        }}
+                        action={
+                            <TableActions>
+                                <Button variant="info">Detail</Button>
+                                <Button variant="warning">Edit</Button>
+                                <Button variant="danger">Delete</Button>
+                            </TableActions>
+                        }
+                    />
+                </div>
             </div>
         </>
     )

@@ -42,23 +42,25 @@ function DaftarKantorCabang() {
     ];
     return(
         <>
-            <Button>Tambah Cabang</Button>
-            <div className="rounded-md border mt-4 shadow">
-                <Table 
-                    tableHeaders={["Kode Cabang", "Nama Cabang", "Provinsi", "Kota", "Aksi"]}
-                    data={dataJson}
-                    pagination={{ pageNumber: 1, totalPages: 1}}
-                    getDataByPagination={(pageNumber) => {
-                        console.log(pageNumber);
-                    }}
-                    action={
-                        <TableActions className="right-4">
-                            <Button variant="info">Detail</Button>
-                            <Button variant="warning">Edit</Button>
-                            <Button variant="danger">Delete</Button>
-                        </TableActions>
-                    }
-                />
+            <div className="m-3">
+                <Button>Tambah Cabang</Button>
+                <div className="rounded-md border mt-4 shadow">
+                    <Table 
+                        tableHeaders={["Kode Cabang", "Nama Cabang", "Provinsi", "Kota", "Aksi"]}
+                        data={dataJson}
+                        pagination={{ pageNumber: 1, totalPages: 1}}
+                        getDataByPagination={(pageNumber) => {
+                            console.log(pageNumber);
+                        }}
+                        action={
+                            <TableActions className="right-4">
+                                <Button variant="info">Detail</Button>
+                                <Button variant="warning">Edit</Button>
+                                <Button variant="danger">Delete</Button>
+                            </TableActions>
+                        }
+                    />
+                </div>
             </div>
         </>
     )
