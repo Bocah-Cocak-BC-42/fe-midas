@@ -3,7 +3,7 @@ import Table from "../../components/Table";
 import TableActions from "../../components/TableActions";
 
 
-function DataKaryawanKantorCabang(){
+function DataKaryawanKantorCabang(){ 
     const dataJson = [
         {
             id: 1,

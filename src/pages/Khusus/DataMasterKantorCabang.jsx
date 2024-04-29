@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import Table from "../../components/Table";
-import TableActions from "../../components/TableActions";
 import InputSearch from "../../components/Input/InputSearch";
+import Modal from "../../components/Modal";
 
 function DaftarKantorCabang() {
     const [cabangCabang, setCabangCabang] = useState([]);
@@ -78,9 +78,12 @@ function DaftarKantorCabang() {
             getData(1, pencarianNamaCabangVal,pencarianProvinsiVal,pencarianKotaVal);
             
         }
-
+        const handleDelete = (id) =>{
+            console.log(id);
+            setConfirmModal(true);
+        }
         const handleConfirm = (confirm) =>{
-            setConfirmModal(false);
+            setConfirmModal(true);
             if(confirm){
                 setJudul("Pemberitahuan");
                 setAlertModal(true);
@@ -96,7 +99,7 @@ function DaftarKantorCabang() {
     
     return(
         <>
-            <div className="m-3">
+            <div className="m-1">
                 <div className="flex justify-betwen">
                     <form action="" onSubmit={handleSearch} className="flex gap-2">
                         <InputSearch placeholder="Cari Nama Kantor Cabang" name="pencarianNamaCabang"/>
@@ -116,15 +119,34 @@ function DaftarKantorCabang() {
                         getDataByPagination={(pageNumber) => {
                             console.log(pageNumber);
                         }}
-                        action={
-                            <TableActions className="right-4">
-                                <Button variant="info">Detail</Button>
-                                <Button variant="warning">Edit</Button>
-                                <Button variant="danger">Delete</Button>
-                            </TableActions>
-                        }
+                        actions={[
+                            {
+                                name: "Edit",
+                                variant: "warning",
+                            },
+                            {
+                                name: "Detile",
+                                variant: "info"
+                            },
+                            {
+                                name: "Delete",
+                                variant: "danger",
+                                function: handleDelete
+                            }
+                        ]}
                     />
                 </div>
+                <Modal
+                    onClose={handleCloseModal}
+                    visible={showConfirmModal}
+                    title={showJudul}
+                    confirm={handleConfirm}
+                >
+                    <p>Apakah anda yakin akan menghapus data ini?</p>
+                </Modal>
+                <Modal onClose={handleCloseModal} visible={showAlertModal} title={showJudul}>
+                    Data Kantor Cabang Sudirman Berhasil dihapus
+                </Modal>
             </div>
         </>
     )
