@@ -1,71 +1,108 @@
-import React from 'react'
-import Logo from './../../assets/Logo-Midas.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faClipboardCheck, faCircleUser, faServer } from '@fortawesome/free-solid-svg-icons'
+import Logo from "./../../assets/Logo-Midas.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faClipboardCheck,
+  faCircleUser,
+  faServer,
+  faCaretDown,
+} from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
-const sidebar = [
+function SideBarKhusus({ navLinkActive, subNavLinkActive }) {
+  const [openNavDataMaster, setOpenNavDataMaster] = useState(
+    navLinkActive === "Data Master"
+  );
+
+  const sidebar = [
     {
-        name: "Verifikasi Kredit",
-        icon: faClipboardCheck,
-        key: 0
+      name: "Verifikasi Kredit",
+      icon: faClipboardCheck,
+      key: 0,
     },
     {
-        name: "User Management",
-        icon: faCircleUser,
-        key: 1
+      name: "User Management",
+      icon: faCircleUser,
+      key: 1,
     },
     {
-        name: "Data Master",
-        icon: faServer,
-        key: 2,
-        children: [
-            {
-                name: "Role"
-            },
-            {
-                name: "Kantor Cabang"
-            },
-            {
-                name: "Sektor Usaha"
-            },
-            {
-                name: "Alamat"
-            },
-            {
-                name: "Bank"
-            }
-        ]
-    }
-]
+      name: "Data Master",
+      icon: faServer,
+      key: 2,
+      children: [
+        {
+          name: "Role",
+          location: "/data-master/role",
+        },
+        {
+          name: "Kantor Cabang",
+          location: "/data-master/kantor-cabang",
+        },
+        {
+          name: "Sektor Usaha",
+          location: "/data-master/sektor-usaha",
+        },
+        {
+          name: "Alamat",
+          location: "/data-master/alamat",
+        },
+        {
+          name: "Bank",
+          location: "/data-master/bank",
+        },
+      ],
+    },
+  ];
 
-const mapSideBar = () => {
+  const mapSideBar = () => {
     let mapedSideBar = [];
-    sidebar.map(item => {
-        mapedSideBar.push(
-            <li key={item.key} className='w-full p-2 cursor-pointer focus:border-r-8 hover:text-[#C07F00] hover:border-r-8 focus:border-r-[#C07F00] hover:border-r-[#C07F00] hover:bg-slate-200'>
-            <FontAwesomeIcon className='px-2 w-4' icon={item.icon} /> 
+    sidebar.map((item) => {
+      mapedSideBar.push(
+        <div key={item.key}>
+          <li
+            onClick={() => {
+              item.key === 2 && setOpenNavDataMaster(!openNavDataMaster);
+            }}
+            className={`${
+              item.name == navLinkActive && "text-[#C07F00]"
+            } w-full p-2 cursor-pointer focus:border-r-8 hover:text-[#C07F00] hover:border-r-8 focus:border-r-[#C07F00] hover:border-r-[#C07F00] hover:bg-slate-200`}
+          >
+            <FontAwesomeIcon className="px-2 w-4" icon={item.icon} />
             {item.name}
-            </li>
-        )
-    })
-    return mapedSideBar;
-}
-
-
-function SideBarKhusus() {
-  return (
-    
-    <div className='flex flex-col shadow-lg h-screen w-1/5 items-center gap-5'>
-        <div className='w-10/12 pt-5'>
-            <img src={Logo}></img>
-        </div>
-        <div className='sidebar w-full'>
-            <ul className='list-none'>
-                {mapSideBar()}
+            {item.children && (
+              <FontAwesomeIcon className="px-2" icon={faCaretDown} />
+            )}
+          </li>
+          {openNavDataMaster && item.key === 2 && (
+            <ul>
+              {item.children.map((child) => (
+                <a href={child.location} key={child.name}>
+                  <li
+                    className={`${
+                      child.name == subNavLinkActive && "text-[#C07F00]"
+                    } pl-10 w-full p-2 cursor-pointer focus:border-r-8 hover:text-[#C07F00] hover:border-r-8 focus:border-r-[#C07F00] hover:border-r-[#C07F00] hover:bg-slate-200`}
+                  >
+                    {child.name}
+                  </li>
+                </a>
+              ))}
             </ul>
+          )}
         </div>
+      );
+    });
+    return mapedSideBar;
+  };
+
+  return (
+    <div className="flex flex-col shadow-lg h-screen w-1/5 items-center gap-5">
+      <div className="w-10/12 pt-5">
+        <img src={Logo}></img>
+      </div>
+      <div className="sidebar w-full">
+        <ul className="list-none">{mapSideBar()}</ul>
+      </div>
     </div>
-  )
+  );
 }
 
-export default SideBarKhusus
+export default SideBarKhusus;

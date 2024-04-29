@@ -29,7 +29,12 @@ function Table(props) {
             {action && (
               <td className="p-2 flex gap-2 justify-center">
                 <TableActions>
-                  <Button variant="warning" onClick={() => action[0].function(row.id)}>{action[0].name}</Button>
+                  <Button
+                    variant="warning"
+                    onClick={() => action[0].function(row.id)}
+                  >
+                    {action[0].name}
+                  </Button>
                   {/* <Button variant="info" onClick={() => console.log("delete")}>Delete</Button>
                   <Button variant="danger" onClick={() => console.log("detail")}>Detail</Button> */}
                 </TableActions>

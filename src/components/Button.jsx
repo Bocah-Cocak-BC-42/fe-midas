@@ -13,12 +13,14 @@ function Button(props) {
     variant = "success",
     icon,
     onClick,
+    form,
   } = props;
 
   return (
     <button
       type={type}
       onClick={onClick}
+      form={form}
       className={
         variant === "danger"
           ? "bg-[#D37676] rounded-md p-1 px-2 text-white hover:bg-red-400"
