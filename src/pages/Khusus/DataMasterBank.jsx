@@ -128,12 +128,17 @@ function DataMasterBank() {
           actions={[
             {
               name: "Detail",
-              variant: "warning",
+              variant: "info",
               function: handleEdit,
             },
             {
               name: "Edit",
               variant: "warning",
+              function: handleEdit,
+            },
+            {
+              name: "Delete",
+              variant: "danger",
               function: handleEdit,
             },
           ]}

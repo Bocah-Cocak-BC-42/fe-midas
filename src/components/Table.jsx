@@ -29,11 +29,12 @@ function Table(props) {
             {actions && (
               <td className="p-2 flex gap-2 justify-center">
                 <TableActions>
-                  {actions.map((action) => {
+                  {actions.map((action, index) => {
                     return (
                       <Button
                         variant={action.variant}
                         onClick={() => action.function(row.id)}
+                        key={index}
                       >
                         {action.name}
                       </Button>
