@@ -6,7 +6,7 @@ function Table(props) {
   const { tableHeaders, data, pagination, getDataByPagination, actions } = props;
 
   return (
-    <table className="border-collapse border-slate-500 w-full p-2">
+    <table className="border-collapse border-slate-500 w-full p-2 overflow-x-auto">
       <thead className="bg-[#C07F00] text-white">
         <tr>
           {tableHeaders.map((header) => (
@@ -30,12 +30,14 @@ function Table(props) {
               <td className="p-2 flex gap-2 justify-center">
                 <TableActions>
                   {actions.map((action) => {
-                    <Button
-                      variant={action.variant}
-                      onClick={() => action.function(row.id)}
-                    >
-                      {action.name}
-                    </Button>
+                    return (
+                      <Button
+                        variant={action.variant}
+                        onClick={() => action.function(row.id)}
+                      >
+                        {action.name}
+                      </Button>
+                    )
                   })}
                 </TableActions>
               </td>
