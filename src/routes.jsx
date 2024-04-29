@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
-import LandingPage from "./pages/LandingPage";
+import LandingPage from "./pages/Umum/LandingPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import LayoutUmum from "./components/layout/LayoutUmum";
-import DataMasterBank from "./pages/Karyawan/DataMasterBank";
+import DataMasterBank from "./pages/Khusus/DataMasterBank";
 import LayoutKhusus from "./components/layout/LayoutKhusus";
 
 export const router = createBrowserRouter([
