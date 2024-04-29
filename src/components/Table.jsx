@@ -3,7 +3,8 @@ import TableActions from "./TableActions";
 import Button from "./Button";
 
 function Table(props) {
-  const { tableHeaders, data, pagination, getDataByPagination, actions } = props;
+  const { tableHeaders, data, pagination, getDataByPagination, actions } =
+    props;
 
   return (
     <table className="border-collapse border-slate-500 w-full p-2 overflow-x-auto">
@@ -38,7 +39,7 @@ function Table(props) {
                       >
                         {action.name}
                       </Button>
-                    )
+                    );
                   })}
                 </TableActions>
               </td>
@@ -52,7 +53,7 @@ function Table(props) {
             {/* <Pagination pagination={pagination} getData={getData} /> */}
             <div className="flex justify-between items-center">
               <span>
-                Page {pagination?.pageNumber} of {pagination?.totalPages}
+                Page {pagination?.page} of {pagination?.totalPage}
               </span>
               <span className="flex gap-2">
                 {[...Array(pagination?.totalPages)].map((_, index) => (
