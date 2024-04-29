@@ -14,7 +14,7 @@ function DataMasterRole() {
   const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [showModalAlert, setShowModalAlert] = useState(false);
   const [title, setTitle] = useState("");
-  const [roleNameSearch, setRoleNameSeearch] = useState("");
+  const [roleNameSearch, setRoleNameSearch] = useState("");
   // const [id, setId] = useState(0);
 
   const getData = (pageNumber, roleNameSearch) => {
@@ -51,7 +51,7 @@ function DataMasterRole() {
   const handleSearch = (e) => {
     e.preventDefault();
     let roleNameSearchVal = e.target.roleNameSearch.value || null;
-    setRoleNameSearch(bankNameSearchVal);
+    setRoleNameSearch(roleNameSearchVal);
     getData(1, roleNameSearchVal);
   };
 
@@ -98,7 +98,7 @@ function DataMasterRole() {
           <Button type="submit">Search</Button>
         </form>
       </div>
-      {/* <Button
+      <Button
         variant="info"
         onClick={() => {
           setShowModalInfo(true);
@@ -106,16 +106,16 @@ function DataMasterRole() {
         }}
       >
         Show Info
-      </Button> */}
-      {/* <Button
+      </Button>
+      <Button
         variant="danger"
         onClick={() => {
-          setShowModalCoonfirm(true);
+          setShowModalConfirm(true);
           setTitle("Konfirmasi");
         }}
       >
         Delete
-      </Button> */}
+      </Button>
 
       <div className="rounded-md border mt-4 shadow">
         <Table
@@ -125,20 +125,30 @@ function DataMasterRole() {
           getDataByPagination={(pageNumber) => {
             console.log(pageNumber);
           }}
-          action={[
+          actions={[
             {
               name: "Detail",
+              variant: "info",
               function: handleEdit,
             },
-          ]
-
-          }
+            {
+              name: "Edit",
+              variant: "warning",
+              function: handleEdit,
+            },
+            {
+              name: "Delete",
+              variant: "danger",
+              function: handleEdit,
+            },
+          ]}
         />
       </div>
       <Modal 
         onClose={handleCloseModal} 
         visible={showModal} 
         title={title}
+        form="form-upsert-bank"
       >
         <FormUpsertRole data={role} />
       </Modal>
