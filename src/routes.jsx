@@ -1,10 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
-import LandingPage from "./pages/LandingPage";
+import LandingPage from "./pages/Umum/LandingPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import LayoutUmum from "./components/layout/LayoutUmum";
-import DataMasterBank from "./pages/Karyawan/DataMasterBank";
+import DataMasterBank from "./pages/Khusus/DataMasterBank";
 import LayoutKhusus from "./components/layout/LayoutKhusus";
-import DataSektorUsaha from "./pages/Karyawan/DataSektorUsaha";
+import DataSektorUsaha from "./pages/Khusus/DataSektorUsaha";
 
 export const router = createBrowserRouter([
   {
@@ -18,7 +18,11 @@ export const router = createBrowserRouter([
   {
     path: "/data-master/bank",
     element: (
-      <LayoutKhusus breadcrumbs="Data Master Bank">
+      <LayoutKhusus
+        breadcrumbs="Data Master Bank"
+        navLinkActive="Data Master"
+        subNavLinkActive="Bank"
+      >
         <DataMasterBank />
       </LayoutKhusus>
     ),

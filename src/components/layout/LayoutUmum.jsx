@@ -1,13 +1,12 @@
-import React from 'react'
-import HeaderUmum from '../header/HeaderUmum'
+import HeaderUmum from "../header/HeaderUmum";
 
 function LayoutUmum({ children }) {
   return (
-      <>
-        <HeaderUmum />
-        {children}
-      </>
-  )
+    <>
+      <HeaderUmum />
+      {children}
+    </>
+  );
 }
 
 export default LayoutUmum;
