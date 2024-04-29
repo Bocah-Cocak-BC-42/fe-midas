@@ -125,9 +125,20 @@ function DataMasterBank() {
           getDataByPagination={(pageNumber) => {
             console.log(pageNumber);
           }}
-          action={[
+          actions={[
             {
               name: "Detail",
+              variant: "info",
+              function: handleEdit,
+            },
+            {
+              name: "Edit",
+              variant: "warning",
+              function: handleEdit,
+            },
+            {
+              name: "Delete",
+              variant: "danger",
               function: handleEdit,
             },
           ]}
