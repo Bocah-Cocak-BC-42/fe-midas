@@ -4,7 +4,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import LayoutUmum from "./components/layout/LayoutUmum";
 import DataMasterBank from "./pages/Khusus/DataMasterBank";
 import LayoutKhusus from "./components/layout/LayoutKhusus";
-import DataMasterRole from "./pages/Karyawan/DataMasterRole";
+import DataMasterRole from "./pages/Khusus/DataMasterRole";
 
 export const router = createBrowserRouter([
   {
