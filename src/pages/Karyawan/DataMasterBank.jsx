@@ -3,7 +3,6 @@ import Button from "../../components/Button";
 import FormUpsertBank from "../../components/Form/FormUpsertBank";
 import Modal from "../../components/Modal";
 import Table from "../../components/Table";
-import TableActions from "../../components/TableActions";
 
 function DataMasterBank() {
   const [banks, setBanks] = useState([]);
@@ -47,6 +46,7 @@ function DataMasterBank() {
     // getBankById((data) => {
     //   setBank(data);
     // }, id);
+    console.log(id);
     setId(id);
     setTitle("Edit Bank");
     setShowModal(true);
@@ -75,11 +75,10 @@ function DataMasterBank() {
           getDataByPagination={(pageNumber) => {
             console.log(pageNumber);
           }}
-          action={<TableActions>
-            <Button variant="warning">Edit</Button>
-            <Button variant="info">Edit</Button>
-            <Button variant="danger">Edit</Button>
-          </TableActions>}
+          action={[{
+            name: "Detail",
+            function: handleEdit
+          }]}
         />
       </div>
       <Modal onClose={handleCloseModal} visible={showModal} title={title}>

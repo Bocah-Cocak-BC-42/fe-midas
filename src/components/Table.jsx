@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+import TableActions from "./TableActions";
+import Button from "./Button";
 
 function Table(props) {
   const { tableHeaders, data, pagination, getDataByPagination, action } = props;
@@ -27,7 +27,13 @@ function Table(props) {
               }
             })}
             {action && (
-              <td className="p-2 flex gap-2 justify-center">{action}</td>
+              <td className="p-2 flex gap-2 justify-center">
+                <TableActions>
+                  <Button variant="warning" onClick={() => action[0].function(row.id)}>{action[0].name}</Button>
+                  {/* <Button variant="info" onClick={() => console.log("delete")}>Delete</Button>
+                  <Button variant="danger" onClick={() => console.log("detail")}>Detail</Button> */}
+                </TableActions>
+              </td>
             )}
           </tr>
         ))}
