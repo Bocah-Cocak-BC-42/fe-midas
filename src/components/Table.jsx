@@ -56,7 +56,7 @@ function Table(props) {
                 Page {pagination?.page} of {pagination?.totalPage}
               </span>
               <span className="flex gap-2">
-                {[...Array(pagination?.totalPages)].map((_, index) => (
+                {[...Array(pagination?.totalPage)].map((_, index) => (
                   <Link
                     key={index + 1}
                     onClick={() => getDataByPagination(index + 1)}
