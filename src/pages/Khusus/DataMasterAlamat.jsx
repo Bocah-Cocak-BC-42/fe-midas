@@ -128,6 +128,7 @@ function DataMasterAlamat() {
   const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [showModalAlert, setShowModalAlert] = useState(false);
   const [title, setTitle] = useState("");
+  const [messageAlert, setMessageAlert] = useState("");
 
   const handleDetail = (id) => {
     sectionState[sectionNumber].id = id;
@@ -152,10 +153,13 @@ function DataMasterAlamat() {
   };
 
   const handleDelete = (id) => {
-
+    console.log(id);
+    setTitle("Hapus Provinsi");
+    setShowModalConfirm(true);
   };
 
   const handleConfirm = (confirm) => {
+    console.log(confirm);
     setShowModalConfirm(false);
     if (confirm) {
       setTitle("Pemberitahuan");
@@ -235,8 +239,8 @@ function DataMasterAlamat() {
       >
         <FormUpsertAlamat data={sectionState} />
       </Modal>
-      <Modal onClose={handleCloseModal} visible={showModalInfo} title={title}>
-      </Modal>
+      {/* <Modal onClose={handleCloseModal} visible={showModalInfo} title={title}>
+      </Modal> */}
       <Modal
         onClose={handleCloseModal}
         visible={showModalConfirm}
@@ -245,8 +249,15 @@ function DataMasterAlamat() {
       >
         <p>Apakah anda yakin ingin menghapus data ini?</p>
       </Modal>
-      <Modal onClose={handleCloseModal} visible={showModalAlert} title={title}>
-        Data Provinsi Berhasil Dihapus
+      <Modal
+        onClose={() => {
+          handleCloseModal();
+          location.reload();
+        }}
+        visible={showModalAlert}
+        title="Pemberitahuan"
+      >
+        {messageAlert}
       </Modal>
     </>
   );
