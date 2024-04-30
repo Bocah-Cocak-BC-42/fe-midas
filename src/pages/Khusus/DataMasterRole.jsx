@@ -4,6 +4,7 @@ import FormUpsertRole from "../../components/Form/FormUpsertRole";
 import Modal from "../../components/Modal";
 import Table from "../../components/Table";
 import InputSearch from "../../components/Input/InputSearch";
+import { getRoles } from "../../services/data-master-role.service";
 
 function DataMasterRole() {
   const [roles, setRoles] = useState([]);
@@ -15,33 +16,38 @@ function DataMasterRole() {
   const [showModalAlert, setShowModalAlert] = useState(false);
   const [title, setTitle] = useState("");
   const [roleNameSearch, setRoleNameSearch] = useState("");
+  const [messageAlert, setMessageAlert] = useState("");
   // const [id, setId] = useState(0);
 
   const getData = (pageNumber, roleNameSearch) => {
     console.log(pageNumber, roleNameSearch);
-    // getBanks((data) => {
-    //   setBanks(data.listData);
-    //   setPagination(data.pagination);
-    // }, pageNumber);
-    setRoles([
-      {
-        id: 1,
-        name: "Mantri",
-      },
-      {
-        id: 2,
-        name: "Manager",
-      },
-      {
-        id: 3,
-        name: "Supervisor",
-      },
-    ]);
-    setPagination({
-      pageNumber: 1,
-      pageSize: 10,
-      totalData: 3,
-    });
+    getRoles(
+      (res) => {
+        console.log(res);
+        setRoles(res.data);
+        setPagination(res.pagination);
+      }, 
+      {page: pageNumber, pageSize: 3, roleName: roleNameSearch}
+    );
+    // setRoles([
+    //   {
+    //     id: 1,
+    //     name: "Mantri",
+    //   },
+    //   {
+    //     id: 2,
+    //     name: "Manager",
+    //   },
+    //   {
+    //     id: 3,
+    //     name: "Supervisor",
+    //   },
+    // ]);
+    // setPagination({
+    //   pageNumber: 1,
+    //   pageSize: 10,
+    //   totalData: 3,
+    // });
   };
 
   useEffect(() => {
@@ -74,6 +80,18 @@ function DataMasterRole() {
     }
   };
 
+  const handleInfo = (id) => {
+    console.log(id);
+    setShowModalInfo(true);
+    setTitle("Informasi Role");
+  }
+
+  const handleDelete = (id) => {
+    console.log(id);
+    setTitle("Hapus Bank");
+    setShowModalConfirm(true);
+  }
+
   const handleCloseModal = () => {
     setShowModal(false);
     setShowModalInfo(false);
@@ -81,6 +99,12 @@ function DataMasterRole() {
     setShowModalAlert(false);
     setRole();
   };
+
+  const handleShowAlert = () => {
+    setMessageAlert(message);
+    setShowModal(false);
+    setShowModalAlert(true);
+  }
 
   return (
     <>
@@ -98,38 +122,19 @@ function DataMasterRole() {
           <Button type="submit">Search</Button>
         </form>
       </div>
-      <Button
-        variant="info"
-        onClick={() => {
-          setShowModalInfo(true);
-          setTitle("Informasi Role");
-        }}
-      >
-        Show Info
-      </Button>
-      <Button
-        variant="danger"
-        onClick={() => {
-          setShowModalConfirm(true);
-          setTitle("Konfirmasi");
-        }}
-      >
-        Delete
-      </Button>
-
       <div className="rounded-md border mt-4 shadow">
         <Table
           tableHeaders={["Nama Role", "Aksi"]}
           data={roles}
           pagination={pagination}
-          getDataByPagination={(pageNumber) => {
-            console.log(pageNumber);
-          }}
+          getDataByPagination={(pageNumber) =>
+            getData(pageNumber, roleNameSearch)
+          }
           actions={[
             {
               name: "Detail",
               variant: "info",
-              function: handleEdit,
+              function: handleInfo,
             },
             {
               name: "Edit",
@@ -139,7 +144,7 @@ function DataMasterRole() {
             {
               name: "Delete",
               variant: "danger",
-              function: handleEdit,
+              function: (id) => handleDelete(id),
             },
           ]}
         />
@@ -150,7 +155,16 @@ function DataMasterRole() {
         title={title}
         form="form-upsert-bank"
       >
-        <FormUpsertRole data={role} />
+        <FormUpsertRole data={role} showAlert={handleShowAlert} />
+      </Modal>
+      <Modal 
+        onClose={handleCloseModal} 
+        visible={showModalInfo} 
+        title={title}>
+        <ul>
+          <li>Mandiri</li>
+          <li>Sumatera Utara</li>
+        </ul>
       </Modal>
       <Modal 
         onClose={handleCloseModal} 
@@ -160,8 +174,15 @@ function DataMasterRole() {
       >
         <p>Apakah Anda yakin ingin menghapus data ini?</p>
       </Modal>
-      <Modal onClose={handleCloseModal} visible={showModalAlert} title={title}>
-        Data berhasil dihapus
+      <Modal 
+        onClose={()=>{
+          handleCloseModal();
+          location.reload();
+        }} 
+        visible={showModalAlert} 
+        title={title}
+        >
+        {messageAlert}
       </Modal>
     </>
   );
