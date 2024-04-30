@@ -3,6 +3,7 @@ import Button from "../../components/Button";
 import Table from "../../components/Table";
 import InputSearch from "../../components/Input/InputSearch";
 import Modal from "../../components/Modal";
+import { useNavigate } from "react-router-dom";
 
 function DaftarKantorCabang() {
     const [cabangCabang, setCabangCabang] = useState([]);
@@ -15,6 +16,7 @@ function DaftarKantorCabang() {
     const [pencarianNamaCabang, setPencarianNamaCabang] = useState("");
     const [pencarianProvinsi, setPencarianProvinsi] = useState("");
     const [pecarianKota, setPencarianKota] = useState("");
+    const navigate = useNavigate();
 
     const getData = (pageNumber, pencarianNamaCabang, pencarianProvinsi, pecarianKota) => {
         console.log(pageNumber, pencarianNamaCabang, pencarianProvinsi, pecarianKota);
@@ -64,10 +66,11 @@ function DaftarKantorCabang() {
     }
 
         useEffect(() => {
-            getData(1, "");
+            getData(1, "", "", "");
         }, []);
 
         const handleSearch = (e) => {
+
             e.preventDefault();
             let pencarianNamaCabangVal = e.target.pencarianNamaCabang.value || null;
             setPencarianNamaCabang(pencarianNamaCabangVal);
@@ -96,7 +99,11 @@ function DaftarKantorCabang() {
             setConfirmModal(false);
             cabang();
         }
-    
+        
+        const handleDetail = (id) =>{
+            console.log(id);
+            navigate(`/data-master/kantor-cabang/${id}/karyawan`);
+        }
     return(
         <>
             <div className="m-1">
@@ -125,8 +132,9 @@ function DaftarKantorCabang() {
                                 variant: "warning",
                             },
                             {
-                                name: "Detile",
-                                variant: "info"
+                                name: "Detail",
+                                variant: "info",
+                                function: handleDetail
                             },
                             {
                                 name: "Delete",

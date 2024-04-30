@@ -33,7 +33,7 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "/data-master/kantor-cabang/karyawan",
+    path: "/data-master/kantor-cabang/:idCabang/karyawan",
     element: (
       <LayoutKhusus breadcrumb="Data Master Bank">
       <DataMasterKaryawanKantorCabang />
