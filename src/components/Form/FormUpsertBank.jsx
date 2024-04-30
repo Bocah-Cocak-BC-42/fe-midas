@@ -1,13 +1,38 @@
+import { useState } from "react";
+import { postBank } from "../../services/data-master-bank.service";
 import Input from "../Input/Input";
 import Select from "../Input/Select";
 
 function FormUpsertBank(props) {
-  const { data } = props;
+  const { data, showAlert } = props;
+  // const [message, setMessage] = useState("");
+  const [messageValidationField, setMessageValidationField] = useState({});
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     let bankNameVal = e.target.bankName.value || null;
     console.log(bankNameVal);
+
+    const dataBank = {
+      name: bankNameVal,
+    };
+
+    postBank(
+      (resMessage) => {
+        console.log(resMessage);
+        showAlert(resMessage);
+        // setMessage(resMessage);
+        // setShowModalAlert(true);
+        // location.reload();
+        // setBanks(data.data);
+        // setPagination(data.pagination);
+      },
+      (errors) => {
+        setMessageValidationField(errors);
+      },
+      dataBank
+    );
   };
 
   return (
@@ -22,7 +47,7 @@ function FormUpsertBank(props) {
             placeholder="Masukkan Nama Bank"
             name="bankName"
             defaultValue={data?.bankName}
-            message={"Provinsi Required"}
+            message={messageValidationField?.Name}
             required
             grow
           >

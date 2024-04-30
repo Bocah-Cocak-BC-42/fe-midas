@@ -11,21 +11,24 @@ function DataMasterBank() {
   const [bank, setBank] = useState();
   const [pagination, setPagination] = useState({});
   const [showModal, setShowModal] = useState(false);
-  const [showModalInfo, setShowModalInfo] = useState(false);
+  // const [showModalInfo, setShowModalInfo] = useState(false);
   const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [showModalAlert, setShowModalAlert] = useState(false);
   const [title, setTitle] = useState("");
   const [bankNameSearch, setBankNameSearch] = useState("");
+  const [messageAlert, setMessageAlert] = useState("");
   // const [id, setId] = useState(0);
 
   const getData = (pageNumber, bankNameSearch) => {
     console.log(pageNumber, bankNameSearch);
     getBanks(
-      (data) => {
-        console.log(data);
-        setBanks(data.data);
-        setPagination(data.pagination);
+      //function untuk mengambil data
+      (res) => {
+        console.log(res);
+        setBanks(res.data);
+        setPagination(res.pagination);
       },
+      //object params
       { page: pageNumber, pageSize: 3, bankNameSearch: bankNameSearch }
     );
     // setBanks([
@@ -70,6 +73,13 @@ function DataMasterBank() {
     setShowModal(true);
   };
 
+  const handleDelete = (id) => {
+    // setId(id);
+    console.log(id);
+    setTitle("Hapus Bank");
+    setShowModalConfirm(true);
+  };
+
   const handleConfirm = (confirm) => {
     console.log(confirm);
     setShowModalConfirm(false);
@@ -79,9 +89,15 @@ function DataMasterBank() {
     }
   };
 
+  const handleShowAlert = (message) => {
+    setMessageAlert(message);
+    setShowModal(false);
+    setShowModalAlert(true);
+  };
+
   const handleCloseModal = () => {
     setShowModal(false);
-    setShowModalInfo(false);
+    // setShowModalInfo(false);
     setShowModalConfirm(false);
     setShowModalAlert(false);
     setBank();
@@ -126,7 +142,7 @@ function DataMasterBank() {
             {
               name: "Delete",
               variant: "danger",
-              function: handleConfirm,
+              function: (id) => handleDelete(id),
             },
           ]}
         />
@@ -137,14 +153,14 @@ function DataMasterBank() {
         title={title}
         form="form-upsert-bank"
       >
-        <FormUpsertBank data={bank} />
+        <FormUpsertBank data={bank} showAlert={handleShowAlert} />
       </Modal>
-      <Modal onClose={handleCloseModal} visible={showModalInfo} title={title}>
+      {/* <Modal onClose={handleCloseModal} visible={showModalInfo} title={title}>
         <ul>
           <li>Mandiri</li>
           <li>Sumatera Utara</li>
         </ul>
-      </Modal>
+      </Modal> */}
       <Modal
         onClose={handleCloseModal}
         visible={showModalConfirm}
@@ -153,8 +169,15 @@ function DataMasterBank() {
       >
         <p>Apakah anda yakin ingin menghapus data ini?</p>
       </Modal>
-      <Modal onClose={handleCloseModal} visible={showModalAlert} title={title}>
-        Data Bank Mandiri Berhasil Dihapus
+      <Modal
+        onClose={() => {
+          handleCloseModal();
+          location.reload();
+        }}
+        visible={showModalAlert}
+        title="Pemberitahuan"
+      >
+        {messageAlert}
       </Modal>
     </>
   );
