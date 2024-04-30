@@ -1,13 +1,14 @@
 import axios from "axios";
 
-export const get = (endpoint, params, callback) => {
+export const get = (endpoint, params, callback, errorCallback) => {
   axios
     .get(`${import.meta.env.VITE_BASE_URL}${endpoint}`, { params: params })
     .then((res) => {
       callback(res.data);
     })
     .catch((err) => {
-      console.log(err);
+      errorCallback(err.response.data.message);
+      console.log(err.response.data.message);
     });
 };
 

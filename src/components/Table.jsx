@@ -3,16 +3,25 @@ import TableActions from "./TableActions";
 import Button from "./Button";
 
 function Table(props) {
-  const { tableHeaders, data, pagination, getDataByPagination, actions } =
-    props;
+  const {
+    tableHeaders,
+    data,
+    emptyDataMessage,
+    pagination,
+    getDataByPagination,
+    actions,
+  } = props;
 
   return (
     <table className="border-collapse border-slate-500 w-full p-2 overflow-x-auto">
       <thead className="bg-[#C07F00] text-white">
         <tr>
-          {tableHeaders.map((header) => (
-            <th key={header}>{header}</th>
-          ))}
+          {tableHeaders.map((header) => {
+            if (header.code != "id") {
+              return <th key={header.code}>{header.name}</th>;
+            }
+          })}
+          {actions && <th className="text-center">Aksi</th>}
         </tr>
       </thead>
       <tbody>
