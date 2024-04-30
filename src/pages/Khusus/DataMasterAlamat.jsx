@@ -48,20 +48,26 @@ function DataMasterAlamat() {
   const [pagination, setPagination] = useState({
     pageNumber: 1,
     pageSize: 10,
-    totalPages: 3,
+    totalPage: 0,
   });
   const [searchVal, setSearchVal] = useState("");
   useEffect(() => {
     if (sectionNumber === 0) {
       getProvince(
         (dto) => {
-          if (dto.status === "OK") setSectionDto(dto.data);
-          else if (dto.status === "FAILED") console.log(dto.message);
+          if (dto.status === "OK") {
+            setSectionDto(dto.data);
+            setPagination({
+              pageNumber: dto.pagination.page,
+              pageSize: dto.pagination.pageSize,
+              totalPage: dto.pagination.totalPage
+            });
+          } else if (dto.status === "FAILED") console.log(dto.message);
           else if (dto.status === "NOTFOUND") console.log(dto.message);
         },
         {
           pageNumber: pagination.pageNumber,
-          pageSize: pagination.totalPages,
+          pageSize: pagination.totalPage,
           name: searchVal
         }
       )
@@ -69,13 +75,19 @@ function DataMasterAlamat() {
     } else if (sectionNumber === 1) {
       getCity(
         (dto) => {
-          if (dto.status === "OK") setSectionDto(dto.data);
-          else if (dto.status === "FAILED") console.log(dto.message);
+          if (dto.status === "OK") {
+            setSectionDto(dto.data);
+            setPagination({
+              pageNumber: dto.pagination.page,
+              pageSize: dto.pagination.pageSize,
+              totalPage: dto.pagination.totalPage
+            });
+          } else if (dto.status === "FAILED") console.log(dto.message);
           else if (dto.status === "NOTFOUND") console.log(dto.message);
         },
         {
           pageNumber: pagination.pageNumber,
-          pageSize: pagination.totalPages,
+          pageSize: pagination.totalPage,
           provinceId: sectionState[0].id,
           name: searchVal
         }
@@ -84,13 +96,19 @@ function DataMasterAlamat() {
     } else if (sectionNumber === 2) {
       getSubDistrict(
         (dto) => {
-          if (dto.status === "OK") setSectionDto(dto.data);
-          else if (dto.status === "FAILED") console.log(dto.message);
+          if (dto.status === "OK") {
+            setSectionDto(dto.data);
+            setPagination({
+              pageNumber: dto.pagination.page,
+              pageSize: dto.pagination.pageSize,
+              totalPage: dto.pagination.totalPage
+            });
+          } else if (dto.status === "FAILED") console.log(dto.message);
           else if (dto.status === "NOTFOUND") console.log(dto.message);
         },
         {
           pageNumber: pagination.pageNumber,
-          pageSize: pagination.totalPages,
+          pageSize: pagination.totalPage,
           cityId: sectionState[1].id,
           name: searchVal
         }
@@ -99,13 +117,19 @@ function DataMasterAlamat() {
     } else if (sectionNumber === 3) {
       getVillage(
         (dto) => {
-          if (dto.status === "OK") setSectionDto(dto.data);
-          else if (dto.status === "FAILED") console.log(dto.message);
+          if (dto.status === "OK") {
+            setSectionDto(dto.data);
+            setPagination({
+              pageNumber: dto.pagination.page,
+              pageSize: dto.pagination.pageSize,
+              totalPage: dto.pagination.totalPage
+            });
+          } else if (dto.status === "FAILED") console.log(dto.message);
           else if (dto.status === "NOTFOUND") console.log(dto.message);
         },
         {
           pageNumber: pagination.pageNumber,
-          pageSize: pagination.totalPages,
+          pageSize: pagination.totalPage,
           subdistrictId: sectionState[2].id,
           name: searchVal
         }
@@ -208,7 +232,7 @@ function DataMasterAlamat() {
                 {
                   pageNumber: pageNumber,
                   pageSize: pagination.pageSize,
-                  totalPages: pagination.totalPages,
+                  totalPage: pagination.totalPage,
                 }
               )}
               actions={[
