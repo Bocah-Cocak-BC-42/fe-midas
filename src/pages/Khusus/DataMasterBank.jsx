@@ -17,39 +17,37 @@ function DataMasterBank() {
   const [title, setTitle] = useState("");
   const [bankNameSearch, setBankNameSearch] = useState("");
   const [messageAlert, setMessageAlert] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   // const [id, setId] = useState(0);
 
+  const tableDataHeaders = [
+    { code: "id", name: "ID" },
+    { code: "name", name: "Nama Bank" },
+  ];
+
   const getData = (pageNumber, bankNameSearch) => {
-    console.log(pageNumber, bankNameSearch);
     getBanks(
       //function untuk mengambil data
       (res) => {
         console.log(res);
-        setBanks(res.data);
+        setBanks(
+          res.data.map((item) =>
+            tableDataHeaders.reduce((acc, header) => {
+              acc[header.code] = item[header.code];
+              return acc;
+            }, {})
+          )
+        );
         setPagination(res.pagination);
       },
+      //function untuk mengambil error
+      (errMessage) => {
+        setErrorMessage(errMessage);
+        setBanks([]);
+      },
       //object params
-      { page: pageNumber, pageSize: 3, bankNameSearch: bankNameSearch }
+      { page: pageNumber, pageSize: 3, name: bankNameSearch }
     );
-    // setBanks([
-    //   {
-    //     id: 1,
-    //     name: "Mandiri",
-    //   },
-    //   {
-    //     id: 2,
-    //     name: "BCA",
-    //   },
-    //   {
-    //     id: 3,
-    //     name: "BRI",
-    //   },
-    // ]);
-    // setPagination({
-    //   pageNumber: 1,
-    //   pageSize: 10,
-    //   totalPages: 3,
-    // });
   };
 
   useEffect(() => {
@@ -122,8 +120,9 @@ function DataMasterBank() {
 
       <div className="rounded-md border mt-4 shadow">
         <Table
-          tableHeaders={["Nama Bank", "Aksi"]}
+          tableHeaders={tableDataHeaders}
           data={banks}
+          emptyDataMessage={errorMessage}
           pagination={pagination}
           getDataByPagination={(pageNumber) =>
             getData(pageNumber, bankNameSearch)
