@@ -170,7 +170,10 @@ function DataMasterBank() {
         <p>Apakah anda yakin ingin menghapus data ini?</p>
       </Modal>
       <Modal
-        onClose={handleCloseModal}
+        onClose={() => {
+          handleCloseModal();
+          location.reload();
+        }}
         visible={showModalAlert}
         title="Pemberitahuan"
       >
