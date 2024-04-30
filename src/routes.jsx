@@ -4,6 +4,8 @@ import NotFoundPage from "./pages/NotFoundPage";
 import LayoutUmum from "./components/layout/LayoutUmum";
 import DataMasterBank from "./pages/Khusus/DataMasterBank";
 import LayoutKhusus from "./components/layout/LayoutKhusus";
+import UserManagementEmployee from "./pages/Khusus/UserManagementEmployee";
+import UpsertUserManagementEmployee from "./pages/Khusus/UpsertUserManagementEmployee";
 
 export const router = createBrowserRouter([
   {
@@ -27,8 +29,44 @@ export const router = createBrowserRouter([
     ),
   },
   {
+    path: "/user-management/karyawan",
+    element:(
+      <LayoutKhusus
+      breadcrumbs="User Management - Karyawan"
+      navLinkActive="User Management"
+      subNavLinkActive= "Karyawan"
+      >
+        <UserManagementEmployee></UserManagementEmployee>
+      </LayoutKhusus>
+    )
+  },
+  {
     path: "/khusus",
     element: <LayoutKhusus></LayoutKhusus>,
+  },
+  {
+    path: "/user-management/karyawan/Upsert",
+    element:(
+      <LayoutKhusus
+      breadcrumbs="User Management - Karyawan"
+      navLinkActive="User Management"
+      subNavLinkActive= "Karyawan"
+      >
+        <UpsertUserManagementEmployee/>
+      </LayoutKhusus>
+    )
+  },
+  {
+    path: "/user-management/karyawan/Upsert/:employeeId",
+    element:(
+      <LayoutKhusus
+      breadcrumbs="User Management - Karyawan"
+      navLinkActive="User Management"
+      subNavLinkActive= "Karyawan"
+      >
+        <UpsertUserManagementEmployee/>
+      </LayoutKhusus>
+    )
   },
   {
     path: "*",
