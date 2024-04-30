@@ -4,6 +4,7 @@ import FormUpsertBank from "../../components/Form/FormUpsertBank";
 import Modal from "../../components/Modal";
 import Table from "../../components/Table";
 import InputSearch from "../../components/Input/InputSearch";
+import { getBanks } from "../../services/data-master-bank.service";
 
 function DataMasterBank() {
   const [banks, setBanks] = useState([]);
@@ -19,29 +20,33 @@ function DataMasterBank() {
 
   const getData = (pageNumber, bankNameSearch) => {
     console.log(pageNumber, bankNameSearch);
-    // getBanks((data) => {
-    //   setBanks(data.listData);
-    //   setPagination(data.pagination);
-    // }, pageNumber);
-    setBanks([
-      {
-        id: 1,
-        name: "Mandiri",
+    getBanks(
+      (data) => {
+        console.log(data);
+        setBanks(data.data);
+        setPagination(data.pagination);
       },
-      {
-        id: 2,
-        name: "BCA",
-      },
-      {
-        id: 3,
-        name: "BRI",
-      },
-    ]);
-    setPagination({
-      pageNumber: 1,
-      pageSize: 10,
-      totalPages: 3,
-    });
+      { page: pageNumber, pageSize: 3, bankNameSearch: bankNameSearch }
+    );
+    // setBanks([
+    //   {
+    //     id: 1,
+    //     name: "Mandiri",
+    //   },
+    //   {
+    //     id: 2,
+    //     name: "BCA",
+    //   },
+    //   {
+    //     id: 3,
+    //     name: "BRI",
+    //   },
+    // ]);
+    // setPagination({
+    //   pageNumber: 1,
+    //   pageSize: 10,
+    //   totalPages: 3,
+    // });
   };
 
   useEffect(() => {
@@ -98,33 +103,15 @@ function DataMasterBank() {
           <Button type="submit">Search</Button>
         </form>
       </div>
-      <Button
-        variant="info"
-        onClick={() => {
-          setShowModalInfo(true);
-          setTitle("Informasi Bank");
-        }}
-      >
-        Show Info
-      </Button>
-      <Button
-        variant="danger"
-        onClick={() => {
-          setShowModalConfirm(true);
-          setTitle("Konfirmasi");
-        }}
-      >
-        Delete
-      </Button>
 
       <div className="rounded-md border mt-4 shadow">
         <Table
           tableHeaders={["Nama Bank", "Aksi"]}
           data={banks}
           pagination={pagination}
-          getDataByPagination={(pageNumber) => {
-            console.log(pageNumber);
-          }}
+          getDataByPagination={(pageNumber) =>
+            getData(pageNumber, bankNameSearch)
+          }
           actions={[
             {
               name: "Detail",
@@ -139,7 +126,7 @@ function DataMasterBank() {
             {
               name: "Delete",
               variant: "danger",
-              function: handleEdit,
+              function: handleConfirm,
             },
           ]}
         />

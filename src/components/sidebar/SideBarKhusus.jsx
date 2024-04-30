@@ -12,6 +12,9 @@ function SideBarKhusus({ navLinkActive, subNavLinkActive }) {
   const [openNavDataMaster, setOpenNavDataMaster] = useState(
     navLinkActive === "Data Master"
   );
+  const [openNavUserManage, setOpenNavUserManage] = useState(
+    navLinkActive === "User Management"
+  );
 
   const sidebar = [
     {
@@ -23,6 +26,16 @@ function SideBarKhusus({ navLinkActive, subNavLinkActive }) {
       name: "User Management",
       icon: faCircleUser,
       key: 1,
+      children: [
+        {
+            name: "Karyawan",
+            location: "/user-management/karyawan"
+        },
+        {
+            name: "Nasabah",
+            location: "/user-management/nasabah"
+        }
+      ]
     },
     {
       name: "Data Master",
@@ -61,6 +74,7 @@ function SideBarKhusus({ navLinkActive, subNavLinkActive }) {
           <li
             onClick={() => {
               item.key === 2 && setOpenNavDataMaster(!openNavDataMaster);
+              item.key === 1 && setOpenNavUserManage(!openNavUserManage);
             }}
             className={`${
               item.name == navLinkActive && "text-[#C07F00]"
@@ -73,6 +87,21 @@ function SideBarKhusus({ navLinkActive, subNavLinkActive }) {
             )}
           </li>
           {openNavDataMaster && item.key === 2 && (
+            <ul>
+              {item.children.map((child) => (
+                <a href={child.location} key={child.name}>
+                  <li
+                    className={`${
+                      child.name == subNavLinkActive && "text-[#C07F00]"
+                    } pl-10 w-full p-2 cursor-pointer focus:border-r-8 hover:text-[#C07F00] hover:border-r-8 focus:border-r-[#C07F00] hover:border-r-[#C07F00] hover:bg-slate-200`}
+                  >
+                    {child.name}
+                  </li>
+                </a>
+              ))}
+            </ul>
+          )}
+          {openNavUserManage && item.key === 1 && (
             <ul>
               {item.children.map((child) => (
                 <a href={child.location} key={child.name}>
