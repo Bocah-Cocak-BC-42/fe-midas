@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Button from '../../components/Button';
-import InputSearch from '../../components/Input/InputSearch';
-import Table from '../../components/Table';
-import Modal from '../../components/Modal';
 import FormUpsertAlamat from '../../components/Form/FormUpsertAlamat';
+import InputSearch from '../../components/Input/InputSearch';
+import Modal from '../../components/Modal';
+import Table from '../../components/Table';
+import { getCity, getProvince, getSubDistrict, getVillage } from '../../services/data-master-alamat.service';
 
 function DataMasterAlamat() {
   const [sectionNumber, setSectionNumber] = useState(0);
-  const [sectionInfo, setSectionInfo] = useState([
+  const [sectionInfo, _] = useState([
     {
       name: "Provinsi",
       "table-header": ["Nama Provinsi", "Aksi"]
@@ -25,39 +26,101 @@ function DataMasterAlamat() {
       "table-header": ["Nama Kabupaten/Kota", "Kode Pos", "Aksi"]
     },
   ]);
-  const [sectionState, setSectionState] = useState([0, 0, 0]);
+  const [sectionState, setSectionState] = useState([
+    {
+      id: 0,
+      name: ""
+    },
+    {
+      id: 0,
+      name: ""
+    },
+    {
+      id: 0,
+      name: ""
+    },
+    {
+      id: 0,
+      name: ""
+    },
+  ]);
   const [sectionDto, setSectionDto] = useState();
   const [pagination, setPagination] = useState({
     pageNumber: 1,
     pageSize: 10,
     totalPages: 3,
   });
+  const [searchVal, setSearchVal] = useState("");
   useEffect(() => {
     if (sectionNumber === 0) {
-      // Ambil data provinsi
-      setSectionDto([
-        {
-          id: 1,
-          name: "Provinsi 1"
+      getProvince(
+        (dto) => {
+          if (dto.status === "OK") setSectionDto(dto.data);
+          else if (dto.status === "FAILED") console.log(dto.message);
+          else if (dto.status === "NOTFOUND") console.log(dto.message);
         },
         {
-          id: 2,
-          name: "Provinsi 2"
+          pageNumber: pagination.pageNumber,
+          pageSize: pagination.totalPages,
+          name: searchVal
+        }
+      )
+
+    } else if (sectionNumber === 1) {
+      getCity(
+        (dto) => {
+          if (dto.status === "OK") setSectionDto(dto.data);
+          else if (dto.status === "FAILED") console.log(dto.message);
+          else if (dto.status === "NOTFOUND") console.log(dto.message);
         },
-      ]);
-      setPagination({
-        pageNumber: pagination.pageNumber,
-        pageSize: pagination.pageSize,
-        totalPages: pagination.totalPages,
-      });
+        {
+          pageNumber: pagination.pageNumber,
+          pageSize: pagination.totalPages,
+          provinceId: sectionState[0].id,
+          name: searchVal
+        }
+      )
+
+    } else if (sectionNumber === 2) {
+      getSubDistrict(
+        (dto) => {
+          if (dto.status === "OK") setSectionDto(dto.data);
+          else if (dto.status === "FAILED") console.log(dto.message);
+          else if (dto.status === "NOTFOUND") console.log(dto.message);
+        },
+        {
+          pageNumber: pagination.pageNumber,
+          pageSize: pagination.totalPages,
+          cityId: sectionState[1].id,
+          name: searchVal
+        }
+      )
+
+    } else if (sectionNumber === 3) {
+      getVillage(
+        (dto) => {
+          if (dto.status === "OK") setSectionDto(dto.data);
+          else if (dto.status === "FAILED") console.log(dto.message);
+          else if (dto.status === "NOTFOUND") console.log(dto.message);
+        },
+        {
+          pageNumber: pagination.pageNumber,
+          pageSize: pagination.totalPages,
+          subdistrictId: sectionState[2].id,
+          name: searchVal
+        }
+      )
     }
-  }, [pagination]);
+
+  }, [
+    pagination,
+    sectionNumber
+  ]);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    const searchValue = e.target.bankNameSearch.value || null;
-    // setBankNameSearch(searchValue);
-    // getData(1, searchValue);
+    const searchValue = e.target.search.value || "";
+    setSearchVal(searchValue)
   };
 
   const [showModal, setShowModal] = useState(false);
@@ -65,6 +128,21 @@ function DataMasterAlamat() {
   const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [showModalAlert, setShowModalAlert] = useState(false);
   const [title, setTitle] = useState("");
+
+  const handleDetail = (id) => {
+    sectionState[sectionNumber].id = id;
+    sectionState[sectionNumber].name = sectionDto[getIndex(id)].name;
+    setSectionState(sectionState);
+    setSectionNumber(sectionNumber + 1);
+  };
+  function getIndex(id) {
+    let index = 0;
+    const length = sectionDto.length;
+    for (let i = 0; i < length; i++) {
+      if (sectionDto[i].id === id) return index
+    }
+  }
+
   const handleEdit = (id) => {
     // getBankById((data) => {
     //   setBank(data);
@@ -73,8 +151,11 @@ function DataMasterAlamat() {
     setShowModal(true);
   };
 
+  const handleDelete = (id) => {
+
+  };
+
   const handleConfirm = (confirm) => {
-    console.log(confirm);
     setShowModalConfirm(false);
     if (confirm) {
       setTitle("Pemberitahuan");
@@ -82,16 +163,19 @@ function DataMasterAlamat() {
     }
   };
 
-  const handleCloseModal = () =>
-    {
-      setShowModal(false);
-      setShowModalInfo(false);
-      setShowModalConfirm(false);
-      setShowModalAlert(false);
-    };
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setShowModalInfo(false);
+    setShowModalConfirm(false);
+    setShowModalAlert(false);
+  };
+
+  const handleDetailVillage = () => { };
 
   return (
     <>
+      <h1 className="text-2xl font-bold">{sectionInfo[sectionNumber].name}</h1>
+      <h3 className="mb-4 text-xl font-bold">{sectionState[sectionNumber].name}</h3>
       <div className="flex justify-between">
         <Button
           onClick={() => {
@@ -127,7 +211,7 @@ function DataMasterAlamat() {
                 {
                   name: "Detail",
                   variant: "info",
-                  function: handleEdit,
+                  function: sectionNumber !== 3 ? handleDetail : handleDetailVillage,
                 },
                 {
                   name: "Edit",
