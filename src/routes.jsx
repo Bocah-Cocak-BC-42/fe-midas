@@ -6,6 +6,7 @@ import DataMasterBank from "./pages/Khusus/DataMasterBank";
 import LayoutKhusus from "./components/layout/LayoutKhusus";
 import UserManagementEmployee from "./pages/Khusus/UserManagementEmployee";
 import UpsertUserManagementEmployee from "./pages/Khusus/UpsertUserManagementEmployee";
+import UpsertDataMasterBank from "./pages/Khusus/UpsertDataMasterBank";
 
 export const router = createBrowserRouter([
   {
@@ -27,18 +28,6 @@ export const router = createBrowserRouter([
         <DataMasterBank />
       </LayoutKhusus>
     ),
-  },
-  {
-    path: "/user-management/karyawan",
-    element:(
-      <LayoutKhusus
-      breadcrumbs="User Management - Karyawan"
-      navLinkActive="User Management"
-      subNavLinkActive= "Karyawan"
-      >
-        <UserManagementEmployee></UserManagementEmployee>
-      </LayoutKhusus>
-    )
   },
   {
     path: "/khusus",
