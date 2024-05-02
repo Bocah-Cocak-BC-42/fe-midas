@@ -2,54 +2,50 @@ import React from 'react';
 import { useState } from 'react';
 import { postCity } from '../../services/data-master-alamat.service';
 import Input from '../Input/Input';
-import Select from '../Input/Select';
 
 function FormUpsertCity(props) {
-    const {data, showAlert} = props;
-    const [messageValidationField, setMessageValidationField] = useState({});
-    const handleSubmit = (e) => {
-        e.preventDefault();
+  const { data, showAlert } = props;
+  const [messageValidationField, setMessageValidationField] = useState({});
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-        let cityVal = e.target.cityName.value || null;
-        console.log(cityVal);
+    let cityVal = e.target.cityName.value || null;
 
-        const dataCity = {
-            provinceId: data[0].id,
-            name: cityVal,
-        };
-
-        postCity(
-            (resMessage) => {
-                console.log(resMessage);
-                showAlert(resMessage);
-            },
-            (errors) => {
-                setMessageValidationField(errors);
-            },
-            dataCity
-        );
+    const dataCity = {
+      provinceId: data[0].id,
+      name: cityVal,
     };
+
+    postCity(
+      (resMessage) => {
+        showAlert(resMessage);
+      },
+      (errors) => {
+        setMessageValidationField(errors);
+      },
+      dataCity
+    );
+  };
   return (
     <div>
-        <form 
+      <form
         id="form-upsert-city"
-        onSubmit={handleSubmit}
+        onSubmit={(e) => handleSubmit(e)}
         className='flex flex-col gap-2'
-        >
-            <div>
-                <Input
-                    placeholder="Masukkan Nama Kota/Kabupaten"
-                    name="cityName"
-                    defaultValue={data?.cityName}
-                    message={messageValidationField?.Name}
-                    required
-                    grow
-                    >
-                     Nama Kota/Kabupaten*
-                </Input>
-            </div>
-
-        </form>
+      >
+        <div>
+          <Input
+            placeholder="Masukkan Nama Kota/Kabupaten"
+            name="cityName"
+            defaultValue={data?.cityName}
+            message={messageValidationField?.Name}
+            required
+            grow
+          >
+            Nama Kota/Kabupaten*
+          </Input>
+        </div>
+      </form>
     </div>
   );
 }

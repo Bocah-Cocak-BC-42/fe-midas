@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import Button from '../../components/Button';
+import FormUpsertCity from '../../components/Form/FormUpsertCity';
 import FormUpsertProvince from '../../components/Form/FormUpsertProvince';
+import FormUpsertSubdistrict from '../../components/Form/FormUpsertSubdistrict';
+import FormUpsertVillage from '../../components/Form/FormUpsertVillage';
 import InputSearch from '../../components/Input/InputSearch';
 import Modal from '../../components/Modal';
 import Table from '../../components/Table';
 import {
-  delProvince,
   delCity,
+  delProvince,
   delSubdistrict,
+  delVillage,
   getCity,
   getProvince,
   getSubDistrict,
   getVillage
-}
-  from '../../services/data-master-alamat.service';
-import FormUpsertCity from '../../components/Form/FormUpsertCity';
-import FormUpsertSubdistrict from '../../components/Form/FormUpsertSubdistrict';
-import FormUpsertVillage from '../../components/Form/FormUpsertVillage';
+} from '../../services/data-master-alamat.service';
 
 function DataMasterAlamat() {
   const [sectionNumber, setSectionNumber] = useState(0);
@@ -92,6 +92,7 @@ function DataMasterAlamat() {
     totalPage: 0,
   });
   const [searchVal, setSearchVal] = useState("");
+  const [rerender, setRerender] = useState(false);
   useEffect(() => {
     if (sectionNumber === 0) {
       getProvince(
@@ -195,7 +196,9 @@ function DataMasterAlamat() {
 
   }, [
     pageNumber,
-    sectionNumber
+    sectionNumber,
+    searchVal,
+    rerender
   ]);
 
   const handleSearch = (e) => {
@@ -205,7 +208,6 @@ function DataMasterAlamat() {
   };
 
   const [showModal, setShowModal] = useState(false);
-  const [showModalInfo, setShowModalInfo] = useState(false);
   const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [showModalAlert, setShowModalAlert] = useState(false);
   const [title, setTitle] = useState("");
@@ -224,6 +226,7 @@ function DataMasterAlamat() {
     const length = sectionDto.length;
     for (let i = 0; i < length; i++) {
       if (sectionDto[i].id === id) return index
+      index++;
     }
   }
 
@@ -242,14 +245,36 @@ function DataMasterAlamat() {
   };
 
   const handleConfirm = (confirm) => {
-    console.log(confirm);
     setShowModalConfirm(false);
     if (confirm) {
-      delProvince((message) => {
-        setMessageAlert(message);
-        setTitle("Pemberitahuan");
-        setShowModalAlert(true);
-      }, id);
+      if (sectionNumber === 0) {
+        delProvince((message) => {
+          setMessageAlert(message);
+          setTitle("Pemberitahuan");
+          setShowModalAlert(true);
+        }, id);
+
+      } else if (sectionNumber === 1) {
+        delCity((message) => {
+          setMessageAlert(message);
+          setTitle("Pemberitahuan");
+          setShowModalAlert(true);
+        }, id);
+
+      } else if (sectionNumber === 2) {
+        delSubdistrict((message) => {
+          setMessageAlert(message);
+          setTitle("Pemberitahuan");
+          setShowModalAlert(true);
+        }, id);
+
+      } else if (sectionNumber === 3) {
+        delVillage((message) => {
+          setMessageAlert(message);
+          setTitle("Pemberitahuan");
+          setShowModalAlert(true);
+        }, id);
+      }
     }
   };
 
@@ -263,15 +288,32 @@ function DataMasterAlamat() {
     setShowModal(false);
     setShowModalConfirm(false);
     setShowModalAlert(false);
-    setSectionState();
   };
 
   const handleDetailVillage = () => { };
-console.log(sectionInfo[sectionNumber].form);
   return (
     <>
-      <h1 className="text-2xl font-bold">{sectionInfo[sectionNumber].name}</h1>
-      <h3 className="mb-4 text-xl font-bold">{sectionState[sectionNumber].name}</h3>
+      {
+        sectionNumber <= 0 ?
+          null
+          :
+          <div className="mb-4">
+            <Button
+              variant="danger"
+              icon="arrow-left"
+              onClick={() => {
+                setSectionNumber(sectionNumber - 1);
+              }}
+            >Kembali</Button>
+          </div>
+      }
+      <h1 className="font-bold">{sectionInfo[sectionNumber].name}</h1>
+      {
+        sectionNumber <= 0 ?
+          null
+          :
+          <h3 className="mb-4 text-2xl font-bold">{sectionState[sectionNumber - 1].name}</h3>
+      }
       <div className="flex justify-between">
         <Button
           onClick={() => {
@@ -324,30 +366,30 @@ console.log(sectionInfo[sectionNumber].form);
         title={title}
         form={sectionInfo[sectionNumber].form}
       >
-      {
-        sectionNumber === 0 ?
-          <FormUpsertProvince data={sectionState} showAlert={handleShowAlert} />
-          :
-          null
-      }
-      {
-        sectionNumber === 1 ?
-          <FormUpsertCity data={sectionState} showAlert={handleShowAlert} />
-          :
-          null
-      }
-      {
-        sectionNumber === 2 ?
-          <FormUpsertSubdistrict data={sectionState} showAlert={handleShowAlert} />
-          :
-          null
-      }
-      {
-        sectionNumber === 3 ?
-          <FormUpsertVillage data={sectionState} showAlert={handleShowAlert} />
-          :
-          null
-      }
+        {
+          sectionNumber === 0 ?
+            <FormUpsertProvince data={sectionState} showAlert={handleShowAlert} />
+            :
+            null
+        }
+        {
+          sectionNumber === 1 ?
+            <FormUpsertCity data={sectionState} showAlert={handleShowAlert} />
+            :
+            null
+        }
+        {
+          sectionNumber === 2 ?
+            <FormUpsertSubdistrict data={sectionState} showAlert={handleShowAlert} />
+            :
+            null
+        }
+        {
+          sectionNumber === 3 ?
+            <FormUpsertVillage data={sectionState} showAlert={handleShowAlert} />
+            :
+            null
+        }
       </Modal>
 
       <Modal
@@ -361,7 +403,8 @@ console.log(sectionInfo[sectionNumber].form);
       <Modal
         onClose={() => {
           handleCloseModal();
-          location.reload();
+          // location.reload();
+          setRerender(!rerender);
         }}
         visible={showModalAlert}
         title="Pemberitahuan"
