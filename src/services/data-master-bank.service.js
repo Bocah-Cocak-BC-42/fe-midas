@@ -1,11 +1,11 @@
-import { del, get, post, put } from "./config.service";
+import { del, get, getById, post, put } from "./config.service";
 const endpoint = "bank";
 
 export const getBanks = (callback, errorCallback, params) => {
   get(endpoint, params, callback, errorCallback);
 };
 export const getBankById = (callback, id) => {
-  get(endpoint, id, callback);
+  getById(endpoint, id, callback);
 };
 export const postBank = (callback, messageValidationFieldError, data) => {
   post(endpoint, data, callback, messageValidationFieldError);

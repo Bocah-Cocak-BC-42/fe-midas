@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { postBank } from "../../services/data-master-bank.service";
+import { postBank, putBank } from "../../services/data-master-bank.service";
 import Input from "../Input/Input";
 
 function FormUpsertBank(props) {
@@ -11,19 +11,40 @@ function FormUpsertBank(props) {
 
     let bankNameVal = e.target.bankName.value || null;
 
-    const dataBank = {
-      name: bankNameVal,
-    };
+    // const dataBank = {
+    //   id: data?.id,
+    //   name: bankNameVal,
+    // };
 
-    postBank(
-      (resMessage) => {
-        showAlert(resMessage);
-      },
-      (errors) => {
-        setMessageValidationField(errors);
-      },
-      dataBank
-    );
+    if (!data) {
+      const dataBank = {
+        name: bankNameVal,
+      };
+      postBank(
+        (resMessage) => {
+          showAlert(resMessage);
+        },
+        (errors) => {
+          setMessageValidationField(errors);
+        },
+        dataBank
+      );
+    } else {
+      const dataBank = {
+        id: data?.id,
+        name: bankNameVal,
+      };
+      putBank(
+        (resMessage) => {
+          showAlert(resMessage);
+        },
+        data.id,
+        dataBank,
+        (errors) => {
+          setMessageValidationField(errors);
+        }
+      );
+    }
   };
 
   return (
@@ -37,7 +58,7 @@ function FormUpsertBank(props) {
           <Input
             placeholder="Masukkan Nama Bank"
             name="bankName"
-            defaultValue={data?.bankName}
+            defaultValue={data?.name}
             message={messageValidationField?.Name}
             // required
             grow
