@@ -154,7 +154,7 @@ function DataMasterRole() {
         onClose={handleCloseModal} 
         visible={showModal} 
         title={title}
-        form="form-upsert-bank"
+        form="form-upsert-role"
       >
         <FormUpsertRole data={role} showAlert={handleShowAlert} />
       </Modal>
