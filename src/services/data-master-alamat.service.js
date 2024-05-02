@@ -5,23 +5,23 @@ const subdistrictEndpoint = "subdistrict";
 const villageEndpoint = "village";
 
 
-export const getProvince = (callback, params) => {
-  get("province", params, callback);
+export const getProvince = (params, callback, errorCallback) => {
+  get("province", params, callback, errorCallback);
 };
 
-export const getCity = (callback, params) => {
-  get("city", params, callback);
+export const getCity = (params, callback, errorCallback) => {
+  get("city", params, callback, errorCallback);
 };
 
-export const getSubDistrict = (callback, params) => {
-  get("subdistrict", params, callback);
+export const getSubDistrict = (params, callback, errorCallback) => {
+  get("subdistrict", params, callback, errorCallback);
 };
 
-export const getVillage = (callback, params) => {
-  get("village", params, callback);
+export const getVillage = (params, callback, errorCallback) => {
+  get("village", params, callback, errorCallback);
 };
 
-export const postProvince = (callback,messageValidationFieldError, data) => {
+export const postProvince = (callback, messageValidationFieldError, data) => {
   post(provinceEndpoint, data, callback, messageValidationFieldError);
 };
 
@@ -32,7 +32,7 @@ export const putProvince = (callback, id, data, messageValidationFieldError) => 
 export const delProvince = (callback, id) => {
   del(provinceEndpoint, id, callback);
 };
-export const postCity = (callback,messageValidationFieldError, data) => {
+export const postCity = (callback, messageValidationFieldError, data) => {
   post(cityEndpoint, data, callback, messageValidationFieldError);
 };
 
@@ -43,7 +43,7 @@ export const putCity = (callback, id, data, messageValidationFieldError) => {
 export const delCity = (callback, id) => {
   del(cityEndpoint, id, callback);
 };
-export const postSubdistrict = (callback,messageValidationFieldError, data) => {
+export const postSubdistrict = (callback, messageValidationFieldError, data) => {
   post(subdistrictEndpoint, data, callback, messageValidationFieldError);
 };
 
@@ -54,7 +54,7 @@ export const putSubdistrict = (callback, id, data, messageValidationFieldError) 
 export const delSubdistrict = (callback, id) => {
   del(subdistrictEndpoint, id, callback);
 };
-export const postVillage = (callback,messageValidationFieldError, data) => {
+export const postVillage = (callback, messageValidationFieldError, data) => {
   post(villageEndpoint, data, callback, messageValidationFieldError);
 };
 

@@ -11,19 +11,43 @@ function DataMasterAlamat() {
   const [sectionInfo, _] = useState([
     {
       name: "Provinsi",
-      "table-header": ["Nama Provinsi", "Aksi"]
+      "table-header": [
+        {
+          code: "name",
+          name: "Nama Provinsi"
+        },
+      ]
     },
     {
       name: "Kabupaten/Kota",
-      "table-header": ["Nama Kabupaten/Kota", "Aksi"]
+      "table-header": [
+        {
+          code: "name",
+          name: "Nama Kabupaten/Kota"
+        },
+      ]
     },
     {
       name: "Kecamatan",
-      "table-header": ["Nama Kabupaten/Kota", "Aksi"]
+      "table-header": [
+        {
+          code: "name",
+          name: "Nama Kecamatan"
+        },
+      ]
     },
     {
       name: "Kelurahan/Desa",
-      "table-header": ["Nama Kabupaten/Kota", "Kode Pos", "Aksi"]
+      "table-header": [
+        {
+          code: "name",
+          name: "Nama Kelurahan/Desa"
+        },
+        {
+          code: "postalCode",
+          name: "Kode Pos"
+        },
+      ]
     },
   ]);
   const [sectionState, setSectionState] = useState([
@@ -54,6 +78,11 @@ function DataMasterAlamat() {
   useEffect(() => {
     if (sectionNumber === 0) {
       getProvince(
+        {
+          pageNumber: pagination.pageNumber,
+          pageSize: pagination.pageSize,
+          name: searchVal
+        },
         (dto) => {
           if (dto.status === "OK") {
             setSectionDto(dto.data);
@@ -65,15 +94,20 @@ function DataMasterAlamat() {
           } else if (dto.status === "FAILED") console.log(dto.message);
           else if (dto.status === "NOTFOUND") console.log(dto.message);
         },
-        {
-          pageNumber: pagination.pageNumber,
-          pageSize: pagination.totalPage,
-          name: searchVal
-        }
+        (errMessage) => {
+          setErrorMessage(errMessage);
+          setSectionDto([]);
+        },
       )
 
     } else if (sectionNumber === 1) {
       getCity(
+        {
+          pageNumber: pagination.pageNumber,
+          pageSize: pagination.pageSize,
+          provinceId: sectionState[0].id,
+          name: searchVal
+        },
         (dto) => {
           if (dto.status === "OK") {
             setSectionDto(dto.data);
@@ -85,16 +119,20 @@ function DataMasterAlamat() {
           } else if (dto.status === "FAILED") console.log(dto.message);
           else if (dto.status === "NOTFOUND") console.log(dto.message);
         },
-        {
-          pageNumber: pagination.pageNumber,
-          pageSize: pagination.totalPage,
-          provinceId: sectionState[0].id,
-          name: searchVal
-        }
+        (errMessage) => {
+          setErrorMessage(errMessage);
+          setSectionDto([]);
+        },
       )
 
     } else if (sectionNumber === 2) {
       getSubDistrict(
+        {
+          pageNumber: pagination.pageNumber,
+          pageSize: pagination.pageSize,
+          cityId: sectionState[1].id,
+          name: searchVal
+        },
         (dto) => {
           if (dto.status === "OK") {
             setSectionDto(dto.data);
@@ -106,16 +144,20 @@ function DataMasterAlamat() {
           } else if (dto.status === "FAILED") console.log(dto.message);
           else if (dto.status === "NOTFOUND") console.log(dto.message);
         },
-        {
-          pageNumber: pagination.pageNumber,
-          pageSize: pagination.totalPage,
-          cityId: sectionState[1].id,
-          name: searchVal
-        }
+        (errMessage) => {
+          setErrorMessage(errMessage);
+          setSectionDto([]);
+        },
       )
 
     } else if (sectionNumber === 3) {
       getVillage(
+        {
+          pageNumber: pagination.pageNumber,
+          pageSize: pagination.pageSize,
+          subdistrictId: sectionState[2].id,
+          name: searchVal
+        },
         (dto) => {
           if (dto.status === "OK") {
             setSectionDto(dto.data);
@@ -127,12 +169,10 @@ function DataMasterAlamat() {
           } else if (dto.status === "FAILED") console.log(dto.message);
           else if (dto.status === "NOTFOUND") console.log(dto.message);
         },
-        {
-          pageNumber: pagination.pageNumber,
-          pageSize: pagination.totalPage,
-          subdistrictId: sectionState[2].id,
-          name: searchVal
-        }
+        (errMessage) => {
+          setErrorMessage(errMessage);
+          setSectionDto([]);
+        },
       )
     }
 
@@ -153,6 +193,7 @@ function DataMasterAlamat() {
   const [showModalAlert, setShowModalAlert] = useState(false);
   const [title, setTitle] = useState("");
   const [messageAlert, setMessageAlert] = useState("");
+  const [errorMessage, setErrorMessage] = useState("Cannot Get Data " + sectionInfo[sectionNumber].name);
 
   const handleDetail = (id) => {
     sectionState[sectionNumber].id = id;
@@ -227,6 +268,7 @@ function DataMasterAlamat() {
             <Table
               tableHeaders={sectionInfo[sectionNumber]['table-header']}
               data={sectionDto}
+              messageErrorEmptyData={errorMessage}
               pagination={pagination}
               getDataByPagination={(pageNumber) => setPagination(
                 {
