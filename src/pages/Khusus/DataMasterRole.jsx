@@ -4,7 +4,7 @@ import FormUpsertRole from "../../components/Form/FormUpsertRole";
 import Modal from "../../components/Modal";
 import Table from "../../components/Table";
 import InputSearch from "../../components/Input/InputSearch";
-import { getRoles } from "../../services/data-master-role.service";
+import { getRoles, getRoleById } from "../../services/data-master-role.service";
 
 function DataMasterRole() {
   const [roles, setRoles] = useState([]);
@@ -62,11 +62,12 @@ function DataMasterRole() {
   };
 
   const handleEdit = (id) => {
-    // getBankById((data) => {
-    //   setBank(data);
-    // }, id);
+    getRoleById(
+      (res) => {
+          setRole(res.data);
+      }, id);
     console.log(id);
-    // setId(id);
+    setId(id);
     setTitle("Edit Role");
     setShowModal(true);
   };
@@ -139,7 +140,7 @@ function DataMasterRole() {
             {
               name: "Edit",
               variant: "warning",
-              function: handleEdit,
+              function: (id) => handleEdit(id),
             },
             {
               name: "Delete",
@@ -180,7 +181,7 @@ function DataMasterRole() {
           location.reload();
         }} 
         visible={showModalAlert} 
-        title={title}
+        title="Pemberitahuan"
         >
         {messageAlert}
       </Modal>
