@@ -7,6 +7,7 @@ import DaftarKantorCabang from "./pages/Khusus/DataMasterKantorCabang";
 import DataMasterKaryawanKantorCabang from "./pages/Khusus/DataMasterKaryawanKantorCabang"
 import FormUpsertKantorCabang from "./pages/Khusus/UpsertKantorCabang";
 import LayoutKhusus from "./components/layout/LayoutKhusus";
+import UpsertDataMasterBank from "./pages/Khusus/UpsertDataMasterBank";
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +25,20 @@ export const router = createBrowserRouter([
       <DataMasterBank />
       </LayoutKhusus>
     ),
+    children: [
+      {
+        path: "upsert",
+        element: (
+          <LayoutKhusus
+            breadcrumbs="Data Master Bank"
+            navLinkActive="Data Master"
+            subNavLinkActive="Bank"
+          >
+            <UpsertDataMasterBank />,
+          </LayoutKhusus>
+        ),
+      },
+    ],
   },
   {
     path: "/data-master/kantor-cabang",

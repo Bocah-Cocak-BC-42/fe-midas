@@ -1,13 +1,50 @@
+import { useState } from "react";
+import { postBank, putBank } from "../../services/data-master-bank.service";
 import Input from "../Input/Input";
-import Select from "../Input/Select";
 
 function FormUpsertBank(props) {
-  const { data } = props;
+  const { data, showAlert } = props;
+  const [messageValidationField, setMessageValidationField] = useState({});
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     let bankNameVal = e.target.bankName.value || null;
-    console.log(bankNameVal);
+
+    // const dataBank = {
+    //   id: data?.id,
+    //   name: bankNameVal,
+    // };
+
+    if (!data) {
+      const dataBank = {
+        name: bankNameVal,
+      };
+      postBank(
+        (resMessage) => {
+          showAlert(resMessage);
+        },
+        (errors) => {
+          setMessageValidationField(errors);
+        },
+        dataBank
+      );
+    } else {
+      const dataBank = {
+        id: data?.id,
+        name: bankNameVal,
+      };
+      putBank(
+        (resMessage) => {
+          showAlert(resMessage);
+        },
+        data.id,
+        dataBank,
+        (errors) => {
+          setMessageValidationField(errors);
+        }
+      );
+    }
   };
 
   return (
@@ -21,28 +58,13 @@ function FormUpsertBank(props) {
           <Input
             placeholder="Masukkan Nama Bank"
             name="bankName"
-            defaultValue={data?.bankName}
-            message={"Provinsi Required"}
-            required
+            defaultValue={data?.name}
+            message={messageValidationField?.Name}
+            // required
             grow
           >
             Nama Bank
           </Input>
-        </div>
-        <div>
-          <Select
-            name="provinsi"
-            grow
-            message={"Provinsi Required"}
-            options={[
-              { text: "Pilih Provinsi", value: "" },
-              { text: "Sumatera Utara", value: "SU" },
-              { text: "Jawa Barat", value: "JB" },
-              { text: "Sulawesi Selatan", value: "SL" },
-            ]}
-          >
-            Nama Provinsi
-          </Select>
         </div>
       </form>
     </div>

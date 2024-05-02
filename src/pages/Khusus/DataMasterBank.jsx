@@ -4,49 +4,52 @@ import FormUpsertBank from "../../components/Form/FormUpsertBank";
 import Modal from "../../components/Modal";
 import Table from "../../components/Table";
 import InputSearch from "../../components/Input/InputSearch";
-import { getBanks } from "../../services/data-master-bank.service";
+import {
+  delBank,
+  getBankById,
+  getBanks,
+} from "../../services/data-master-bank.service";
 
 function DataMasterBank() {
   const [banks, setBanks] = useState([]);
   const [bank, setBank] = useState();
   const [pagination, setPagination] = useState({});
   const [showModal, setShowModal] = useState(false);
-  const [showModalInfo, setShowModalInfo] = useState(false);
   const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [showModalAlert, setShowModalAlert] = useState(false);
   const [title, setTitle] = useState("");
   const [bankNameSearch, setBankNameSearch] = useState("");
-  // const [id, setId] = useState(0);
+  const [messageAlert, setMessageAlert] = useState("");
+  const [errorMessage, setErrorMessage] = useState("Gagal Memuat Data Bank");
+  const [id, setId] = useState("");
+
+  const tableDataHeaders = [
+    { code: "id", name: "ID" },
+    { code: "name", name: "Nama Bank" },
+  ];
 
   const getData = (pageNumber, bankNameSearch) => {
-    console.log(pageNumber, bankNameSearch);
     getBanks(
-      (data) => {
-        console.log(data);
-        setBanks(data.data);
-        setPagination(data.pagination);
+      //function untuk mengambil data
+      (res) => {
+        setBanks(
+          res.data.map((item) =>
+            tableDataHeaders.reduce((acc, header) => {
+              acc[header.code] = item[header.code];
+              return acc;
+            }, {})
+          )
+        );
+        setPagination(res.pagination);
       },
-      { page: pageNumber, pageSize: 3, bankNameSearch: bankNameSearch }
+      //function untuk mengambil error
+      (errMessage) => {
+        setErrorMessage(errMessage);
+        setBanks([]);
+      },
+      //object params
+      { page: pageNumber, pageSize: 5, name: bankNameSearch }
     );
-    // setBanks([
-    //   {
-    //     id: 1,
-    //     name: "Mandiri",
-    //   },
-    //   {
-    //     id: 2,
-    //     name: "BCA",
-    //   },
-    //   {
-    //     id: 3,
-    //     name: "BRI",
-    //   },
-    // ]);
-    // setPagination({
-    //   pageNumber: 1,
-    //   pageSize: 10,
-    //   totalPages: 3,
-    // });
   };
 
   useEffect(() => {
@@ -61,27 +64,39 @@ function DataMasterBank() {
   };
 
   const handleEdit = (id) => {
-    // getBankById((data) => {
-    //   setBank(data);
-    // }, id);
-    console.log(id);
-    // setId(id);
-    setTitle("Edit Bank");
-    setShowModal(true);
+    getBankById((data) => {
+      setBank(data);
+      setTitle("Ubah Data Bank");
+      setShowModal(true);
+    }, id);
+  };
+
+  const handleDelete = (id) => {
+    setId(id);
+    setTitle("Hapus Bank");
+    setShowModalConfirm(true);
   };
 
   const handleConfirm = (confirm) => {
     console.log(confirm);
     setShowModalConfirm(false);
     if (confirm) {
-      setTitle("Pemberitahuan");
-      setShowModalAlert(true);
+      delBank((message) => {
+        setMessageAlert(message);
+        setTitle("Pemberitahuan");
+        setShowModalAlert(true);
+      }, id);
     }
+  };
+
+  const handleShowAlert = (message) => {
+    setMessageAlert(message);
+    setShowModal(false);
+    setShowModalAlert(true);
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setShowModalInfo(false);
     setShowModalConfirm(false);
     setShowModalAlert(false);
     setBank();
@@ -106,18 +121,14 @@ function DataMasterBank() {
 
       <div className="rounded-md border mt-4 shadow">
         <Table
-          tableHeaders={["Nama Bank", "Aksi"]}
+          tableHeaders={tableDataHeaders}
           data={banks}
+          messageErrorEmptyData={errorMessage}
           pagination={pagination}
           getDataByPagination={(pageNumber) =>
             getData(pageNumber, bankNameSearch)
           }
           actions={[
-            {
-              name: "Detail",
-              variant: "info",
-              function: handleEdit,
-            },
             {
               name: "Edit",
               variant: "warning",
@@ -126,7 +137,7 @@ function DataMasterBank() {
             {
               name: "Delete",
               variant: "danger",
-              function: handleConfirm,
+              function: (id) => handleDelete(id),
             },
           ]}
         />
@@ -137,24 +148,26 @@ function DataMasterBank() {
         title={title}
         form="form-upsert-bank"
       >
-        <FormUpsertBank data={bank} />
+        <FormUpsertBank data={bank} showAlert={handleShowAlert} />
       </Modal>
-      <Modal onClose={handleCloseModal} visible={showModalInfo} title={title}>
-        <ul>
-          <li>Mandiri</li>
-          <li>Sumatera Utara</li>
-        </ul>
-      </Modal>
+
       <Modal
         onClose={handleCloseModal}
         visible={showModalConfirm}
         title={title}
         confirm={handleConfirm}
       >
-        <p>Apakah anda yakin ingin menghapus data ini?</p>
+        <p>Apakah anda yakin ingin menghapus bank ini?</p>
       </Modal>
-      <Modal onClose={handleCloseModal} visible={showModalAlert} title={title}>
-        Data Bank Mandiri Berhasil Dihapus
+      <Modal
+        onClose={() => {
+          handleCloseModal();
+          location.reload();
+        }}
+        visible={showModalAlert}
+        title="Pemberitahuan"
+      >
+        {messageAlert}
       </Modal>
     </>
   );
