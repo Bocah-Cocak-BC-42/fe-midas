@@ -4,6 +4,7 @@ import Table from "../../components/Table";
 import InputSearch from "../../components/Input/InputSearch";
 import Modal from "../../components/Modal";
 import { useParams } from "react-router-dom";
+import FormUpsertKaryawanCabang from "../../components/Form/FormUpsertKaryawanCabang";
 
 
 function DataKaryawanKantorCabang(){ 
@@ -92,8 +93,8 @@ function DataKaryawanKantorCabang(){
                     </Button>
                 </div>
                 <div className="mt-2">
-                    <p className="text-base">KCA Sudirman</p>
-                    <h3 className="text-3xl">Karyawan</h3>
+                    <h3 className="text-xl font-bold">KCA Sudirman</h3>
+                    <h1 className="text-2xl font-bold">Karyawan</h1>
                 </div>
                 <div className="mt-4 flex justify-betwen">
                     <form action="" onSubmit={handleSearch} className="flex gap-4">
@@ -106,7 +107,8 @@ function DataKaryawanKantorCabang(){
                 <div className="mt-2">
                     <Button
                         onClick={()=> {
-                            
+                           setShowModal(true);
+                           setJudulModal("Tambah Karyawan Kantor Cabang") 
                         }}
                     >Tambah Karyawan</Button>
                 </div>
@@ -140,6 +142,9 @@ function DataKaryawanKantorCabang(){
                 </Modal>
                 <Modal onClose={handleCloseModal} visible={showModalAlert} title={showJudluModal}>
                     <p>Data Karyawan Berhasil dihapus</p>
+                </Modal>
+                <Modal onClose={handleCloseModal} visible={showModal} title={showJudluModal} form="form-upsert-karyawan-cabang">
+                    <FormUpsertKaryawanCabang data={karyawan}/>
                 </Modal>
             </div>
         </>

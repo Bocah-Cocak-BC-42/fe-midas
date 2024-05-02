@@ -5,6 +5,7 @@ import LayoutUmum from "./components/layout/LayoutUmum";
 import DataMasterBank from "./pages/Khusus/DataMasterBank"
 import DaftarKantorCabang from "./pages/Khusus/DataMasterKantorCabang";
 import DataMasterKaryawanKantorCabang from "./pages/Khusus/DataMasterKaryawanKantorCabang"
+import FormUpsertKantorCabang from "./pages/Khusus/UpsertKantorCabang";
 import LayoutKhusus from "./components/layout/LayoutKhusus";
 
 export const router = createBrowserRouter([
@@ -31,6 +32,14 @@ export const router = createBrowserRouter([
       <DaftarKantorCabang />
       </LayoutKhusus>
     ),
+  },
+  {
+    path: "/data-master/kantor-cabang/tambah",
+    element: (
+      <LayoutKhusus breadcrumbs="Kantor Cabang/Tambah Data">
+        <FormUpsertKantorCabang/>
+      </LayoutKhusus>
+    )
   },
   {
     path: "/data-master/kantor-cabang/:idCabang/karyawan",
