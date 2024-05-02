@@ -69,6 +69,7 @@ function DataMasterAlamat() {
     },
   ]);
   const [sectionDto, setSectionDto] = useState();
+  const [pageNumber, setPageNumber] = useState(1);
   const [pagination, setPagination] = useState({
     pageNumber: 1,
     pageSize: 10,
@@ -79,7 +80,7 @@ function DataMasterAlamat() {
     if (sectionNumber === 0) {
       getProvince(
         {
-          pageNumber: pagination.pageNumber,
+          pageNumber: pageNumber,
           pageSize: pagination.pageSize,
           name: searchVal
         },
@@ -103,7 +104,7 @@ function DataMasterAlamat() {
     } else if (sectionNumber === 1) {
       getCity(
         {
-          pageNumber: pagination.pageNumber,
+          pageNumber: pageNumber,
           pageSize: pagination.pageSize,
           provinceId: sectionState[0].id,
           name: searchVal
@@ -128,7 +129,7 @@ function DataMasterAlamat() {
     } else if (sectionNumber === 2) {
       getSubDistrict(
         {
-          pageNumber: pagination.pageNumber,
+          pageNumber: pageNumber,
           pageSize: pagination.pageSize,
           cityId: sectionState[1].id,
           name: searchVal
@@ -153,7 +154,7 @@ function DataMasterAlamat() {
     } else if (sectionNumber === 3) {
       getVillage(
         {
-          pageNumber: pagination.pageNumber,
+          pageNumber: pageNumber,
           pageSize: pagination.pageSize,
           subdistrictId: sectionState[2].id,
           name: searchVal
@@ -177,7 +178,7 @@ function DataMasterAlamat() {
     }
 
   }, [
-    pagination,
+    pageNumber,
     sectionNumber
   ]);
 
@@ -270,13 +271,7 @@ function DataMasterAlamat() {
               data={sectionDto}
               messageErrorEmptyData={errorMessage}
               pagination={pagination}
-              getDataByPagination={(pageNumber) => setPagination(
-                {
-                  pageNumber: pageNumber,
-                  pageSize: pagination.pageSize,
-                  totalPage: pagination.totalPage,
-                }
-              )}
+              getDataByPagination={(pageNumber) => setPageNumber(pageNumber)}
               actions={[
                 {
                   name: "Detail",
