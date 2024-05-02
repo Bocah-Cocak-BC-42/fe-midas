@@ -6,7 +6,7 @@ function Table(props) {
   const {
     tableHeaders,
     data,
-    emptyDataMessage,
+    messageErrorEmptyData,
     pagination,
     getDataByPagination,
     actions,
@@ -25,60 +25,70 @@ function Table(props) {
         </tr>
       </thead>
       <tbody>
-        {data.map((row) => (
-          <tr key={row.id} className="hover:bg-slate-300">
-            {Object.keys(row).map((key) => {
-              if (key != "id") {
-                return (
-                  <td className="text-center p-1" key={key}>
-                    {row[key]}
-                  </td>
-                );
-              }
-            })}
-            {actions && (
-              <td className="p-2 flex gap-2 justify-center">
-                <TableActions>
-                  {actions.map((action, index) => {
-                    return (
-                      <Button
-                        variant={action.variant}
-                        onClick={() => action.function(row.id)}
-                        key={index}
-                      >
-                        {action.name}
-                      </Button>
-                    );
-                  })}
-                </TableActions>
-              </td>
-            )}
+        {data.length == 0 ? (
+          <tr>
+            <td colSpan={tableHeaders.length} className="text-center">
+              {messageErrorEmptyData}
+            </td>
           </tr>
-        ))}
+        ) : (
+          data.map((row) => (
+            <tr key={row.id} className="hover:bg-slate-300">
+              {Object.keys(row).map((key) => {
+                if (key != "id") {
+                  return (
+                    <td className="text-center p-1" key={key}>
+                      {row[key]}
+                    </td>
+                  );
+                }
+              })}
+              {actions && (
+                <td className="p-2 flex gap-2 justify-center">
+                  <TableActions>
+                    {actions.map((action, index) => {
+                      return (
+                        <Button
+                          variant={action.variant}
+                          onClick={() => action.function(row.id)}
+                          key={index}
+                        >
+                          {action.name}
+                        </Button>
+                      );
+                    })}
+                  </TableActions>
+                </td>
+              )}
+            </tr>
+          ))
+        )}
       </tbody>
-      <tfoot>
-        <tr>
-          <td colSpan={tableHeaders.length}>
-            {/* <Pagination pagination={pagination} getData={getData} /> */}
-            <div className="flex justify-between items-center">
-              <span>
-                Page {pagination?.page} of {pagination?.totalPage}
-              </span>
-              <span className="flex gap-2">
-                {[...Array(pagination?.totalPage)].map((_, index) => (
-                  <Link
-                    key={index + 1}
-                    onClick={() => getDataByPagination(index + 1)}
-                    className="hover:underline hover:font-bold"
-                  >
-                    {index + 1}
-                  </Link>
-                ))}
-              </span>
-            </div>
-          </td>
-        </tr>
-      </tfoot>
+      {data.length != 0 && (
+        <tfoot>
+          <tr>
+            <td colSpan={tableHeaders.length}>
+              {/* <Pagination pagination={pagination} getData={getData} /> */}
+              <div className="flex justify-between items-center">
+                <span>
+                  Page {pagination?.page} of {pagination?.totalPage}
+                </span>
+                <span className="flex gap-2">
+                  {[...Array(pagination?.totalPage)].map((_, index) => (
+                    <Link
+                      key={index + 1}
+                      onClick={() => getDataByPagination(index + 1)}
+                      className="hover:underline hover:font-bold"
+                    >
+                      {index + 1}
+                    </Link>
+                  ))}
+                </span>
+              </div>
+            </td>
+          </tr>
+        </tfoot>
+      )}
     </table>
   );
 }
