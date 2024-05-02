@@ -5,6 +5,7 @@ import LayoutUmum from "./components/layout/LayoutUmum";
 import DataMasterBank from "./pages/Khusus/DataMasterBank";
 import LayoutKhusus from "./components/layout/LayoutKhusus";
 import DataMasterRole from "./pages/Khusus/DataMasterRole";
+import UpsertDataMasterBank from "./pages/Khusus/UpsertDataMasterBank";
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,20 @@ export const router = createBrowserRouter([
         <DataMasterBank />
       </LayoutKhusus>
     ),
+    children: [
+      {
+        path: "upsert",
+        element: (
+          <LayoutKhusus
+            breadcrumbs="Data Master Bank"
+            navLinkActive="Data Master"
+            subNavLinkActive="Bank"
+          >
+            <UpsertDataMasterBank />,
+          </LayoutKhusus>
+        ),
+      },
+    ],
   },
   {
     path: "/data-master/role",
