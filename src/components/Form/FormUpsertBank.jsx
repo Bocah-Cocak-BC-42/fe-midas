@@ -1,18 +1,15 @@
 import { useState } from "react";
 import { postBank } from "../../services/data-master-bank.service";
 import Input from "../Input/Input";
-import Select from "../Input/Select";
 
 function FormUpsertBank(props) {
   const { data, showAlert } = props;
-  // const [message, setMessage] = useState("");
   const [messageValidationField, setMessageValidationField] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     let bankNameVal = e.target.bankName.value || null;
-    console.log(bankNameVal);
 
     const dataBank = {
       name: bankNameVal,
@@ -20,13 +17,7 @@ function FormUpsertBank(props) {
 
     postBank(
       (resMessage) => {
-        console.log(resMessage);
         showAlert(resMessage);
-        // setMessage(resMessage);
-        // setShowModalAlert(true);
-        // location.reload();
-        // setBanks(data.data);
-        // setPagination(data.pagination);
       },
       (errors) => {
         setMessageValidationField(errors);
@@ -48,26 +39,11 @@ function FormUpsertBank(props) {
             name="bankName"
             defaultValue={data?.bankName}
             message={messageValidationField?.Name}
-            required
+            // required
             grow
           >
             Nama Bank
           </Input>
-        </div>
-        <div>
-          <Select
-            name="provinsi"
-            grow
-            message={"Provinsi Required"}
-            options={[
-              { text: "Pilih Provinsi", value: "" },
-              { text: "Sumatera Utara", value: "SU" },
-              { text: "Jawa Barat", value: "JB" },
-              { text: "Sulawesi Selatan", value: "SL" },
-            ]}
-          >
-            Nama Provinsi
-          </Select>
         </div>
       </form>
     </div>
