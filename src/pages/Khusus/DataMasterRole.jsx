@@ -4,50 +4,48 @@ import FormUpsertRole from "../../components/Form/FormUpsertRole";
 import Modal from "../../components/Modal";
 import Table from "../../components/Table";
 import InputSearch from "../../components/Input/InputSearch";
-import { getRoles, getRoleById } from "../../services/data-master-role.service";
+import { getRoles, getRoleById, delRole } from "../../services/data-master-role.service";
 
 function DataMasterRole() {
   const [roles, setRoles] = useState([]);
   const [role, setRole] = useState();
   const [pagination, setPagination] = useState({});
   const [showModal, setShowModal] = useState(false);
-  const [showModalInfo, setShowModalInfo] = useState(false);
   const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [showModalAlert, setShowModalAlert] = useState(false);
   const [title, setTitle] = useState("");
   const [roleNameSearch, setRoleNameSearch] = useState("");
   const [messageAlert, setMessageAlert] = useState("");
-  // const [id, setId] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("Gagal Memuat Data Role");
+  const [id, setId] = useState("");
+
+  const tableDataHeaders = [
+    { code: "id",  name:"ID"},
+    { code: "name", name:"Nama Role"}
+  ];
 
   const getData = (pageNumber, roleNameSearch) => {
-    console.log(pageNumber, roleNameSearch);
     getRoles(
+      //function untuk mengambil data
       (res) => {
-        console.log(res);
-        setRoles(res.data);
+        setRoles(
+          res.data.map((item) =>
+            tableDataHeaders.reduce((acc, header) => {
+              acc[header.code] = item[header.code];
+              return acc;
+            }, {})
+          )
+        );
         setPagination(res.pagination);
       }, 
-      {page: pageNumber, pageSize: 3, roleName: roleNameSearch}
+      //function untuk mengambil error
+      (errMessage) => {
+        setErrorMessage(errMessage);
+        setRoles([]);
+      },
+      //object params
+      {page: pageNumber, pageSize: 5, roleName: roleNameSearch}
     );
-    // setRoles([
-    //   {
-    //     id: 1,
-    //     name: "Mantri",
-    //   },
-    //   {
-    //     id: 2,
-    //     name: "Manager",
-    //   },
-    //   {
-    //     id: 3,
-    //     name: "Supervisor",
-    //   },
-    // ]);
-    // setPagination({
-    //   pageNumber: 1,
-    //   pageSize: 10,
-    //   totalData: 3,
-    // });
   };
 
   useEffect(() => {
@@ -63,45 +61,39 @@ function DataMasterRole() {
 
   const handleEdit = (id) => {
     getRoleById(
-      (res) => {
-          setRole(res.data);
+      (data) => {
+          setRole(data);
+          setTitle("Ubah Data Role");
+          setShowModal(true)
       }, id);
-    console.log(id);
-    setId(id);
-    setTitle("Edit Role");
-    setShowModal(true);
   };
 
   const handleConfirm = (confirm) => {
     console.log(confirm);
     setShowModalConfirm(false);
     if (confirm) {
-      setTitle("Pemberitahuan");
-      setShowModalAlert(true);
+      delRole((message) => {
+        setMessageAlert(message);
+        setTitle("Pemberitahuan");
+        setShowModalAlert(true);
+      }, id);
     }
   };
 
-  const handleInfo = (id) => {
-    console.log(id);
-    setShowModalInfo(true);
-    setTitle("Informasi Role");
-  }
-
   const handleDelete = (id) => {
-    console.log(id);
-    setTitle("Hapus Bank");
+    setId(id);
+    setTitle("Hapus Role");
     setShowModalConfirm(true);
   }
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setShowModalInfo(false);
     setShowModalConfirm(false);
     setShowModalAlert(false);
     setRole();
   };
 
-  const handleShowAlert = () => {
+  const handleShowAlert = (message) => {
     setMessageAlert(message);
     setShowModal(false);
     setShowModalAlert(true);
@@ -125,22 +117,18 @@ function DataMasterRole() {
       </div>
       <div className="rounded-md border mt-4 shadow">
         <Table
-          tableHeaders={["Nama Role", "Aksi"]}
+          tableHeaders={tableDataHeaders}
           data={roles}
+          messageErrorEmptyData={errorMessage}
           pagination={pagination}
           getDataByPagination={(pageNumber) =>
             getData(pageNumber, roleNameSearch)
           }
           actions={[
             {
-              name: "Detail",
-              variant: "info",
-              function: handleInfo,
-            },
-            {
               name: "Edit",
               variant: "warning",
-              function: (id) => handleEdit(id),
+              function: handleEdit,
             },
             {
               name: "Delete",
@@ -157,15 +145,6 @@ function DataMasterRole() {
         form="form-upsert-role"
       >
         <FormUpsertRole data={role} showAlert={handleShowAlert} />
-      </Modal>
-      <Modal 
-        onClose={handleCloseModal} 
-        visible={showModalInfo} 
-        title={title}>
-        <ul>
-          <li>Mandiri</li>
-          <li>Sumatera Utara</li>
-        </ul>
       </Modal>
       <Modal 
         onClose={handleCloseModal} 

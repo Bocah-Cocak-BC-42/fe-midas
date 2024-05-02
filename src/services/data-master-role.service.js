@@ -1,8 +1,8 @@
 import { get, del, put, post, getById } from "./config.service";
 const endpoint = "roles";
 
-export const getRoles = (callback, params) => {
-    get(endpoint, params, callback);
+export const getRoles = (callback, errorCallback, params) => {
+    get(endpoint, params, callback, errorCallback);
 }; 
 export const getRoleById = (callback, id) => {
     getById(endpoint, id, callback);

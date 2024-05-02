@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { postRole } from "../../services/data-master-role.service"
+import { postRole, putRole } from "../../services/data-master-role.service"
 import Input from "../Input/Input";
 // import Select from "../Input/Select";
 
@@ -12,27 +12,42 @@ function FormUpsertRole(props) {
         e.preventDefault();
 
         let roleNameVal = e.target.roleName.value || null;
-        console.log(roleNameVal);
 
-        const dataRole = {
-            name : roleNameVal,
-        };
-    
-        postRole(
-            (resMessage) => {
-                console.log(resMessage);
-                showAlert(resMessage);
-                // setMessage(resMessage);
-                // setShowModalAlert(true);
-                // location.reload();
-                // setBanks(data.data);
-                // setPagination(data.pagination);
-            },
-            (errors) => {
-                setMessageValidationField(errors);
-            },
-            dataRole
-        );
+        // const dataRole = {
+        //     name : roleNameVal,
+        // };
+        
+        if (!data) {
+            const dataRole = {
+                name: roleNameVal,
+            };
+            postRole(
+                (resMessage) => {
+                    console.log(resMessage);
+                    showAlert(resMessage);
+                },
+                (errors) => {
+                    console.log(errors);
+                    setMessageValidationField(errors);
+                },
+                dataRole
+            );
+        }else {
+            const dataRole = {
+                id: data?.id,
+                name: roleNameVal,
+            };
+            putRole(
+                (resMessage) => {
+                    showAlert(resMessage);
+                },
+                data.id,
+                dataRole,
+                (errors) => {
+                    setMessageValidationField(errors)
+                }
+            );
+        }
     };
 
     return(
@@ -46,9 +61,9 @@ function FormUpsertRole(props) {
                     <Input
                         placeholder="Masukkan Nama Role"
                         name="roleName"
-                        defaultValue={data?.roleName}
+                        defaultValue={data?.name}
                         message={messageValidationField?.Name}
-                        required
+                        // required
                         grow
                     >
                         Nama Role
