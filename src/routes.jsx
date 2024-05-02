@@ -1,12 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
-import LandingPage from "./pages/Umum/LandingPage";
-import NotFoundPage from "./pages/NotFoundPage";
+import LayoutKhusus from "./components/layout/LayoutKhusus";
 import LayoutUmum from "./components/layout/LayoutUmum";
 import DataMasterBank from "./pages/Khusus/DataMasterBank"
 import DaftarKantorCabang from "./pages/Khusus/DataMasterKantorCabang";
 import DataMasterKaryawanKantorCabang from "./pages/Khusus/DataMasterKaryawanKantorCabang"
 import FormUpsertKantorCabang from "./pages/Khusus/UpsertKantorCabang";
-import LayoutKhusus from "./components/layout/LayoutKhusus";
+import DataMasterAlamat from "./pages/Khusus/DataMasterAlamat";
 import UpsertDataMasterBank from "./pages/Khusus/UpsertDataMasterBank";
 
 export const router = createBrowserRouter([
@@ -41,10 +40,14 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/data-master/kantor-cabang",
+    path: "/data-master/alamat",
     element: (
-      <LayoutKhusus breadcrumb="Data Master Bank">
-      <DaftarKantorCabang />
+      <LayoutKhusus
+        breadcrumbs="Data Master Alamat"
+        navLinkActive="Data Master"
+        subNavLinkActive="Alamat"
+      >
+        <DataMasterAlamat />
       </LayoutKhusus>
     ),
   },
