@@ -45,7 +45,10 @@ export const router = createBrowserRouter([
   {
     path: "/data-master/sektor-usaha",
     element: (
-      <LayoutKhusus breadcrumbs="Data Master / Sektor Usaha">
+      <LayoutKhusus 
+        breadcrumbs="Data Master / Sektor Usaha"
+        navLinkActive="Data Master"
+        subNavLinkActive="Sektor Usaha">
         <DataSektorUsaha />
       </LayoutKhusus>
     )
