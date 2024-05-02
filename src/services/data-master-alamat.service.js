@@ -4,21 +4,33 @@ const cityEndpoint = "city";
 const subdistrictEndpoint = "subdistrict";
 const villageEndpoint = "village";
 
+export const getAllProvince = (params, callback, errorCallback) => {
+  get("province/all", params, callback, errorCallback);
+};
+export const getAllCity = (params, callback, errorCallback) => {
+  get("city/provinceId", params, callback, errorCallback);
+};
+export const getAllSubDistrict = (params, callback, errorCallback) => {
+  get("subdistrict/cityId", params, callback, errorCallback);
+};
+export const getAllVillage = (params, callback, errorCallback) => {
+  get("village/subdistrictId", params, callback, errorCallback);
+};
 
 export const getProvince = (params, callback, errorCallback) => {
-  get("province", params, callback, errorCallback);
+  get(provinceEndpoint, params, callback, errorCallback);
 };
 
 export const getCity = (params, callback, errorCallback) => {
-  get("city", params, callback, errorCallback);
+  get(cityEndpoint, params, callback, errorCallback);
 };
 
 export const getSubDistrict = (params, callback, errorCallback) => {
-  get("subdistrict", params, callback, errorCallback);
+  get(subdistrictEndpoint, params, callback, errorCallback);
 };
 
 export const getVillage = (params, callback, errorCallback) => {
-  get("village", params, callback, errorCallback);
+  get(villageEndpoint, params, callback, errorCallback);
 };
 
 export const postProvince = (callback, messageValidationFieldError, data) => {
