@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
-import LandingPage from "./pages/Umum/LandingPage";
-import NotFoundPage from "./pages/NotFoundPage";
+import LayoutKhusus from "./components/layout/LayoutKhusus";
 import LayoutUmum from "./components/layout/LayoutUmum";
+import DataMasterAlamat from "./pages/Khusus/DataMasterAlamat";
 import DataMasterBank from "./pages/Khusus/DataMasterBank";
 import LayoutKhusus from "./components/layout/LayoutKhusus";
 import UpsertDataMasterBank from "./pages/Khusus/UpsertDataMasterBank";
@@ -40,6 +40,18 @@ export const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: "/data-master/alamat",
+    element: (
+      <LayoutKhusus
+        breadcrumbs="Data Master Alamat"
+        navLinkActive="Data Master"
+        subNavLinkActive="Alamat"
+      >
+        <DataMasterAlamat />
+      </LayoutKhusus>
+    ),
   },
   {
     path: "/khusus",
