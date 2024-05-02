@@ -1,50 +1,51 @@
 import React from 'react';
 import { useState } from 'react';
-import { postProvince } from '../../services/data-master-alamat.service';
+import { postCity } from '../../services/data-master-alamat.service';
 import Input from '../Input/Input';
 import Select from '../Input/Select';
 
-function FormUpsertAlamat(props) {
-    const {data, showAltert} = props;
+function FormUpsertCity(props) {
+    const {data, showAlert} = props;
     const [messageValidationField, setMessageValidationField] = useState({});
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        let provinsiVal = e.target.provinsiName.value || null;
-        console.log(provinsiVal);
+        let cityVal = e.target.cityName.value || null;
+        console.log(cityVal);
 
-        const dataAlamat = {
-            name: provinsiVal,
+        const dataCity = {
+            provinceId: data[0].id,
+            name: cityVal,
         };
 
-        postProvince(
+        postCity(
             (resMessage) => {
                 console.log(resMessage);
-                showAltert(resMessage);
+                showAlert(resMessage);
             },
             (errors) => {
                 setMessageValidationField(errors);
             },
-            dataAlamat
+            dataCity
         );
     };
   return (
     <div>
         <form 
-        id="form-upsert-alamat"
+        id="form-upsert-city"
         onSubmit={handleSubmit}
         className='flex flex-col gap-2'
         >
             <div>
                 <Input
-                    placeholder="Masukkan Nama Provinsi"
-                    name="provinsiName"
-                    defaultValue={data?.provinsiName}
+                    placeholder="Masukkan Nama Kota/Kabupaten"
+                    name="cityName"
+                    defaultValue={data?.cityName}
                     message={messageValidationField?.Name}
                     required
                     grow
                     >
-                     Nama Provinsi*
+                     Nama Kota/Kabupaten*
                 </Input>
             </div>
 
@@ -53,4 +54,4 @@ function FormUpsertAlamat(props) {
   );
 }
 
-export default FormUpsertAlamat
+export default FormUpsertCity

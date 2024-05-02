@@ -1,10 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import Button from '../../components/Button';
-import FormUpsertAlamat from '../../components/Form/FormUpsertAlamat';
+import FormUpsertProvince from '../../components/Form/FormUpsertProvince';
 import InputSearch from '../../components/Input/InputSearch';
 import Modal from '../../components/Modal';
 import Table from '../../components/Table';
-import { getCity, getProvince, getSubDistrict, getVillage } from '../../services/data-master-alamat.service';
+import {
+  delProvince,
+  delCity,
+  delSubdistrict,
+  getCity,
+  getProvince,
+  getSubDistrict,
+  getVillage
+}
+  from '../../services/data-master-alamat.service';
+import FormUpsertCity from '../../components/Form/FormUpsertCity';
+import FormUpsertSubdistrict from '../../components/Form/FormUpsertSubdistrict';
+import FormUpsertVillage from '../../components/Form/FormUpsertVillage';
 
 function DataMasterAlamat() {
   const [sectionNumber, setSectionNumber] = useState(0);
@@ -15,8 +27,9 @@ function DataMasterAlamat() {
         {
           code: "name",
           name: "Nama Provinsi"
-        },
-      ]
+        }
+      ],
+      form: "form-upsert-province"
     },
     {
       name: "Kabupaten/Kota",
@@ -25,7 +38,8 @@ function DataMasterAlamat() {
           code: "name",
           name: "Nama Kabupaten/Kota"
         },
-      ]
+      ],
+      form: "form-upsert-city"
     },
     {
       name: "Kecamatan",
@@ -34,7 +48,8 @@ function DataMasterAlamat() {
           code: "name",
           name: "Nama Kecamatan"
         },
-      ]
+      ],
+      form: "form-upsert-subdistrict"
     },
     {
       name: "Kelurahan/Desa",
@@ -47,7 +62,8 @@ function DataMasterAlamat() {
           code: "postalCode",
           name: "Kode Pos"
         },
-      ]
+      ],
+      form: "form-upsert-village"
     },
   ]);
   const [sectionState, setSectionState] = useState([
@@ -195,6 +211,7 @@ function DataMasterAlamat() {
   const [title, setTitle] = useState("");
   const [messageAlert, setMessageAlert] = useState("");
   const [errorMessage, setErrorMessage] = useState("Cannot Get Data " + sectionInfo[sectionNumber].name);
+  const [id, setId] = useState("");
 
   const handleDetail = (id) => {
     sectionState[sectionNumber].id = id;
@@ -211,15 +228,15 @@ function DataMasterAlamat() {
   }
 
   const handleEdit = (id) => {
-    // getBankById((data) => {
-    //   setBank(data);
-    // }, id);
-    setTitle("Edit Provinsi");
-    setShowModal(true);
+    getProvince((data) => {
+      setSectionState(data);
+      setTitle("Edit Provinsi");
+      setShowModal(true);
+    }, id);
   };
 
   const handleDelete = (id) => {
-    console.log(id);
+    setId(id);
     setTitle("Hapus Provinsi");
     setShowModalConfirm(true);
   };
@@ -228,20 +245,29 @@ function DataMasterAlamat() {
     console.log(confirm);
     setShowModalConfirm(false);
     if (confirm) {
-      setTitle("Pemberitahuan");
-      setShowModalAlert(true);
+      delProvince((message) => {
+        setMessageAlert(message);
+        setTitle("Pemberitahuan");
+        setShowModalAlert(true);
+      }, id);
     }
+  };
+
+  const handleShowAlert = (message) => {
+    setMessageAlert(message);
+    setShowModal(false);
+    setShowModalAlert(true);
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setShowModalInfo(false);
     setShowModalConfirm(false);
     setShowModalAlert(false);
+    setSectionState();
   };
 
   const handleDetailVillage = () => { };
-
+console.log(sectionInfo[sectionNumber].form);
   return (
     <>
       <h1 className="text-2xl font-bold">{sectionInfo[sectionNumber].name}</h1>
@@ -286,7 +312,7 @@ function DataMasterAlamat() {
                 {
                   name: "Delete",
                   variant: "danger",
-                  function: handleConfirm,
+                  function: (id) => handleDelete(id),
                 },
               ]}
             />
@@ -296,12 +322,34 @@ function DataMasterAlamat() {
         onClose={handleCloseModal}
         visible={showModal}
         title={title}
-        form="form-upsert-alamat"
+        form={sectionInfo[sectionNumber].form}
       >
-        <FormUpsertAlamat data={sectionState} />
+      {
+        sectionNumber === 0 ?
+          <FormUpsertProvince data={sectionState} showAlert={handleShowAlert} />
+          :
+          null
+      }
+      {
+        sectionNumber === 1 ?
+          <FormUpsertCity data={sectionState} showAlert={handleShowAlert} />
+          :
+          null
+      }
+      {
+        sectionNumber === 2 ?
+          <FormUpsertSubdistrict data={sectionState} showAlert={handleShowAlert} />
+          :
+          null
+      }
+      {
+        sectionNumber === 3 ?
+          <FormUpsertVillage data={sectionState} showAlert={handleShowAlert} />
+          :
+          null
+      }
       </Modal>
-      {/* <Modal onClose={handleCloseModal} visible={showModalInfo} title={title}>
-      </Modal> */}
+
       <Modal
         onClose={handleCloseModal}
         visible={showModalConfirm}
