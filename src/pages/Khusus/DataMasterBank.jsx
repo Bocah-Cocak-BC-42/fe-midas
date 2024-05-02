@@ -17,8 +17,7 @@ function DataMasterBank() {
   const [title, setTitle] = useState("");
   const [bankNameSearch, setBankNameSearch] = useState("");
   const [messageAlert, setMessageAlert] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  // const [id, setId] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("Cannot Get Data Banks");
 
   const tableDataHeaders = [
     { code: "id", name: "ID" },
@@ -122,7 +121,7 @@ function DataMasterBank() {
         <Table
           tableHeaders={tableDataHeaders}
           data={banks}
-          emptyDataMessage={errorMessage}
+          messageErrorEmptyData={errorMessage}
           pagination={pagination}
           getDataByPagination={(pageNumber) =>
             getData(pageNumber, bankNameSearch)
