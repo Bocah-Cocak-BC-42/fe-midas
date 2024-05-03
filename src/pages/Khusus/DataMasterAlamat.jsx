@@ -216,9 +216,9 @@ function DataMasterAlamat() {
   const [id, setId] = useState("");
   const [formData, setFormData] = useState(null);
 
-  const handleDetail = (id) => {
-    sectionState[sectionNumber].id = id;
-    sectionState[sectionNumber].name = sectionDto[getIndex(id)].name;
+  const handleDetail = (rowData) => {
+    sectionState[sectionNumber].id = rowData.id;
+    sectionState[sectionNumber].name = sectionDto[getIndex(rowData.id)].name;
     setSectionState(sectionState);
     setSectionNumber(sectionNumber + 1);
   };
@@ -231,9 +231,7 @@ function DataMasterAlamat() {
     }
   }
 
-  const handleEdit = (rowData) => {
-    setFormData(rowData);
-  };
+  const handleEdit = (rowData) => setFormData(rowData);
   useEffect(() => {
     if (formData !== null) {
       setTitle("Edit " + sectionInfo[sectionNumber].name);
@@ -241,8 +239,8 @@ function DataMasterAlamat() {
     }
   }, [formData]);
 
-  const handleDelete = (id) => {
-    setId(id);
+  const handleDelete = (rowData) => {
+    setId(rowData.id);
     setTitle("Hapus Provinsi");
     setShowModalConfirm(true);
   };
@@ -294,7 +292,6 @@ function DataMasterAlamat() {
     setFormData(null);
   };
 
-  const handleDetailVillage = () => { };
   return (
     <>
       {
@@ -344,23 +341,39 @@ function DataMasterAlamat() {
               messageErrorEmptyData={errorMessage}
               pagination={pagination}
               getDataByPagination={(pageNumber) => setPageNumber(pageNumber)}
-              actions={[
-                {
-                  name: "Detail",
-                  variant: "info",
-                  function: sectionNumber !== 3 ? handleDetail : handleDetailVillage,
-                },
-                {
-                  name: "Edit",
-                  variant: "warning",
-                  function: (row) => handleEdit(row),
-                },
-                {
-                  name: "Delete",
-                  variant: "danger",
-                  function: (id) => handleDelete(id),
-                },
-              ]}
+              actions={
+                sectionNumber === 3 ?
+                  [
+                    {
+                      name: "Edit",
+                      variant: "warning",
+                      function: (row) => handleEdit(row),
+                    },
+                    {
+                      name: "Delete",
+                      variant: "danger",
+                      function: (row) => handleDelete(row),
+                    },
+                  ]
+                  :
+                  [
+                    {
+                      name: "Detail",
+                      variant: "info",
+                      function: (row) => handleDetail(row),
+                    },
+                    {
+                      name: "Edit",
+                      variant: "warning",
+                      function: (row) => handleEdit(row),
+                    },
+                    {
+                      name: "Delete",
+                      variant: "danger",
+                      function: (row) => handleDelete(row),
+                    },
+                  ]
+              }
             />
           </div>
       }
