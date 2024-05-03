@@ -11,7 +11,7 @@ function FormUpsertProvince(props) {
 
     let provinceNameVal = e.target.provinsiName.value || null;
 
-    if(!data) {
+    if (!data) {
       const dataProvince = {
         name: provinceNameVal,
       };
@@ -24,6 +24,7 @@ function FormUpsertProvince(props) {
         },
         dataProvince
       );
+
     } else {
       const dataProvince = {
         id: data?.id,
@@ -52,7 +53,7 @@ function FormUpsertProvince(props) {
           <Input
             placeholder="Masukkan Nama Provinsi"
             name="provinsiName"
-            defaultValue={data?.provinsiName}
+            defaultValue={data?.name}
             message={messageValidationField?.Name}
             required
             grow
