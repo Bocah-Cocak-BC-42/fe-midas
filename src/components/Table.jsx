@@ -50,7 +50,7 @@ function Table(props) {
                       return (
                         <Button
                           variant={action.variant}
-                          onClick={() => action.function(row.id)}
+                          onClick={() => action.function(row)}
                           key={index}
                         >
                           {action.name}

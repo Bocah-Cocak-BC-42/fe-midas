@@ -14,7 +14,6 @@ import {
   delVillage,
   getCity,
   getProvince,
-  getProvinceById,
   getSubDistrict,
   getVillage
 } from '../../services/data-master-alamat.service';
@@ -215,6 +214,7 @@ function DataMasterAlamat() {
   const [messageAlert, setMessageAlert] = useState("");
   const [errorMessage, setErrorMessage] = useState("Cannot Get Data " + sectionInfo[sectionNumber].name);
   const [id, setId] = useState("");
+  const [formData, setFormData] = useState(null);
 
   const handleDetail = (id) => {
     sectionState[sectionNumber].id = id;
@@ -231,13 +231,15 @@ function DataMasterAlamat() {
     }
   }
 
-  const handleEdit = (id) => {
-    getProvinceById((data) => {
-      setSectionState(data);
-      setTitle("Edit Provinsi");
-      setShowModal(true);
-    }, id);
+  const handleEdit = (rowData) => {
+    setFormData(rowData);
   };
+  useEffect(() => {
+    if (formData !== null) {
+      setTitle("Edit " + sectionInfo[sectionNumber].name);
+      setShowModal(true);
+    }
+  }, [formData]);
 
   const handleDelete = (id) => {
     setId(id);
@@ -289,6 +291,7 @@ function DataMasterAlamat() {
     setShowModal(false);
     setShowModalConfirm(false);
     setShowModalAlert(false);
+    setFormData(null);
   };
 
   const handleDetailVillage = () => { };
@@ -350,7 +353,7 @@ function DataMasterAlamat() {
                 {
                   name: "Edit",
                   variant: "warning",
-                  function: (id) => handleEdit (id),
+                  function: (row) => handleEdit(row),
                 },
                 {
                   name: "Delete",
@@ -369,25 +372,25 @@ function DataMasterAlamat() {
       >
         {
           sectionNumber === 0 ?
-            <FormUpsertProvince data={sectionState} showAlert={handleShowAlert} />
+            <FormUpsertProvince data={formData} showAlert={handleShowAlert} />
             :
             null
         }
         {
           sectionNumber === 1 ?
-            <FormUpsertCity data={sectionState} showAlert={handleShowAlert} />
+            <FormUpsertCity data={formData} showAlert={handleShowAlert} />
             :
             null
         }
         {
           sectionNumber === 2 ?
-            <FormUpsertSubdistrict data={sectionState} showAlert={handleShowAlert} />
+            <FormUpsertSubdistrict data={formData} showAlert={handleShowAlert} />
             :
             null
         }
         {
           sectionNumber === 3 ?
-            <FormUpsertVillage data={sectionState} showAlert={handleShowAlert} />
+            <FormUpsertVillage data={formData} showAlert={handleShowAlert} />
             :
             null
         }

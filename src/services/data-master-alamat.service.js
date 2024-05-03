@@ -1,4 +1,4 @@
-import { del, get,getById, post, put } from "./config.service";
+import { del, get, post, put } from "./config.service";
 const provinceEndpoint = "province";
 const cityEndpoint = "city";
 const subdistrictEndpoint = "subdistrict";
@@ -20,11 +20,6 @@ export const getAllVillage = (params, callback, errorCallback) => {
 export const getProvince = (params, callback, errorCallback) => {
   get(provinceEndpoint, params, callback, errorCallback);
 };
-
-export const getProvinceById = (callback, id) => {
-  getById(provinceEndpoint, id, callback);
-};
-
 export const getCity = (params, callback, errorCallback) => {
   get(cityEndpoint, params, callback, errorCallback);
 };
