@@ -4,6 +4,7 @@ import LayoutUmum from "./components/layout/LayoutUmum";
 import DataMasterAlamat from "./pages/Khusus/DataMasterAlamat";
 import DataMasterBank from "./pages/Khusus/DataMasterBank";
 import LayoutKhusus from "./components/layout/LayoutKhusus";
+import DataMasterRole from "./pages/Khusus/DataMasterRole";
 import UserManagementEmployee from "./pages/Khusus/UserManagementEmployee";
 import UpsertUserManagementEmployee from "./pages/Khusus/UpsertUserManagementEmployee";
 import UpsertDataMasterBank from "./pages/Khusus/UpsertDataMasterBank";
@@ -42,8 +43,16 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "/khusus",
-    element: <LayoutKhusus></LayoutKhusus>,
+    path: "/data-master/role",
+    element: (
+      <LayoutKhusus 
+        breadcrumbs="Data Master Role"
+        navLinkActive="Data Master"
+        subNavLinkActive="Role"
+      >
+        <DataMasterRole />
+      </LayoutKhusus>
+    ),
   },
   {
     path: "/user-management/karyawan/Upsert",
