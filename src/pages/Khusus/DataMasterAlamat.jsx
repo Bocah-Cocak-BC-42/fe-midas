@@ -313,9 +313,9 @@ function DataMasterAlamat() {
         sectionNumber <= 0 ?
           null
           :
-          <h3 className="mb-4 text-2xl font-bold">{sectionState[sectionNumber - 1].name}</h3>
+          <h3 className="text-2xl font-bold">{sectionState[sectionNumber - 1].name}</h3>
       }
-      <div className="flex justify-between">
+      <div className="flex justify-between mt-4">
         <Button
           onClick={() => {
             setShowModal(true);
