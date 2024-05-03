@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { postProvince } from '../../services/data-master-alamat.service';
+import { postProvince, putProvince } from '../../services/data-master-alamat.service';
 import Input from '../Input/Input';
 
 function FormUpsertProvince(props) {
@@ -9,21 +9,37 @@ function FormUpsertProvince(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    let provinsiVal = e.target.provinsiName.value || null;
+    let provinceNameVal = e.target.provinsiName.value || null;
 
-    const dataProvince = {
-      name: provinsiVal,
-    };
-
-    postProvince(
-      (resMessage) => {
-        showAlert(resMessage);
-      },
-      (errors) => {
-        setMessageValidationField(errors);
-      },
-      dataProvince
-    );
+    if(!data) {
+      const dataProvince = {
+        name: provinceNameVal,
+      };
+      postProvince(
+        (resMessage) => {
+          showAlert(resMessage);
+        },
+        (errors) => {
+          setMessageValidationField(errors);
+        },
+        dataProvince
+      );
+    } else {
+      const dataProvince = {
+        id: data?.id,
+        name: provinceNameVal,
+      };
+      putProvince(
+        (resMessage) => {
+          showAlert(resMessage);
+        },
+        data.id,
+        dataProvince,
+        (errors) => {
+          setMessageValidationField(errors);
+        }
+      );
+    }
   };
   return (
     <div>

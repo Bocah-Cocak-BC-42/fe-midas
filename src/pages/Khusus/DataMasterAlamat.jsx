@@ -14,6 +14,7 @@ import {
   delVillage,
   getCity,
   getProvince,
+  getProvinceById,
   getSubDistrict,
   getVillage
 } from '../../services/data-master-alamat.service';
@@ -231,7 +232,7 @@ function DataMasterAlamat() {
   }
 
   const handleEdit = (id) => {
-    getProvince((data) => {
+    getProvinceById((data) => {
       setSectionState(data);
       setTitle("Edit Provinsi");
       setShowModal(true);
@@ -349,7 +350,7 @@ function DataMasterAlamat() {
                 {
                   name: "Edit",
                   variant: "warning",
-                  function: handleEdit,
+                  function: (id) => handleEdit (id),
                 },
                 {
                   name: "Delete",
