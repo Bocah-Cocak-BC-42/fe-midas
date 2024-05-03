@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { postCity } from '../../services/data-master-alamat.service';
+import { postCity, putCity } from '../../services/data-master-alamat.service';
 import Input from '../Input/Input';
 
 function FormUpsertCity(props) {
@@ -11,20 +11,36 @@ function FormUpsertCity(props) {
 
     let cityVal = e.target.cityName.value || null;
 
-    const dataCity = {
-      provinceId: data[0].id,
-      name: cityVal,
-    };
-
-    postCity(
-      (resMessage) => {
-        showAlert(resMessage);
-      },
-      (errors) => {
-        setMessageValidationField(errors);
-      },
-      dataCity
-    );
+    if (!data) {
+      const dataCity = {
+        id: data[0].id,
+        name: cityVal,
+      };
+      postCity(
+        (resMessage) => {
+          showAlert(resMessage);
+        },
+        (errors) => {
+          setMessageValidationField(errors);
+        },
+        dataCity
+      );
+    } else {
+      const dataCity = {
+        id: data?.id,
+        name: cityVal,
+      };
+      putCity(
+        (resMessage) => {
+          showAlert(resMessage);
+        },
+        data.id,
+        dataCity,
+        (errors) => {
+          setMessageValidationField(errors);
+        }
+      );
+    }
   };
   return (
     <div>
@@ -37,7 +53,7 @@ function FormUpsertCity(props) {
           <Input
             placeholder="Masukkan Nama Kota/Kabupaten"
             name="cityName"
-            defaultValue={data?.cityName}
+            defaultValue={data?.name}
             message={messageValidationField?.Name}
             required
             grow

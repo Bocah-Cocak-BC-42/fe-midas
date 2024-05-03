@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { postVillage } from '../../services/data-master-alamat.service';
+import { postVillage, putVillage } from '../../services/data-master-alamat.service';
 import Input from '../Input/Input';
 
 function FormUpsertVillage(props) {
@@ -12,22 +12,39 @@ function FormUpsertVillage(props) {
     let villageVal = e.target.villageName.value || null;
     let postalCode = e.target.postalCode.value || null;
 
-    const dataVillage = {
-      subdistrictId: data[2].id,
-      name: villageVal,
-      postalCode: postalCode
+    if(!data) {
+      const dataVillage = {
+        subdistrictId: data[2].id,
+        name: villageVal,
+        postalCode: postalCode
+      };
+      postVillage(
+        (resMessage) => {
+          showAlert(resMessage);
+        },
+        (errors) => {
+          setMessageValidationField(errors);
+        },
+        dataVillage
+      );
+    } else {
+      const dataVillage = {
+        id: data?.id,
+        name: villageVal,
+        postalCode : postalCode
+      };
+      putVillage(
+        (resMessage) => {
+          showAlert(resMessage);
+        },
+        data.id,
+        dataVillage,
+        (errors) => {
+          setMessageValidationField(errors);
+        }
+      );
+    }
 
-    };
-
-    postVillage(
-      (resMessage) => {
-        showAlert(resMessage);
-      },
-      (errors) => {
-        setMessageValidationField(errors);
-      },
-      dataVillage
-    );
   };
   return (
     <div>
@@ -40,7 +57,7 @@ function FormUpsertVillage(props) {
           <Input
             placeholder="Masukkan Nama Desa"
             name="villageName"
-            defaultValue={data?.villageName}
+            defaultValue={data?.name}
             message={messageValidationField?.Name}
             required
             grow
