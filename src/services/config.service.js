@@ -1,6 +1,6 @@
 import axios from "axios";
 const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaWNrbmFtZSI6IkFkbWluIiwidXNlcklkIjoiNDFkZmFkYTUtNmM1My00YzdiLThjMDctODkwMzdlNTExODc0IiwiZXhwIjoxNzE0NzA2OTEyfQ.yG6voTRbW2j_OATI9NLbPToEEd7aXhRkSvagv9VQUZI";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaWNrbmFtZSI6IkFkbWluIiwidXNlcklkIjoiNDFkZmFkYTUtNmM1My00YzdiLThjMDctODkwMzdlNTExODc0IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3MTQ3MjMzMjB9.x9WBT3Yja6L5iLn07227oMmL8L5kDNOAGszRpiyu0So";
 
 export const get = (endpoint, params, callback, errorCallback) => {
   axios
