@@ -1,10 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
-import LandingPage from "./pages/Umum/LandingPage";
-import NotFoundPage from "./pages/NotFoundPage";
+import LayoutKhusus from "./components/layout/LayoutKhusus";
 import LayoutUmum from "./components/layout/LayoutUmum";
+import DataMasterAlamat from "./pages/Khusus/DataMasterAlamat";
 import DataMasterBank from "./pages/Khusus/DataMasterBank";
 import LayoutKhusus from "./components/layout/LayoutKhusus";
 import DataMasterRole from "./pages/Khusus/DataMasterRole";
+import UserManagementEmployee from "./pages/Khusus/UserManagementEmployee";
+import UpsertUserManagementEmployee from "./pages/Khusus/UpsertUserManagementEmployee";
 import UpsertDataMasterBank from "./pages/Khusus/UpsertDataMasterBank";
 
 export const router = createBrowserRouter([
@@ -27,20 +29,18 @@ export const router = createBrowserRouter([
         <DataMasterBank />
       </LayoutKhusus>
     ),
-    children: [
-      {
-        path: "upsert",
-        element: (
-          <LayoutKhusus
-            breadcrumbs="Data Master Bank"
-            navLinkActive="Data Master"
-            subNavLinkActive="Bank"
-          >
-            <UpsertDataMasterBank />,
-          </LayoutKhusus>
-        ),
-      },
-    ],
+  },
+  {
+    path: "/data-master/alamat",
+    element: (
+      <LayoutKhusus
+        breadcrumbs="Data Master Alamat"
+        navLinkActive="Data Master"
+        subNavLinkActive="Alamat"
+      >
+        <DataMasterAlamat />
+      </LayoutKhusus>
+    ),
   },
   {
     path: "/data-master/role",
@@ -53,6 +53,30 @@ export const router = createBrowserRouter([
         <DataMasterRole />
       </LayoutKhusus>
     ),
+  },
+  {
+    path: "/user-management/karyawan/Upsert",
+    element:(
+      <LayoutKhusus
+      breadcrumbs="User Management - Karyawan"
+      navLinkActive="User Management"
+      subNavLinkActive= "Karyawan"
+      >
+        <UpsertUserManagementEmployee/>
+      </LayoutKhusus>
+    )
+  },
+  {
+    path: "/user-management/karyawan/Upsert/:employeeId",
+    element:(
+      <LayoutKhusus
+      breadcrumbs="User Management - Karyawan"
+      navLinkActive="User Management"
+      subNavLinkActive= "Karyawan"
+      >
+        <UpsertUserManagementEmployee/>
+      </LayoutKhusus>
+    )
   },
   {
     path: "*",
