@@ -3,11 +3,10 @@ import LayoutKhusus from "./components/layout/LayoutKhusus";
 import LayoutUmum from "./components/layout/LayoutUmum";
 import DataMasterAlamat from "./pages/Khusus/DataMasterAlamat";
 import DataMasterBank from "./pages/Khusus/DataMasterBank";
-import LayoutKhusus from "./components/layout/LayoutKhusus";
 import DataMasterRole from "./pages/Khusus/DataMasterRole";
-import UserManagementEmployee from "./pages/Khusus/UserManagementEmployee";
 import UpsertUserManagementEmployee from "./pages/Khusus/UpsertUserManagementEmployee";
-import UpsertDataMasterBank from "./pages/Khusus/UpsertDataMasterBank";
+import NotFoundPage from "./pages/NotFoundPage";
+import LandingPage from "./pages/Umum/LandingPage";
 
 export const router = createBrowserRouter([
   {
@@ -45,7 +44,7 @@ export const router = createBrowserRouter([
   {
     path: "/data-master/role",
     element: (
-      <LayoutKhusus 
+      <LayoutKhusus
         breadcrumbs="Data Master Role"
         navLinkActive="Data Master"
         subNavLinkActive="Role"
@@ -56,25 +55,25 @@ export const router = createBrowserRouter([
   },
   {
     path: "/user-management/karyawan/Upsert",
-    element:(
+    element: (
       <LayoutKhusus
-      breadcrumbs="User Management - Karyawan"
-      navLinkActive="User Management"
-      subNavLinkActive= "Karyawan"
+        breadcrumbs="User Management - Karyawan"
+        navLinkActive="User Management"
+        subNavLinkActive="Karyawan"
       >
-        <UpsertUserManagementEmployee/>
+        <UpsertUserManagementEmployee />
       </LayoutKhusus>
     )
   },
   {
     path: "/user-management/karyawan/Upsert/:employeeId",
-    element:(
+    element: (
       <LayoutKhusus
-      breadcrumbs="User Management - Karyawan"
-      navLinkActive="User Management"
-      subNavLinkActive= "Karyawan"
+        breadcrumbs="User Management - Karyawan"
+        navLinkActive="User Management"
+        subNavLinkActive="Karyawan"
       >
-        <UpsertUserManagementEmployee/>
+        <UpsertUserManagementEmployee />
       </LayoutKhusus>
     )
   },
