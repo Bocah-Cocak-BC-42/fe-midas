@@ -1,11 +1,15 @@
+import Tagline from "../../components/Umum/Tagline";
+import AboutUs from "../../components/Umum/AboutUs";
+import Product from "../../components/Umum/Product";
+import Simulation from "../../components/Umum/Simulation";
 function LandingPage() {
   return (
     <>
-      <div className="h-screen">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolor suscipit
-        tempore corrupti eligendi corporis excepturi neque sunt voluptatem
-        perspiciatis officia beatae, cumque molestiae harum possimus aliquam
-        ratione. Ducimus, magni veniam?
+      <div className="flex flex-col">
+        <Tagline/>
+        <AboutUs/>
+        <Product/>
+        <Simulation/>
       </div>
     </>
   );
