@@ -20,7 +20,6 @@ export const getAllVillage = (params, callback, errorCallback) => {
 export const getProvince = (params, callback, errorCallback) => {
   get(provinceEndpoint, params, callback, errorCallback);
 };
-
 export const getCity = (params, callback, errorCallback) => {
   get(cityEndpoint, params, callback, errorCallback);
 };
