@@ -38,15 +38,18 @@ export const getById = (endpoint, id, callback) => {
 };
 
 export const post = (endpoint, data, callback, messageValidationFieldError) => {
+  console.log(token);
   axios
     .post(
       `${import.meta.env.VITE_BASE_URL}${endpoint}`,
       data,
-      token ?? {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
+      token != null
+        ? {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        : null
     )
     .then((res) => {
       token = res.data.token;

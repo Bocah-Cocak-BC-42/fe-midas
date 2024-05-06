@@ -4,11 +4,7 @@ import FormUpsertBank from "../../components/Form/FormUpsertBank";
 import Modal from "../../components/Modal";
 import Table from "../../components/Table";
 import InputSearch from "../../components/Input/InputSearch";
-import {
-  delBank,
-  getBankById,
-  getBanks,
-} from "../../services/data-master-bank.service";
+import { delBank, getBanks } from "../../services/data-master-bank.service";
 
 function DataMasterBank() {
   const [banks, setBanks] = useState([]);
@@ -63,16 +59,19 @@ function DataMasterBank() {
     getData(1, bankNameSearchVal);
   };
 
-  const handleEdit = (id) => {
-    getBankById((data) => {
-      setBank(data);
-      setTitle("Ubah Data Bank");
-      setShowModal(true);
-    }, id);
+  const handleEdit = (data) => {
+    setBank(data);
+    setTitle("Ubah Data Bank");
+    setShowModal(true);
+    // getBankById((data) => {
+    //   setBank(data);
+    //   setTitle("Ubah Data Bank");
+    //   setShowModal(true);
+    // }, id);
   };
 
-  const handleDelete = (id) => {
-    setId(id);
+  const handleDelete = (data) => {
+    setId(data.id);
     setTitle("Hapus Bank");
     setShowModalConfirm(true);
   };
