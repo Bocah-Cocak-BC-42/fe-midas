@@ -1,6 +1,10 @@
 import axios from "axios";
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaWNrbmFtZSI6IkFkbWluIiwidXNlcklkIjoiNDFkZmFkYTUtNmM1My00YzdiLThjMDctODkwMzdlNTExODc0IiwiZXhwIjoxNzE0NzA2OTEyfQ.yG6voTRbW2j_OATI9NLbPToEEd7aXhRkSvagv9VQUZI";
+import Cookies from "js-cookie";
+const user = JSON.parse(Cookies.get("user") ?? null);
+let token = user?.token;
+console.log(user);
+// const token =
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaWNrbmFtZSI6IkFkbWluIiwidXNlcklkIjoiNDFkZmFkYTUtNmM1My00YzdiLThjMDctODkwMzdlNTExODc0IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3MTUwNTI3NTJ9.pZdhdULaxk0snDo5DaOwlAYUN_pW1QNLYxhiugKbkJo";
 
 export const get = (endpoint, params, callback, errorCallback) => {
   axios
@@ -35,17 +39,23 @@ export const getById = (endpoint, id, callback) => {
 
 export const post = (endpoint, data, callback, messageValidationFieldError) => {
   axios
-    .post(`${import.meta.env.VITE_BASE_URL}${endpoint}`, data, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
+    .post(
+      `${import.meta.env.VITE_BASE_URL}${endpoint}`,
+      data,
+      token ?? {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    )
     .then((res) => {
-      callback(res.data.message);
+      token = res.data.token;
+      callback(token ? res.data : res.data.message);
     })
     .catch((err) => {
-      console.log(err);
-      messageValidationFieldError(err.response.data.errors);
+      messageValidationFieldError(
+        err.response.data.errors ?? err.response.data.message
+      );
     });
 };
 
