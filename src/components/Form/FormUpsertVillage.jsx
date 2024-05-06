@@ -12,7 +12,7 @@ function FormUpsertVillage(props) {
     let villageVal = e.target.villageName.value || null;
     let postalCode = e.target.postalCode.value || null;
 
-    if(!data) {
+    if(data[0]) {
       const dataVillage = {
         subdistrictId: data[2].id,
         name: villageVal,

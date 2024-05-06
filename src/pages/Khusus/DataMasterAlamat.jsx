@@ -391,19 +391,19 @@ function DataMasterAlamat() {
         }
         {
           sectionNumber === 1 ?
-            <FormUpsertCity data={formData} showAlert={handleShowAlert} />
+            <FormUpsertCity data={formData ?? sectionState} showAlert={handleShowAlert} />
             :
             null
         }
         {
           sectionNumber === 2 ?
-            <FormUpsertSubdistrict data={formData} showAlert={handleShowAlert} />
+            <FormUpsertSubdistrict data={formData ?? sectionState} showAlert={handleShowAlert} />
             :
             null
         }
         {
           sectionNumber === 3 ?
-            <FormUpsertVillage data={formData} showAlert={handleShowAlert} />
+            <FormUpsertVillage data={formData ?? sectionState} showAlert={handleShowAlert} />
             :
             null
         }
