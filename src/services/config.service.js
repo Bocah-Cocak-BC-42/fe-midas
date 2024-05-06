@@ -1,15 +1,10 @@
 import axios from "axios";
-<<<<<<< HEAD
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaWNrbmFtZSI6IkFkbWluIiwidXNlcklkIjoiNDFkZmFkYTUtNmM1My00YzdiLThjMDctODkwMzdlNTExODc0IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3MTUwNTA2MzF9.i6kBt5xIk8E0jHM7j7BR-AK_KSDIqJBUg8BJNwzX5Hk";
-=======
 import Cookies from "js-cookie";
 const user = JSON.parse(Cookies.get("user") ?? null);
 let token = user?.token;
 console.log(user);
 // const token =
 //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaWNrbmFtZSI6IkFkbWluIiwidXNlcklkIjoiNDFkZmFkYTUtNmM1My00YzdiLThjMDctODkwMzdlNTExODc0IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3MTUwNTI3NTJ9.pZdhdULaxk0snDo5DaOwlAYUN_pW1QNLYxhiugKbkJo";
->>>>>>> 9c5c676780fbd6bfd8cb6bcddc96e6a513abb681
 
 export const get = (endpoint, params, callback, errorCallback) => {
   axios
