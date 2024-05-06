@@ -221,6 +221,7 @@ function DataMasterAlamat() {
     sectionState[sectionNumber].name = sectionDto[getIndex(rowData.id)].name;
     setSectionState(sectionState);
     setSectionNumber(sectionNumber + 1);
+    setSearchVal("");
   };
   function getIndex(id) {
     let index = 0;
