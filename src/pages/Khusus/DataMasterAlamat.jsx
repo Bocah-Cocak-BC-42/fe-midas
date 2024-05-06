@@ -221,6 +221,7 @@ function DataMasterAlamat() {
     sectionState[sectionNumber].name = sectionDto[getIndex(rowData.id)].name;
     setSectionState(sectionState);
     setSectionNumber(sectionNumber + 1);
+    setSearchVal("");
   };
   function getIndex(id) {
     let index = 0;
@@ -313,9 +314,9 @@ function DataMasterAlamat() {
         sectionNumber <= 0 ?
           null
           :
-          <h3 className="mb-4 text-2xl font-bold">{sectionState[sectionNumber - 1].name}</h3>
+          <h3 className="text-2xl font-bold">{sectionState[sectionNumber - 1].name}</h3>
       }
-      <div className="flex justify-between">
+      <div className="flex justify-between mt-4">
         <Button
           onClick={() => {
             setShowModal(true);
@@ -391,19 +392,19 @@ function DataMasterAlamat() {
         }
         {
           sectionNumber === 1 ?
-            <FormUpsertCity data={formData} showAlert={handleShowAlert} />
+            <FormUpsertCity data={formData ?? sectionState} showAlert={handleShowAlert} />
             :
             null
         }
         {
           sectionNumber === 2 ?
-            <FormUpsertSubdistrict data={formData} showAlert={handleShowAlert} />
+            <FormUpsertSubdistrict data={formData ?? sectionState} showAlert={handleShowAlert} />
             :
             null
         }
         {
           sectionNumber === 3 ?
-            <FormUpsertVillage data={formData} showAlert={handleShowAlert} />
+            <FormUpsertVillage data={formData ?? sectionState} showAlert={handleShowAlert} />
             :
             null
         }

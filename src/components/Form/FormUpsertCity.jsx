@@ -11,9 +11,9 @@ function FormUpsertCity(props) {
 
     let cityVal = e.target.cityName.value || null;
 
-    if (!data) {
+    if (data[0]) {
       const dataCity = {
-        id: data[0].id,
+        provinceId: data[0].id,
         name: cityVal,
       };
       postCity(

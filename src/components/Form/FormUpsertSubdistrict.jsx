@@ -11,9 +11,9 @@ function FormUpsertSubdistrict(props) {
 
     let subdistrictVal = e.target.subdistrictName.value || null;
     
-    if(!data) {
+    if(data[0]) {
       const dataSubdistrict = {
-        id: data[1].id,
+        cityId: data[1].id,
         name: subdistrictVal,
       };
       postSubdistrict(
