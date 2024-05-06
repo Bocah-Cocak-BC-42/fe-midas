@@ -204,6 +204,22 @@ export const router = createBrowserRouter([
     ),
   },
   {
+    path: "/data-master/kantor-cabang",
+    element: (
+      // <LayoutKhusus breadcrumb="Data Master Bank">
+      <DataMasterKantorCabang />
+      // </LayoutKhusus>
+    ),
+  },
+  {
+    path: "/data-master/kantor-cabang/karyawan",
+    element: (
+      // <LayoutKhusus breadcrumb="Data Master Bank">
+      <DataMasterKaryawanKantorCabang />
+      // </LayoutKhusus>
+    ),
+  },
+  {
     path: "*",
     element: <NotFoundPage />,
   },
