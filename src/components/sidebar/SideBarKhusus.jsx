@@ -49,23 +49,23 @@ function SideBarKhusus({ navLinkActive, subNavLinkActive }) {
           children: [
             {
               name: "Role",
-              location: "/data-master/role",
+              location: "/admin/data-master/role",
             },
             {
               name: "Kantor Cabang",
-              location: "/data-master/kantor-cabang",
+              location: "/admin/data-master/kantor-cabang",
             },
             {
               name: "Sektor Usaha",
-              location: "/data-master/sektor-usaha",
+              location: "/admin/data-master/sektor-usaha",
             },
             {
               name: "Alamat",
-              location: "/data-master/alamat",
+              location: "/admin/data-master/alamat",
             },
             {
               name: "Bank",
-              location: "/data-master/bank",
+              location: "/admin/data-master/bank",
             },
           ],
         },

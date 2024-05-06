@@ -1,14 +1,14 @@
+import Cookies from "js-cookie";
 import { Navigate, Outlet, createBrowserRouter } from "react-router-dom";
-import LandingPage from "./pages/Umum/LandingPage";
-import NotFoundPage from "./pages/NotFoundPage";
+import LayoutKhusus from "./components/layout/LayoutKhusus";
 import LayoutUmum from "./components/layout/LayoutUmum";
+import AccessDenied from "./pages/AccessDenied";
+import Dashboard from "./pages/Khusus/Dashboard";
 import DataMasterAlamat from "./pages/Khusus/DataMasterAlamat";
 import DataMasterBank from "./pages/Khusus/DataMasterBank";
-import LayoutKhusus from "./components/layout/LayoutKhusus";
+import NotFoundPage from "./pages/NotFoundPage";
+import LandingPage from "./pages/Umum/LandingPage";
 import Login from "./pages/Umum/Login";
-import Cookies from "js-cookie";
-import Dashboard from "./pages/Khusus/Dashboard";
-import AccessDenied from "./pages/AccessDenied";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(Cookies.get("user") ?? null);
@@ -120,6 +120,20 @@ export const router = createBrowserRouter([
               subNavLinkActive={"Bank"}
             >
               <DataMasterBank />
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        ),
+      },
+      {
+        path: "data-master/alamat",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus
+              breadcrumbs={"Data Master Alamat"}
+              navLinkActive={"Data Master"}
+              subNavLinkActive={"Alamat"}
+            >
+              <DataMasterAlamat />
             </LayoutKhusus>
           </AccessRoleAdminValidation>
         ),
