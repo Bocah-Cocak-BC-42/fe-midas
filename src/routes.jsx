@@ -9,6 +9,8 @@ import DataMasterBank from "./pages/Khusus/DataMasterBank";
 import NotFoundPage from "./pages/NotFoundPage";
 import LandingPage from "./pages/Umum/LandingPage";
 import Login from "./pages/Umum/Login";
+import UserManagementEmployee from "./pages/Khusus/UserManagementEmployee";
+import UpsertUserManagementEmployee from "./pages/Khusus/UpsertUserManagementEmployee";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(Cookies.get("user") ?? null);
@@ -134,6 +136,48 @@ export const router = createBrowserRouter([
               subNavLinkActive={"Alamat"}
             >
               <DataMasterAlamat />
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        ),
+      },
+      {
+        path: "user-management/karyawan",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus
+              breadcrumbs={"User Management - Karyawan"}
+              navLinkActive={"User Management"}
+              subNavLinkActive={"Karyawan"}
+            >
+              <UserManagementEmployee />
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        ),
+      },
+      {
+        path: "user-management/karyawan/upsert",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus
+              breadcrumbs={"User Management - Karyawan"}
+              navLinkActive={"User Management"}
+              subNavLinkActive={"Karyawan"}
+            >
+              <UpsertUserManagementEmployee />
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        ),
+      },
+      {
+        path: "user-management/karyawan/upsert/:id",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus
+              breadcrumbs={"User Management - Karyawan"}
+              navLinkActive={"User Management"}
+              subNavLinkActive={"Karyawan"}
+            >
+              <UpsertUserManagementEmployee />
             </LayoutKhusus>
           </AccessRoleAdminValidation>
         ),

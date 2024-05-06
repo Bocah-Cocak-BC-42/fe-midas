@@ -1,36 +1,78 @@
 import Button from "../Button";
 import Input from "../Input/Input"
 import Select from "../Input/Select"
-import { PostNewEmployee } from "../../services/user-management.service";
-import { useState } from "react";
+import { PostNewEmployee, putEmployee } from "../../services/user-management.service";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function FormUpsertUmEmployee(props) {
-    const { data, showAlert } = props;
+    const { data, showAlert, roles } = props;
     const [messageValidationField, setMessageValidationField]= useState({});
-    
+    const navigate = useNavigate();
+
     const handleSubmit = (e) => {
       e.preventDefault();
-  
       let emailEmployee = e.target.email.value || null;
       let nameEmployee = e.target.name.value || null;
       let nicknameEmployee = e.target.nickname.value || null;
-      let branchEmployee = e.target.branch.value || null;
       let nipEmployee = e.target.nip.value || null;
       let roleEmployee = e.target.role.value || null;
+      let genderEmployee = e.target.gender.value || null;
 
-      let data = {email: emailEmployee, name: nameEmployee, nickname: nicknameEmployee, branch: branchEmployee, nip: nipEmployee, role: roleEmployee}
+    if(data.length == 0){
+        const dataNewEmployee = {
+          email: emailEmployee, 
+          roleId: roleEmployee, 
+          fullName: nameEmployee,
+          nickName: nicknameEmployee, 
+          identityNumber: nipEmployee, 
+          gender: genderEmployee
+        }
+        PostNewEmployee(
+          (resMessage) => {
+            showAlert(resMessage);
+          },
+          (errors) => {
+            setMessageValidationField(errors);
+          },
+          dataNewEmployee
+        );
+  }else{
+        const dataEmployee = {
+          id: data?.id,
+          email: emailEmployee,
+          roleId: roleEmployee, 
+          fullName: nameEmployee,
+          nickName: nicknameEmployee, 
+          identityNumber: nipEmployee, 
+          gender: genderEmployee
+        }
+        putEmployee(
+          (resMessage) => {
+            showAlert(resMessage);
+          },
+          data.id,
+          dataEmployee,
+          (errors) => {
+            setMessageValidationField(errors);
+          }
+        );
+      };
       
-      PostNewEmployee(
-        (resMessage) => {
-          console.log(resMessage);
-          showAlert(resMessage);
-        },
-        (errors) => {
-          setMessageValidationField(errors);
-        },
-        data
-      );
+      navigate("/admin/user-management/karyawan");
     };
+
+  const mapRoles = ()=>{
+      let result = [];
+      result.push({text: "Pilih Role Karyawan Baru",value: ""})
+      roles.map((role)=>{
+        if(role.name != "Nasabah"){
+          result.push({text: role.name,value: role.id})
+        }
+      })
+
+    return result;
+  };
 
   return (
     <div>
@@ -55,7 +97,7 @@ function FormUpsertUmEmployee(props) {
         <Input
             placeholder="Masukkan Nama Lengkap Karyawan"
             name="name"
-            defaultValue={data?.name}
+            defaultValue={data?.fullName}
             message={messageValidationField?.fullName}
             required
             grow
@@ -67,7 +109,7 @@ function FormUpsertUmEmployee(props) {
         <Input
             placeholder="Masukkan Nama Panggilan Karyawan"
             name="nickname"
-            defaultValue={data?.nickname}
+            defaultValue={data?.nickName}
             message={messageValidationField?.nickname}
             required
             grow
@@ -75,11 +117,24 @@ function FormUpsertUmEmployee(props) {
             Nama Panggilan*
           </Input>
         </div>
+        <div>
+          <Select
+            name="gender"
+            grow
+            message={messageValidationField?.role}
+            options={
+              [{text:"Pilih Jenis Kelamin Karyawan", value: ""},{text: "Laki - Laki", value: "M"},{text: "Perempuan", value: "F"}]
+            }
+            defaultValue={data?.gender}
+          >
+            Jenis Kelamin*
+          </Select>
+        </div>
         <div className="">
         <Input
             placeholder="Masukkan NIP Karyawan Baru"
             name="nip"
-            defaultValue={data?.nip}
+            defaultValue={data?.identityNumber}
             message={messageValidationField?.nip}
             required
             grow
@@ -92,18 +147,16 @@ function FormUpsertUmEmployee(props) {
             name="role"
             grow
             message={messageValidationField?.role}
-            options={[
-              { text: "Pilih Jabatan Karyawan Baru", value: "" },
-              { text: "Manager", value: "Manager" },
-              { text: "Admin", value: "Admin" },
-              { text: "Mantri", value: "Mantri" },
-            ]}
+            options={
+              mapRoles()
+            }
+            defaultValue={data?.roleId}
           >
             Jabatan*
           </Select>
         </div>
         <div className="self-end">
-          <Button type="submit">Tambah</Button>
+          <Button type="submit">Simpan</Button>
         </div>
       </form>
     </div>

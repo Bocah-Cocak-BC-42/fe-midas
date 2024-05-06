@@ -3,19 +3,21 @@ import Button from "../../components/Button";
 import Modal from "../../components/Modal";
 import Table from "../../components/Table";
 import InputSearch from "../../components/Input/InputSearch";
-import { getEmployees } from "../../services/user-management.service";
+import { DelEmployee, getEmployees } from "../../services/user-management.service";
 import { useNavigate } from "react-router-dom";
 
 
 function UserManagementEmployee() {
     const [employees, setEmployees] = useState([]);
-    const [employee, setEmployee] = useState();
     const [pagination, setPagination] = useState({});
-    const [showModal, setShowModal] = useState(false);
+    const [id, setId] = useState("");
     const [showModalConfirm, setShowModalConfirm] = useState(false);
     const [showModalAlert, setShowModalAlert] = useState(false);
+    const [showModalAlertReset, setShowModalAlertReset] = useState(false);
     const [showModalResetPassword, setShowModalResetPassword] = useState(false);
     const [title, setTitle] = useState("");
+    const [messageAlert, setMessageAlert] = useState("");
+    const [errorMessage, setErrorMessage] = useState("Gagal Memuat Data Karyawan");
     const [employeeNIPSearch, setEmployeeNIPSearch] = useState("");
     const [employeeNameSearch, setEmployeeNameSearch] = useState("");
     const [employeeJabatanSearch, setEmployeJabatanSearch] = useState("");
@@ -33,7 +35,11 @@ function UserManagementEmployee() {
           )));
           setPagination(data.pagination);
         },
-        {page: pageNumber, pageSize: 3, employeeNIPSearch: employeeNIPSearch, employeeNameSearch: employeeNameSearch, employeeJabatanSearch: employeeJabatanSearch}
+        (errMessage) => {
+          setErrorMessage(errMessage);
+          setEmployees([]);
+        },
+        {page: pageNumber, pageSize: 3, nip: employeeNIPSearch, fullName: employeeNameSearch, role: employeeJabatanSearch}
       );
      
     }
@@ -44,16 +50,17 @@ function UserManagementEmployee() {
 
     const handleSearch = (e) =>{
       e.preventDefault();
-      let employeeNIPSearch = e.target.employeeNIPSearch.value || null;
-      let employeeNameSearch = e.target.employeeNameSearch.value || null;
-      let employeeJabatanSearch = e.target.employeeJabatanSearch.value || null;
+      let employeeNIPSearch = e.target.employeeNIPSearch.value || "";
+      let employeeNameSearch = e.target.employeeNameSearch.value || "";
+      let employeeJabatanSearch = e.target.employeeJabatanSearch.value || "";
 
       setEmployeeNIPSearch(employeeNIPSearch);
       setEmployeeNameSearch(employeeNameSearch);
       setEmployeJabatanSearch(employeeJabatanSearch);
 
-      getData(1, employeeNIPSearch, employeeNIPSearch, employeeJabatanSearch);
+      getData(1, employeeNIPSearch, employeeNameSearch, employeeJabatanSearch);
     }
+
     const handleResetPassword =(confirm)=>{
       setShowModalResetPassword(false);
       if(confirm){
@@ -62,34 +69,39 @@ function UserManagementEmployee() {
       }
     }
 
-    const handleDelete =()=>{
-      setShowModalConfirm(true);
-      setTitle("Konfirmasi");
+    const handleEdit =(data)=>{
+      navigate(`/admin/user-management/karyawan/Upsert/${data.id}`)
     }
 
-    const handleEdit =(id)=>{
-      console.log(id);
-      navigate(`/user-management/karyawan/Upsert/${id}`)
-    }
+    const handleDelete = (data) => {
+      setId(data.id);
+      setTitle("Hapus Employee");
+      setShowModalConfirm(true);
+    };
 
     const handleConfirm = (confirm) => {
       setShowModalConfirm(true);
-      if(confirm){
+      setShowModalConfirm(false);
+    if (confirm) {
+      DelEmployee((message) => {
+        setMessageAlert(message);
         setTitle("Pemberitahuan");
         setShowModalAlert(true);
-      }
+      }, id);
+    }
     };
 
     const handleCloseModal = ()=>{
-      setShowModal(false);
       setShowModalAlert(false);
       setShowModalConfirm(false);
+      setShowModalAlertReset(false);
+      setShowModalResetPassword(false);
     };
 
   return (
     <>
       <div className="flex justify-between">
-          <form action="" onSubmit={handleSearch} method="" className="flex gap-2">
+          <form onSubmit={handleSearch} method="Get" className="flex gap-2">
             <InputSearch placeholder="Search for NIP" name="employeeNIPSearch"/>
             <InputSearch placeholder="Search for Nama Lengkap" name="employeeNameSearch"/>
             <InputSearch placeholder="Search for Jabatan" name="employeeJabatanSearch"/>
@@ -97,15 +109,18 @@ function UserManagementEmployee() {
           </form>
       </div>
       <div className="mt-5">
-          <a href="/user-management/karyawan/Upsert" className="bg-[#B0C5A4] rounded-md p-1 px-2 text-white hover:bg-[#8ea67f] ">Tambah Karyawan</a>
+          <a href="/admin/user-management/karyawan/upsert" className="bg-[#B0C5A4] rounded-md p-1 px-2 text-white hover:bg-[#8ea67f] ">Tambah Karyawan</a>
       </div>
       
       <div className="rounded-md border mt-4 shadow">
         <Table
           tableHeaders={tableHeader}
           data={employees}
+          messageErrorEmptyData={errorMessage}
           pagination={pagination}
-          getDataByPagination={(pageNumber)=> {}}
+          getDataByPagination={(pageNumber) =>
+            getData(pageNumber, employeeNIPSearch, employeeNameSearch, employeeJabatanSearch)
+          }
           actions={[
             {
               name: "Edit",
@@ -125,9 +140,10 @@ function UserManagementEmployee() {
           ]}
         />
       </div>
+
       <Modal
         onClose={handleCloseModal}
-        visible={showModalConfirm}
+        visible={showModalResetPassword}
         title={title}
         confirm={handleConfirm}
       >
@@ -135,12 +151,30 @@ function UserManagementEmployee() {
       </Modal>
       <Modal
         onClose={handleCloseModal}
-        visible={showModalAlert}
+        visible={showModalAlertReset}
         title={title}
       >
-        Data User Karyawan Berhasil dihapus
+        Password Karyawan Berhasil direset
       </Modal>
     
+      <Modal
+        onClose={handleCloseModal}
+        visible={showModalConfirm}
+        title={title}
+        confirm={handleConfirm}
+      >
+        <p>Apakah anda yakin ingin menghapus Data Karyawan ini?</p>
+      </Modal>
+      <Modal
+        onClose={() => {
+          handleCloseModal();
+          location.reload();
+        }}
+        visible={showModalAlert}
+        title="Pemberitahuan"
+      >
+        {messageAlert}
+      </Modal>
 
     </>
   );
