@@ -11,8 +11,6 @@ import FormUpsertKantorCabang from "./pages/Khusus/UpsertKantorCabang";
 import DataMasterAlamat from "./pages/Khusus/DataMasterAlamat";
 import AccessDenied from "./pages/AccessDenied";
 import Dashboard from "./pages/Khusus/Dashboard";
-import NotFoundPage from "./pages/NotFoundPage";
-import LandingPage from "./pages/Umum/LandingPage";
 import Login from "./pages/Umum/Login";
 
 const ProtectedRoute = () => {
@@ -157,68 +155,110 @@ export const router = createBrowserRouter([
           </AccessRoleAdminValidation>
         ),
       },
+      {
+        path: "data-master/kantor-cabang/tambah",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus
+              breadcrumbs={"Data Master Kantor Cabang"}
+              navLinkActive={"Data Master"}
+              subNavLinkActive={"Kantor Cabang"}
+            >
+              <FormUpsertKantorCabang />
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        ),
+      },
+      {
+        path: "data-master/kantor-cabang/:id/karyawan",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus
+              breadcrumbs={"Data Master Kantor Cabang"}
+              navLinkActive={"Data Master"}
+              subNavLinkActive={"Kantor Cabang"}
+            >
+              <DataMasterKaryawanKantorCabang />
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        ),
+      },
+      {
+        path: "data-master/kantor-cabang/edit/:id",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus
+              breadcrumbs={"Data Master Kantor Cabang"}
+              navLinkActive={"Data Master"}
+              subNavLinkActive={"Kantor Cabang"}
+            >
+              <FormUpsertKantorCabang />
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        ),
+      },
     ],
   },
-  {
-    path: "/data-master/kantor-cabang",
-    element: (
-      <LayoutKhusus breadcrumbs="Kantor Cabang" navLinkActive="Data Master" subNavLinkActive="Kantor Cabang">
-        <DaftarKantorCabang />
-      </LayoutKhusus>
-    )
-  },
-  {
-    path: "/data-master/alamat",
-    element: (
-      <LayoutKhusus
-        breadcrumbs="Data Master Alamat"
-        navLinkActive="Data Master"
-        subNavLinkActive="Alamat"
-      >
-        <DataMasterAlamat />
-      </LayoutKhusus>
-    ),
-  },
-  {
-    path: "/data-master/kantor-cabang/edit/:idCabang",
-    element: (
-      <LayoutKhusus breadcrumbs="Kantor Cabang/Edit Data">
-        <FormUpsertKantorCabang/>
-      </LayoutKhusus>
-    )
-  },
-  {
-    path: "/data-master/kantor-cabang/tambah",
-    element: (
-      <LayoutKhusus breadcrumbs="Kantor Cabang/Tambah Data">
-        <FormUpsertKantorCabang/>
-      </LayoutKhusus>
-    )
-  },
-  {
-    path: "/data-master/:namaCabang/:idCabang/karyawan",
-    element: (
-      <LayoutKhusus breadcrumb="Data Master Bank">
-      <DataMasterKaryawanKantorCabang />
-      </LayoutKhusus>
-    ),
-  },
-  {
-    path: "/data-master/kantor-cabang",
-    element: (
-      // <LayoutKhusus breadcrumb="Data Master Bank">
-      <DataMasterKantorCabang />
-      // </LayoutKhusus>
-    ),
-  },
-  {
-    path: "/data-master/kantor-cabang/karyawan",
-    element: (
-      // <LayoutKhusus breadcrumb="Data Master Bank">
-      <DataMasterKaryawanKantorCabang />
-      // </LayoutKhusus>
-    ),
-  },
+  // {
+  //   path: "/data-master/alamat",
+  //   element: (
+  //     <LayoutKhusus
+  //       breadcrumbs="Data Master Alamat"
+  //       navLinkActive="Data Master"
+  //       subNavLinkActive="Alamat"
+  //     >
+  //       <DataMasterAlamat />
+  //     </LayoutKhusus>
+  //   ),
+  // },
+  // {
+  //   path: "/data-master/kantor-cabang/edit/:idCabang",
+  //   element: (
+  //     <LayoutKhusus breadcrumbs="Kantor Cabang/Edit Data">
+  //       <FormUpsertKantorCabang/>
+  //     </LayoutKhusus>
+  //   )
+  // },
+  // {
+  //   path: "/data-master/kantor-cabang/tambah",
+  //   element: (
+  //     <LayoutKhusus breadcrumbs="Kantor Cabang/Tambah Data">
+  //       <FormUpsertKantorCabang/>
+  //     </LayoutKhusus>
+  //   )
+  // },
+  // {
+  //   path: "/data-master/:namaCabang/:idCabang/karyawan",
+  //   element: (
+  //     <LayoutKhusus breadcrumb="Data Master Bank">
+  //     <DataMasterKaryawanKantorCabang />
+  //     </LayoutKhusus>
+  //   ),
+  // },
+  // {
+  //   path: "/data-master/kantor-cabang/karyawan",
+  //   element: (
+  //     // <LayoutKhusus breadcrumb="Data Master Bank">
+  //     <DataMasterKaryawanKantorCabang />
+  //     // </LayoutKhusus>
+  //   ),
+  // },
+  // {
+  //   path: "/data-master/kantor-cabang",
+  //   element: (
+  //     // <LayoutKhusus breadcrumb="Data Master Bank">
+  //     <DataMasterKantorCabang />
+  //     // </LayoutKhusus>
+  //   ),
+  // },
+  // {
+  //   path: "/data-master/kantor-cabang/karyawan",
+  //   element: (
+  //     // <LayoutKhusus breadcrumb="Data Master Bank">
+  //     <DataMasterKaryawanKantorCabang />
+  //     // </LayoutKhusus>
+  //   ),
+  // },
   {
     path: "*",
     element: <NotFoundPage />,

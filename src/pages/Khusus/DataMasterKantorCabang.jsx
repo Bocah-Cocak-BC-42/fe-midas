@@ -91,14 +91,12 @@ function DaftarKantorCabang() {
             cabang();
         }
         
-        const handleEdit = (id) =>{
-            console.log(id);
-            navigate(`/data-master/kantor-cabang/edit/${id}`)
+        const handleEdit = (data) =>{
+            navigate(`/admin/data-master/kantor-cabang/edit/${data.id}`)
         }
 
-        const handleDetail = (id) =>{
-            console.log(id);
-            navigate(`/data-master/kantor-cabang/${id}/karyawan`);
+        const handleDetail = (data) =>{
+            navigate(`/admin/data-master/kantor-cabang/${data.id}/karyawan`);
         }
     return(
         <>
@@ -112,7 +110,7 @@ function DaftarKantorCabang() {
                     </form>
                 </div>
                 <div className="mt-2">
-                    <Link to={"/data-master/kantor-cabang/tambah"}>
+                    <Link to={"/admin/data-master/kantor-cabang/tambah"}>
                         <Button>Tambah Cabang</Button>
                     </Link>
                 </div>

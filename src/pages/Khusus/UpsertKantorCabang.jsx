@@ -9,7 +9,7 @@ import Modal from "../../components/Modal";
 
 function UpsertKantorCabang(props){
     const navigate = useNavigate();
-    const { idCabang } = useParams();
+    const { id } = useParams();
     const [disabled, setDisabled] = useState(true);
     const [provinces, setProvinces] = useState([]);
     const [cities, setCities] = useState([]);
@@ -62,8 +62,8 @@ function UpsertKantorCabang(props){
     }
     useEffect(() => {
         getDataProvinsi();
-        if(idCabang){
-            getKantorCabang(idCabang)
+        if(id){
+            getKantorCabang(id)
         }
     }, []);
 
@@ -121,7 +121,7 @@ function UpsertKantorCabang(props){
 
     const handleSubmit = (e) =>{
         e.preventDefault()
-        if(!idCabang){
+        if(!id){
             postKantorCabang(
                 (ressMessage) => {
                     setMessageConfirm(ressMessage);
@@ -137,7 +137,7 @@ function UpsertKantorCabang(props){
                 (ressMessage) => {
                     setMessageConfirmEdit(ressMessage);
                     setShowModalAlert(true);
-                },idCabang, {...form, id:idCabang},
+                },id, {...form, id:id},
                 (errors) => {
                     setMessageValidationField(errors);
                 }
@@ -163,7 +163,7 @@ function UpsertKantorCabang(props){
         <>
             <div className="mt-2">
                 <div>
-                    <Link to={"/data-master/kantor-cabang"}>
+                    <Link to={"../"}relative="path">
                         <Button icon="arrow-left" variant="danger">
                             Kembali
                         </Button>
@@ -171,7 +171,7 @@ function UpsertKantorCabang(props){
                 </div>
                 
                 <div>
-                    <h1 className="text-2xl font-bold">{idCabang?"Edit":"Tambah"} Kantor Cabang</h1>
+                    <h1 className="text-2xl font-bold">{id?"Edit":"Tambah"} Kantor Cabang</h1>
                 </div>
 
                 <div className="rounded-md border mt-4 shadow">
@@ -284,7 +284,7 @@ function UpsertKantorCabang(props){
 
                         <div className="self-end">
                             <Button type="sumbit" onClick={(e)=>handleSubmit(e)}>
-                                {idCabang?"Edit":"Tambah"}
+                                {id?"Edit":"Tambah"}
                             </Button>
                         </div>
                     </form>
