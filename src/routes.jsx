@@ -1,4 +1,5 @@
-import { createBrowserRouter } from "react-router-dom";
+import Cookies from "js-cookie";
+import { Navigate, Outlet, createBrowserRouter } from "react-router-dom";
 import LayoutKhusus from "./components/layout/LayoutKhusus";
 import LayoutUmum from "./components/layout/LayoutUmum";
 import DataMasterBank from "./pages/Khusus/DataMasterBank"
@@ -18,7 +19,7 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "/data-master/bank",
+    path: "/login",
     element: (
       <LayoutKhusus breadcrumb="Data Master Bank">
       <DataMasterBank />
@@ -26,15 +27,17 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "upsert",
+        path: "data-master/alamat",
         element: (
-          <LayoutKhusus
-            breadcrumbs="Data Master Bank"
-            navLinkActive="Data Master"
-            subNavLinkActive="Bank"
-          >
-            <UpsertDataMasterBank />,
-          </LayoutKhusus>
+          <AccessRoleAdminValidation>
+            <LayoutKhusus
+              breadcrumbs={"Data Master Alamat"}
+              navLinkActive={"Data Master"}
+              subNavLinkActive={"Alamat"}
+            >
+              <DataMasterAlamat />
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
         ),
       },
     ],

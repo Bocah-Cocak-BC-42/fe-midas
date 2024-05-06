@@ -1,34 +1,34 @@
 import { useEffect, useState } from "react";
 import Button from "../../components/Button";
-import FormUpsertBank from "../../components/Form/FormUpsertBank";
+import FormUpsertRole from "../../components/Form/FormUpsertRole";
 import Modal from "../../components/Modal";
 import Table from "../../components/Table";
 import InputSearch from "../../components/Input/InputSearch";
-import { delBank, getBanks } from "../../services/data-master-bank.service";
+import { getRoles, getRoleById, delRole } from "../../services/data-master-role.service";
 
-function DataMasterBank() {
-  const [banks, setBanks] = useState([]);
-  const [bank, setBank] = useState();
+function DataMasterRole() {
+  const [roles, setRoles] = useState([]);
+  const [role, setRole] = useState();
   const [pagination, setPagination] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [showModalAlert, setShowModalAlert] = useState(false);
   const [title, setTitle] = useState("");
-  const [bankNameSearch, setBankNameSearch] = useState("");
+  const [roleNameSearch, setRoleNameSearch] = useState("");
   const [messageAlert, setMessageAlert] = useState("");
-  const [errorMessage, setErrorMessage] = useState("Gagal Memuat Data Bank");
+  const [errorMessage, setErrorMessage] = useState("Gagal Memuat Data Role");
   const [id, setId] = useState("");
 
   const tableDataHeaders = [
-    { code: "id", name: "ID" },
-    { code: "name", name: "Nama Bank" },
+    { code: "id",  name:"ID"},
+    { code: "name", name:"Nama Role"}
   ];
 
-  const getData = (pageNumber, bankNameSearch) => {
-    getBanks(
+  const getData = (pageNumber, roleNameSearch) => {
+    getRoles(
       //function untuk mengambil data
       (res) => {
-        setBanks(
+        setRoles(
           res.data.map((item) =>
             tableDataHeaders.reduce((acc, header) => {
               acc[header.code] = item[header.code];
@@ -37,14 +37,14 @@ function DataMasterBank() {
           )
         );
         setPagination(res.pagination);
-      },
+      }, 
       //function untuk mengambil error
       (errMessage) => {
         setErrorMessage(errMessage);
-        setBanks([]);
+        setRoles([]);
       },
       //object params
-      { page: pageNumber, pageSize: 5, name: bankNameSearch }
+      {page: pageNumber, pageSize: 5, roleName: roleNameSearch}
     );
   };
 
@@ -54,33 +54,25 @@ function DataMasterBank() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    let bankNameSearchVal = e.target.bankNameSearch.value || null;
-    setBankNameSearch(bankNameSearchVal);
-    getData(1, bankNameSearchVal);
+    let roleNameSearchVal = e.target.roleNameSearch.value || null;
+    setRoleNameSearch(roleNameSearchVal);
+    getData(1, roleNameSearchVal);
   };
 
-  const handleEdit = (data) => {
-    setBank(data);
-    setTitle("Ubah Data Bank");
-    setShowModal(true);
-    // getBankById((data) => {
-    //   setBank(data);
-    //   setTitle("Ubah Data Bank");
-    //   setShowModal(true);
-    // }, id);
-  };
-
-  const handleDelete = (data) => {
-    setId(data.id);
-    setTitle("Hapus Bank");
-    setShowModalConfirm(true);
+  const handleEdit = (id) => {
+    getRoleById(
+      (data) => {
+          setRole(data);
+          setTitle("Ubah Data Role");
+          setShowModal(true)
+      }, id);
   };
 
   const handleConfirm = (confirm) => {
     console.log(confirm);
     setShowModalConfirm(false);
     if (confirm) {
-      delBank((message) => {
+      delRole((message) => {
         setMessageAlert(message);
         setTitle("Pemberitahuan");
         setShowModalAlert(true);
@@ -88,18 +80,24 @@ function DataMasterBank() {
     }
   };
 
-  const handleShowAlert = (message) => {
-    setMessageAlert(message);
-    setShowModal(false);
-    setShowModalAlert(true);
-  };
+  const handleDelete = (id) => {
+    setId(id);
+    setTitle("Hapus Role");
+    setShowModalConfirm(true);
+  }
 
   const handleCloseModal = () => {
     setShowModal(false);
     setShowModalConfirm(false);
     setShowModalAlert(false);
-    setBank();
+    setRole();
   };
+
+  const handleShowAlert = (message) => {
+    setMessageAlert(message);
+    setShowModal(false);
+    setShowModalAlert(true);
+  }
 
   return (
     <>
@@ -107,25 +105,24 @@ function DataMasterBank() {
         <Button
           onClick={() => {
             setShowModal(true);
-            setTitle("Tambah Bank");
+            setTitle("Tambah Role");
           }}
         >
-          Tambah Bank
+          Tambah Role
         </Button>
         <form action="" onSubmit={handleSearch} className="flex gap-2">
-          <InputSearch placeholder="Cari Bank" name="bankNameSearch" />
+          <InputSearch placeholder="Cari Role" name="roleNameSearch" />
           <Button type="submit">Search</Button>
         </form>
       </div>
-
       <div className="rounded-md border mt-4 shadow">
         <Table
           tableHeaders={tableDataHeaders}
-          data={banks}
+          data={roles}
           messageErrorEmptyData={errorMessage}
           pagination={pagination}
           getDataByPagination={(pageNumber) =>
-            getData(pageNumber, bankNameSearch)
+            getData(pageNumber, roleNameSearch)
           }
           actions={[
             {
@@ -141,35 +138,34 @@ function DataMasterBank() {
           ]}
         />
       </div>
-      <Modal
-        onClose={handleCloseModal}
-        visible={showModal}
+      <Modal 
+        onClose={handleCloseModal} 
+        visible={showModal} 
         title={title}
-        form="form-upsert-bank"
+        form="form-upsert-role"
       >
-        <FormUpsertBank data={bank} showAlert={handleShowAlert} />
+        <FormUpsertRole data={role} showAlert={handleShowAlert} />
       </Modal>
-
-      <Modal
-        onClose={handleCloseModal}
-        visible={showModalConfirm}
+      <Modal 
+        onClose={handleCloseModal} 
+        visible= {showModalConfirm}
         title={title}
         confirm={handleConfirm}
       >
-        <p>Apakah anda yakin ingin menghapus bank ini?</p>
+        <p>Apakah Anda yakin ingin menghapus data ini?</p>
       </Modal>
-      <Modal
-        onClose={() => {
+      <Modal 
+        onClose={()=>{
           handleCloseModal();
           location.reload();
-        }}
-        visible={showModalAlert}
+        }} 
+        visible={showModalAlert} 
         title="Pemberitahuan"
-      >
+        >
         {messageAlert}
       </Modal>
     </>
   );
 }
 
-export default DataMasterBank;
+export default DataMasterRole;
