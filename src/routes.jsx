@@ -3,6 +3,8 @@ import { Navigate, Outlet, createBrowserRouter } from "react-router-dom";
 import LayoutKhusus from "./components/layout/LayoutKhusus";
 import LayoutUmum from "./components/layout/LayoutUmum";
 import DataMasterBank from "./pages/Khusus/DataMasterBank"
+import LandingPage from "./pages/Umum/LandingPage"
+import NotFoundPage from "./pages/NotFoundPage"
 import DaftarKantorCabang from "./pages/Khusus/DataMasterKantorCabang";
 import DataMasterKaryawanKantorCabang from "./pages/Khusus/DataMasterKaryawanKantorCabang"
 import FormUpsertKantorCabang from "./pages/Khusus/UpsertKantorCabang";
@@ -158,6 +160,14 @@ export const router = createBrowserRouter([
     ],
   },
   {
+    path: "/data-master/kantor-cabang",
+    element: (
+      <LayoutKhusus breadcrumbs="Kantor Cabang" navLinkActive="Data Master" subNavLinkActive="Kantor Cabang">
+        <DaftarKantorCabang />
+      </LayoutKhusus>
+    )
+  },
+  {
     path: "/data-master/alamat",
     element: (
       <LayoutKhusus
@@ -170,6 +180,14 @@ export const router = createBrowserRouter([
     ),
   },
   {
+    path: "/data-master/kantor-cabang/edit/:idCabang",
+    element: (
+      <LayoutKhusus breadcrumbs="Kantor Cabang/Edit Data">
+        <FormUpsertKantorCabang/>
+      </LayoutKhusus>
+    )
+  },
+  {
     path: "/data-master/kantor-cabang/tambah",
     element: (
       <LayoutKhusus breadcrumbs="Kantor Cabang/Tambah Data">
@@ -178,7 +196,7 @@ export const router = createBrowserRouter([
     )
   },
   {
-    path: "/data-master/kantor-cabang/:idCabang/karyawan",
+    path: "/data-master/:namaCabang/:idCabang/karyawan",
     element: (
       <LayoutKhusus breadcrumb="Data Master Bank">
       <DataMasterKaryawanKantorCabang />

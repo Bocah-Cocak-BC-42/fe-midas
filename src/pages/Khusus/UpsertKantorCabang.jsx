@@ -1,34 +1,193 @@
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from "../../components/Button";
 import Input from "../../components/Input/Input";
 import Select from "../../components/Input/Select";
+import { useEffect, useState } from "react";
+import { getAllCity, getAllProvince, getAllSubDistrict, getAllVillage } from "../../services/data-master-alamat.service";
+import { getKantorCabangById, postKantorCabang, putKantorCabang } from "../../services/data-master-kantor-cabang";
+import Modal from "../../components/Modal";
 
-function UpsertKantorCabang(){
+function UpsertKantorCabang(props){
+    const navigate = useNavigate();
+    const { idCabang } = useParams();
+    const [disabled, setDisabled] = useState(true);
+    const [provinces, setProvinces] = useState([]);
+    const [cities, setCities] = useState([]);
+    const [subdistrics, setSubdistricts] = useState([]);
+    const [villages, setVillages] = useState([]);
+    const [form, setForm] = useState({
+        id: null,
+        code: "",
+        officeName: "",
+        address: "",
+        provinceId: "",
+        cityId: "",
+        subdistrictId: "",
+        villageId: "",
+        postalCode: ""
+    })
+    const { data, showAlert } = props;
+    const [messageValidationFieldm, setMessageValidationField] = useState({});
+    const [showModalAlert, setShowModalAlert] = useState(false);
+    const [messageConfirm, setMessageConfirm] = useState("");
+    const [messageConfirmEdit, setMessageConfirmEdit] = useState("");
+    
+    function getKantorCabang(id){
+        console.log(id)
+        getKantorCabangById(
+            (data)=>{
+                setForm(
+                {...form, 
+                    officeName:data.name,
+                    code:data.code,
+                    address:data.address,
+                    provinceId:data.province,
+                    cityId:data.city,
+                    subdistrictId:data.subDistrict,
+                    villageId:data.village,
+                    postalCode:data.postalCode
+                })
+                console.log(data)
+                getDataCity(data.province)
+                getDataSubdistrict(data.city)
+                getDataVillage(data.subDistrict)
+                } ,id)
+    };
+
+    function getDataProvinsi() {
+        //hit service get all provinsi
+        getAllProvince(null, (res) => {
+            setProvinces(res.data);
+        }, (err)=>{setCities([])})
+    }
+    useEffect(() => {
+        getDataProvinsi();
+        if(idCabang){
+            getKantorCabang(idCabang)
+        }
+    }, []);
+
+    function getDataCity(idProvince) {
+        getAllCity(idProvince, (res) =>{
+            setCities(res.data);
+        },(err)=>{
+            setCities([]); 
+            setSubdistricts([]); 
+            setVillages([])})
+        }
+        
+        function getDataSubdistrict(idCity) {
+            getAllSubDistrict(idCity, (res) =>{
+                setSubdistricts(res.data);
+                console.log(subdistrics);
+            },(err)=>{
+            setSubdistricts([])
+            setVillages([])})
+    }
+
+    function getDataVillage(idSubdistrict) {
+        getAllVillage(idSubdistrict, (res) =>{
+            setVillages(res.data);
+            console.log(villages);
+        },(err)=>{ setVillages([]);})
+    }
+
+    useEffect(() =>{
+        setDisabled(false)
+    }, [])
+
+    const setProvince = (e) =>{
+        console.log(e);
+        setForm({...form, provinceId:e})
+        getDataCity(e)
+    }
+
+    const setCity = (e) =>{
+        console.log(e);
+        setForm({...form, cityId:e})
+        getDataSubdistrict(e)
+    }
+
+    const setSubdistrict = (e) =>{
+        console.log(e)
+        setForm({...form, subdistrictId:e})
+        getDataVillage(e)
+    }
+
+    const setVillage = (e) =>{
+        console.log(e)
+        setForm({...form, villageId:e,postalCode: villages.find(x => x.id === e).postalCode})
+    }
+
+    const handleSubmit = (e) =>{
+        e.preventDefault()
+        if(!idCabang){
+            postKantorCabang(
+                (ressMessage) => {
+                    setMessageConfirm(ressMessage);
+                    setShowModalAlert(true);
+                },
+                (errors) => {
+                    setMessageValidationField(errors);
+                },
+                form
+            )
+        } else{
+            putKantorCabang(
+                (ressMessage) => {
+                    setMessageConfirmEdit(ressMessage);
+                    setShowModalAlert(true);
+                },idCabang, {...form, id:idCabang},
+                (errors) => {
+                    setMessageValidationField(errors);
+                }
+            );
+        }
+    }
+    // const { data, showAlert } = props;
+    // const [messageValidationField, setMessageValidationField] = useState({});
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+
+    //     let namaKantorCabangVal = e.target.namaKantorCabang.value || null;
+    //     let koderKantorCabangVal = e.target.kodeKantorCabang.value || null;
+    //     let alamatVal = e.target.alamatKantorCabang.value || null;
+    //     let provinsiVal = e.target.provinsi.value || null;
+    //     let cityVal = e.target.kabupaten.value || null;
+    //     let subdistrictVal = e.target.kecamatan.value || null;
+    //     let villageVal = e.target.kelurahan.value || null
+
+        
+    // }
     return(
         <>
             <div className="mt-2">
                 <div>
-                    <Button icon="arrow-left" variant="danger">
-                        Kembali
-                    </Button>
+                    <Link to={"/data-master/kantor-cabang"}>
+                        <Button icon="arrow-left" variant="danger">
+                            Kembali
+                        </Button>
+                    </Link>
                 </div>
+                
                 <div>
-                    <h1 className="text-2xl font-bold">Tambah Kantor Cabang</h1>
+                    <h1 className="text-2xl font-bold">{idCabang?"Edit":"Tambah"} Kantor Cabang</h1>
                 </div>
 
                 <div className="rounded-md border mt-4 shadow">
                     <form
                         id="form-upsert-kantor-cabang"
-                        // onSubmit={handleSubmit}
                         className="flex flex-col gap-4 p-5 shadow-xl"
                     >
                         <div>
                             <Input 
                                 placeholder="Masukan Nama Kantor Cabang"
-                                name="namaKantorCabang"
-                                // defaultValue={data?.namaKantorCabang}
-                                message={"Nama Cabang Harus tidak boleh kosong"}
+                                name="officeName"
                                 required
                                 grow
+                                defaultValue={form.officeName}
+                                message={messageValidationFieldm?.OfficeName}
+                                onChange={(e) => setForm({...form, officeName:e.target.value})}
                             >
                                 Nama Cabang
                             </Input>
@@ -37,27 +196,39 @@ function UpsertKantorCabang(){
                         <div>
                             <Input
                                 placeholder="Kode Kantor Cabang"
-                                name="kodeKantorCabang"
-                                // defaultValue={data?.kodeKantorCabang}
+                                name="code"
                                 required
                                 grow
+                                defaultValue={form.code}
+                                message={messageValidationFieldm?.Code}
+                                onChange={(e) => setForm({...form, code: e.target.value})}
                             >
                                 Kode Kantor Cabang
                             </Input>
                         </div>
 
                         <div>
-                            <Select
-                                name="provinsi"
+                            <Input
+                                placeholder="Alamat"
+                                name="address"
+                                required
                                 grow
-                                massage={"Provinsi Tidak bolek kosong"}
-                                options={[
-                                    {text: "Pilih Provinsi", value: ""},
-                                    {text: "DK Jakarta", value: "DKJ"},
-                                    {text: "Jawa Barat", value: "JB"},
-                                    {text: "Sulawesi Barat", value: "SLB"},
-                                    {text: "DI Yogyakarta", value:"DIY"}
-                                ]}
+                                defaultValue={form.address}
+                                message={messageValidationFieldm?.Address}
+                                onChange={(e) => setForm({...form, address: e.target.value})}
+                            >
+                                Alamat Kantor Cabang
+                            </Input>
+                        </div>
+
+                        <div>
+                            <Select
+                                // name="provinceId"
+                                grow
+                                options={provinces}
+                                value={form.provinceId}
+                                required
+                                handleChange={(e) => setProvince(e)}
                             >
                                 Provinsi
                             </Select>
@@ -65,16 +236,13 @@ function UpsertKantorCabang(){
 
                         <div>
                             <Select
-                            name="kabupaten"
-                            grow
-                            message={"Kabupaten/Kota tidak boleh kosong"}
-                            options={[
-                                {text: "Pilih Kabupaten/Kota", value: ""},
-                                {text: "Jakarta Barat", value: "JakBar"},
-                                {text: "Jakarta Selatan", value: "JakSel"},
-                                {text: "Jakarta Utara", value: "JakUt"},
-                                {text: "Jakarta Timyur", value: "JakTim"}
-                            ]}
+                                // name="cityId"
+                                grow
+                                options={cities}
+                                value={form.cityId}
+                                setDisabled={disabled}
+                                required
+                                handleChange={(e) => setCity(e)}
                             >
                                 Kabupaten/Kota
                             </Select>
@@ -82,16 +250,13 @@ function UpsertKantorCabang(){
 
                         <div>
                             <Select
-                            name="kecamatan"
-                            grow
-                            message={"Kecamatan tidak boleh kosong"}
-                            options={[
-                                {text: "Pilih Kabupaten/Kota", value: ""},
-                                {text: "Jakarta Barat", value: "JakBar"},
-                                {text: "Jakarta Selatan", value: "JakSel"},
-                                {text: "Jakarta Utara", value: "JakUt"},
-                                {text: "Jakarta Timyur", value: "JakTim"}
-                            ]}
+                                name="subdistrictId"
+                                grow
+                                options={subdistrics}
+                                value={form.subdistrictId}
+                                setDisabled={disabled}
+                                required
+                                handleChange={(e) => setSubdistrict(e)}
                             >
                                 Kecamatan
                             </Select>
@@ -99,28 +264,48 @@ function UpsertKantorCabang(){
 
                         <div>
                             <Select
-                            name="kelurahan"
+                            name="villageId"
                             grow
-                            message={"Kelurahan tidak boleh kosong"}
-                            options={[
-                                {text: "Pilih Kabupaten/Kota", value: ""},
-                                {text: "Jakarta Barat", value: "JakBar"},
-                                {text: "Jakarta Selatan", value: "JakSel"},
-                                {text: "Jakarta Utara", value: "JakUt"},
-                                {text: "Jakarta Timyur", value: "JakTim"}
-                            ]}
+                            disabled={disabled}
+                            options={villages}
+                            value={form.villageId}
+                            message={messageValidationFieldm?.VillageId}
+                            handleChange={(e) => setVillage(e)}
                             >
-                                Kelurahan
+                                Desa
                             </Select>
                         </div>
 
+                        <div>
+                            <Input name="postalCode" disabled={true} defaultValue={form.postalCode}>
+                                Postal Code
+                            </Input>
+                        </div>
+
                         <div className="self-end">
-                            <Button type="sumbit">
-                                Tambah
+                            <Button type="sumbit" onClick={(e)=>handleSubmit(e)}>
+                                {idCabang?"Edit":"Tambah"}
                             </Button>
                         </div>
                     </form>
                 </div>
+
+                <Modal
+                onClose={()=>{setShowModalAlert(false);
+                navigate('/data-master/kantor-cabang')}}
+                visible={showModalAlert}
+                title={"Pemberitahuan"}
+                >
+                    {messageConfirm}
+                </Modal>
+
+                <Modal
+                    onClose={()=>{setShowModalAlert(false);
+                    navigate('/data-master/kantor-cabang')}}
+                    visible={showModalAlert}
+                    title={"Pemberitahuan"}>
+                        {messageConfirmEdit}
+                </Modal>
             </div>
         </>
     )

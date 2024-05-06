@@ -3,7 +3,9 @@ import Button from "../../components/Button";
 import Table from "../../components/Table";
 import InputSearch from "../../components/Input/InputSearch";
 import Modal from "../../components/Modal";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { get, getById } from "../../services/config.service";
+import { deleteKantorCabang, getKantorCabang } from "../../services/data-master-kantor-cabang";
 
 function DaftarKantorCabang() {
     const [cabangCabang, setCabangCabang] = useState([]);
@@ -16,53 +18,36 @@ function DaftarKantorCabang() {
     const [pencarianNamaCabang, setPencarianNamaCabang] = useState("");
     const [pencarianProvinsi, setPencarianProvinsi] = useState("");
     const [pecarianKota, setPencarianKota] = useState("");
+    const [messageAlert, setMessageAlert] = useState("");
+    const [errorMessage, setErrorMessage] = useState("Gagal Memuat Data Kantor Cabang");
+    const [id, setId] = useState("");
     const navigate = useNavigate();
-
+    const tableDataHeaders = [
+        { code: "id", name: "ID"},
+        { code: "code", name: "Code"},
+        { code: "name", name: "Nama Kantor Cabang"},
+        { code: "province", name: "Provinsi"},
+        { code: "city", name: "Kabupaten/Kota"}
+    ]
     const getData = (pageNumber, pencarianNamaCabang, pencarianProvinsi, pecarianKota) => {
-        console.log(pageNumber, pencarianNamaCabang, pencarianProvinsi, pecarianKota);
-
-        setCabangCabang([
-            {
-                id : 1, 
-                kodeKantorCabang : "CA001",
-                namaKantorCabang: "KCA Sudirman",
-                provinsi: "Jakarta",
-                kota: "Jakarta Selatan",
+        getKantorCabang(
+            (res) => {
+                setCabangCabang(
+                    res.data.map((item) => 
+                        tableDataHeaders.reduce((acc, header) => {
+                            acc[header.code] = item[header.code];
+                            return acc;
+                        }, {})
+                    ) 
+                );
+                setPagination(res.pagination);
             },
-            {
-                id: 2,
-                kodeKantorCabang: "CA002",
-                namaKantorCabang: "KCA Thamrin",
-                provinsi: "Jakarta",
-                kota: "Jakarta Pusat"
+            (errMessage) => {
+                setErrorMessage(errMessage);
+                setCabangCabang([]);
             },
-            {
-                id:3,
-                kodeKantorCabang: "CA003",
-                namaKantorCabang: "KCA Margonda",
-                provinsi: "Jawa Barat",
-                kota: "Depok"
-            },
-            {
-                id: 4,
-                kodeKantorCabang: "CA004",
-                namaKantorCabang: "KCA Bandung",
-                provinsi: "Jawa Barat",
-                kota: "Bandung"
-            },
-            {
-                id: 5,
-                kodeKantorCabang: "CA005",
-                namaKantorCabang: "KCA Jayapura",
-                provinsi: "Jayapura",
-                kota: "Jayapura"
-            }
-        ]);
-        setPagination({
-            pageNumber: 1,
-            pageSize: 10,
-            totalPages: 3,
-        });
+            {page: pageNumber, pageSize: 5, officeName: pencarianNamaCabang, province: pencarianProvinsi, city: pecarianKota }
+        );
     }
 
         useEffect(() => {
@@ -70,26 +55,32 @@ function DaftarKantorCabang() {
         }, []);
 
         const handleSearch = (e) => {
-
             e.preventDefault();
             let pencarianNamaCabangVal = e.target.pencarianNamaCabang.value || null;
+            console.log(pencarianNamaCabang)
             setPencarianNamaCabang(pencarianNamaCabangVal);
-            let pencarianProvinsiVal = e.target.pencarianProvinsi || null;
+            let pencarianProvinsiVal = e.target.pencarianProvinsi.value || null;
             setPencarianProvinsi(pencarianProvinsiVal);
-            let pencarianKotaVal = e.target.pencarianKotaVal.value || null;
+            console.log(pencarianProvinsiVal);
+            let pencarianKotaVal = e.target.pencarianKota.value || null;
             setPencarianKota(pencarianKotaVal);
             getData(1, pencarianNamaCabangVal,pencarianProvinsiVal,pencarianKotaVal);
             
         }
         const handleDelete = (id) =>{
+            setId(id);
             console.log(id);
+            setJudul("Hapus Kantor Cabang")
             setConfirmModal(true);
         }
         const handleConfirm = (confirm) =>{
             setConfirmModal(true);
             if(confirm){
-                setJudul("Pemberitahuan");
-                setAlertModal(true);
+                deleteKantorCabang((message) => {
+                    setMessageAlert(message)
+                    setJudul("Pemberitahuan");
+                    setAlertModal(true);
+                }, id);
             }
         };
 
@@ -100,6 +91,11 @@ function DaftarKantorCabang() {
             cabang();
         }
         
+        const handleEdit = (id) =>{
+            console.log(id);
+            navigate(`/data-master/kantor-cabang/edit/${id}`)
+        }
+
         const handleDetail = (id) =>{
             console.log(id);
             navigate(`/data-master/kantor-cabang/${id}/karyawan`);
@@ -116,20 +112,23 @@ function DaftarKantorCabang() {
                     </form>
                 </div>
                 <div className="mt-2">
-                    <Button>Tambah Cabang</Button>
+                    <Link to={"/data-master/kantor-cabang/tambah"}>
+                        <Button>Tambah Cabang</Button>
+                    </Link>
                 </div>
                 <div className="rounded-md border mt-4 shadow">
                     <Table 
-                        tableHeaders={["Kode Cabang", "Nama Cabang", "Provinsi", "Kota", "Aksi"]}
+                        tableHeaders={tableDataHeaders}
                         data={cabangCabang}
                         pagination={pagination}
                         getDataByPagination={(pageNumber) => {
-                            console.log(pageNumber);
+                            getData(pageNumber, pencarianNamaCabang, pencarianProvinsi, pecarianKota)
                         }}
                         actions={[
                             {
                                 name: "Edit",
                                 variant: "warning",
+                                function: handleEdit
                             },
                             {
                                 name: "Detail",
@@ -139,7 +138,7 @@ function DaftarKantorCabang() {
                             {
                                 name: "Delete",
                                 variant: "danger",
-                                function: handleDelete
+                                function:(id) =>handleDelete(id)
                             }
                         ]}
                     />
@@ -152,8 +151,13 @@ function DaftarKantorCabang() {
                 >
                     <p>Apakah anda yakin akan menghapus data ini?</p>
                 </Modal>
-                <Modal onClose={handleCloseModal} visible={showAlertModal} title={showJudul}>
-                    Data Kantor Cabang Sudirman Berhasil dihapus
+                <Modal onClose={() => {
+                        handleCloseModal();
+                        location.reload();
+                        }}
+                        visible={showAlertModal} 
+                        title={showJudul}>
+                    {messageAlert}
                 </Modal>
             </div>
         </>

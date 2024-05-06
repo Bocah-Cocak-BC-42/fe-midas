@@ -7,14 +7,14 @@ const villageEndpoint = "village";
 export const getAllProvince = (params, callback, errorCallback) => {
   get("province/all", params, callback, errorCallback);
 };
-export const getAllCity = (params, callback, errorCallback) => {
-  get("city/provinceId", params, callback, errorCallback);
+export const getAllCity = (proviceId, callback, errorCallback) => {
+  get(`city/${proviceId}`, {}, callback, errorCallback);
 };
-export const getAllSubDistrict = (params, callback, errorCallback) => {
-  get("subdistrict/cityId", params, callback, errorCallback);
+export const getAllSubDistrict = (cityId, callback, errorCallback) => {
+  get(`subdistrict/${cityId}`, {}, callback, errorCallback);
 };
-export const getAllVillage = (params, callback, errorCallback) => {
-  get("village/subdistrictId", params, callback, errorCallback);
+export const getAllVillage = (subdistrictId, callback, errorCallback) => {
+  get(`village/${subdistrictId}`, {}, callback, errorCallback);
 };
 
 export const getProvince = (params, callback, errorCallback) => {

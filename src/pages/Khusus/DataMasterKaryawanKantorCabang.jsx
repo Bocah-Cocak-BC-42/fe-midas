@@ -18,8 +18,8 @@ function DataKaryawanKantorCabang(){
     const [pencarianNamaKaryawan, setPencarianNamaKaryawan] = useState("");
     const [pecarianNIP, setPencarianNIP] = useState("");
     const [pencarianJabatan, setPencarianJabatan] = useState("");
-    const { idCabang } = useParams();
-    console.log(idCabang)
+    const { idCabang, namaCabang } = useParams();
+    console.log(idCabang, namaCabang)
 
     const getDataKaryawan = (pageNumber, pencarianNamaKaryawan, pecarianNIP, pencarianJabatan) => {
         // console.log(pageNumber, pecarianNIP, pencarianNamaKaryawan, pencarianJabatan);
