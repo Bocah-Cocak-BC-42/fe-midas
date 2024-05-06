@@ -3,11 +3,12 @@ import LayoutKhusus from "./components/layout/LayoutKhusus";
 import LayoutUmum from "./components/layout/LayoutUmum";
 import DataMasterAlamat from "./pages/Khusus/DataMasterAlamat";
 import DataMasterBank from "./pages/Khusus/DataMasterBank";
-import LayoutKhusus from "./components/layout/LayoutKhusus";
 import DataMasterRole from "./pages/Khusus/DataMasterRole";
 import UserManagementEmployee from "./pages/Khusus/UserManagementEmployee";
 import UpsertUserManagementEmployee from "./pages/Khusus/UpsertUserManagementEmployee";
 import UpsertDataMasterBank from "./pages/Khusus/UpsertDataMasterBank";
+import LandingPage from "./pages/Umum/LandingPage.jsx";
+import NotFoundPage from "./pages/NotFoundPage.jsx"
 
 export const router = createBrowserRouter([
   {
