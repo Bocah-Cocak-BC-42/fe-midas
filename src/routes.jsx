@@ -7,9 +7,6 @@ import Dashboard from "./pages/Khusus/Dashboard";
 import DataMasterAlamat from "./pages/Khusus/DataMasterAlamat";
 import DataMasterBank from "./pages/Khusus/DataMasterBank";
 import DataMasterRole from "./pages/Khusus/DataMasterRole";
-import UserManagementEmployee from "./pages/Khusus/UserManagementEmployee";
-import UpsertUserManagementEmployee from "./pages/Khusus/UpsertUserManagementEmployee";
-import UpsertDataMasterBank from "./pages/Khusus/UpsertDataMasterBank";
 import NotFoundPage from "./pages/NotFoundPage";
 import LandingPage from "./pages/Umum/LandingPage";
 import Login from "./pages/Umum/Login";
@@ -142,6 +139,20 @@ export const router = createBrowserRouter([
           </AccessRoleAdminValidation>
         ),
       },
+      {
+        path: "data-master/role",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus
+              breadcrumbs={"Data Master Role"}
+              navLinkActive={"Data Role"}
+              subNavLinkActive={"Role"}
+            >
+              <DataMasterRole />
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        ),
+      }
     ],
   },
   {
