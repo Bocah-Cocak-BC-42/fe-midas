@@ -156,6 +156,19 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path: "data-master/role",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus
+              breadcrumbs={"Data Master Role"}
+              navLinkActive={"Data Role"}
+              subNavLinkActive={"Role"}
+            >
+              <DataMasterRole />
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        ),
+      }
         path: "data-master/sektor-usaha",
         element: (
           <AccessRoleAdminValidation>
