@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import Button from '../../components/Button';
+import FormUpsertCity from '../../components/Form/FormUpsertCity';
 import FormUpsertProvince from '../../components/Form/FormUpsertProvince';
+import FormUpsertSubdistrict from '../../components/Form/FormUpsertSubdistrict';
+import FormUpsertVillage from '../../components/Form/FormUpsertVillage';
 import InputSearch from '../../components/Input/InputSearch';
 import Modal from '../../components/Modal';
 import Table from '../../components/Table';
 import {
-  delProvince,
   delCity,
+  delProvince,
   delSubdistrict,
+  delVillage,
   getCity,
   getProvince,
   getSubDistrict,
   getVillage
-}
-  from '../../services/data-master-alamat.service';
-import FormUpsertCity from '../../components/Form/FormUpsertCity';
-import FormUpsertSubdistrict from '../../components/Form/FormUpsertSubdistrict';
-import FormUpsertVillage from '../../components/Form/FormUpsertVillage';
+} from '../../services/data-master-alamat.service';
 
 function DataMasterAlamat() {
   const [sectionNumber, setSectionNumber] = useState(0);
@@ -87,27 +87,24 @@ function DataMasterAlamat() {
   const [sectionDto, setSectionDto] = useState();
   const [pageNumber, setPageNumber] = useState(1);
   const [pagination, setPagination] = useState({
-    pageNumber: 1,
+    page: 1,
     pageSize: 10,
     totalPage: 0,
   });
   const [searchVal, setSearchVal] = useState("");
+  const [rerender, setRerender] = useState(false);
   useEffect(() => {
     if (sectionNumber === 0) {
       getProvince(
         {
-          pageNumber: pageNumber,
+          page: pageNumber,
           pageSize: pagination.pageSize,
           name: searchVal
         },
         (dto) => {
           if (dto.status === "OK") {
             setSectionDto(dto.data);
-            setPagination({
-              pageNumber: dto.pagination.page,
-              pageSize: dto.pagination.pageSize,
-              totalPage: dto.pagination.totalPage
-            });
+            setPagination(dto.pagination);
           } else if (dto.status === "FAILED") console.log(dto.message);
           else if (dto.status === "NOTFOUND") console.log(dto.message);
         },
@@ -120,7 +117,7 @@ function DataMasterAlamat() {
     } else if (sectionNumber === 1) {
       getCity(
         {
-          pageNumber: pageNumber,
+          page: pageNumber,
           pageSize: pagination.pageSize,
           provinceId: sectionState[0].id,
           name: searchVal
@@ -128,11 +125,7 @@ function DataMasterAlamat() {
         (dto) => {
           if (dto.status === "OK") {
             setSectionDto(dto.data);
-            setPagination({
-              pageNumber: dto.pagination.page,
-              pageSize: dto.pagination.pageSize,
-              totalPage: dto.pagination.totalPage
-            });
+            setPagination(dto.pagination);
           } else if (dto.status === "FAILED") console.log(dto.message);
           else if (dto.status === "NOTFOUND") console.log(dto.message);
         },
@@ -145,7 +138,7 @@ function DataMasterAlamat() {
     } else if (sectionNumber === 2) {
       getSubDistrict(
         {
-          pageNumber: pageNumber,
+          page: pageNumber,
           pageSize: pagination.pageSize,
           cityId: sectionState[1].id,
           name: searchVal
@@ -153,11 +146,7 @@ function DataMasterAlamat() {
         (dto) => {
           if (dto.status === "OK") {
             setSectionDto(dto.data);
-            setPagination({
-              pageNumber: dto.pagination.page,
-              pageSize: dto.pagination.pageSize,
-              totalPage: dto.pagination.totalPage
-            });
+            setPagination(dto.pagination);
           } else if (dto.status === "FAILED") console.log(dto.message);
           else if (dto.status === "NOTFOUND") console.log(dto.message);
         },
@@ -170,7 +159,7 @@ function DataMasterAlamat() {
     } else if (sectionNumber === 3) {
       getVillage(
         {
-          pageNumber: pageNumber,
+          page: pageNumber,
           pageSize: pagination.pageSize,
           subdistrictId: sectionState[2].id,
           name: searchVal
@@ -178,11 +167,7 @@ function DataMasterAlamat() {
         (dto) => {
           if (dto.status === "OK") {
             setSectionDto(dto.data);
-            setPagination({
-              pageNumber: dto.pagination.page,
-              pageSize: dto.pagination.pageSize,
-              totalPage: dto.pagination.totalPage
-            });
+            setPagination(dto.pagination);
           } else if (dto.status === "FAILED") console.log(dto.message);
           else if (dto.status === "NOTFOUND") console.log(dto.message);
         },
@@ -195,7 +180,9 @@ function DataMasterAlamat() {
 
   }, [
     pageNumber,
-    sectionNumber
+    sectionNumber,
+    searchVal,
+    rerender
   ]);
 
   const handleSearch = (e) => {
@@ -205,51 +192,75 @@ function DataMasterAlamat() {
   };
 
   const [showModal, setShowModal] = useState(false);
-  const [showModalInfo, setShowModalInfo] = useState(false);
   const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [showModalAlert, setShowModalAlert] = useState(false);
   const [title, setTitle] = useState("");
   const [messageAlert, setMessageAlert] = useState("");
   const [errorMessage, setErrorMessage] = useState("Cannot Get Data " + sectionInfo[sectionNumber].name);
   const [id, setId] = useState("");
+  const [formData, setFormData] = useState(null);
 
-  const handleDetail = (id) => {
-    sectionState[sectionNumber].id = id;
-    sectionState[sectionNumber].name = sectionDto[getIndex(id)].name;
+  const handleDetail = (rowData) => {
+    sectionState[sectionNumber].id = rowData.id;
+    sectionState[sectionNumber].name = sectionDto[getIndex(rowData.id)].name;
     setSectionState(sectionState);
     setSectionNumber(sectionNumber + 1);
+    setSearchVal("");
   };
   function getIndex(id) {
     let index = 0;
     const length = sectionDto.length;
     for (let i = 0; i < length; i++) {
       if (sectionDto[i].id === id) return index
+      index++;
     }
   }
 
-  const handleEdit = (id) => {
-    getProvince((data) => {
-      setSectionState(data);
-      setTitle("Edit Provinsi");
+  const handleEdit = (rowData) => setFormData(rowData);
+  useEffect(() => {
+    if (formData !== null) {
+      setTitle("Edit " + sectionInfo[sectionNumber].name);
       setShowModal(true);
-    }, id);
-  };
+    }
+  }, [formData]);
 
-  const handleDelete = (id) => {
-    setId(id);
+  const handleDelete = (rowData) => {
+    setId(rowData.id);
     setTitle("Hapus Provinsi");
     setShowModalConfirm(true);
   };
 
   const handleConfirm = (confirm) => {
-    console.log(confirm);
     setShowModalConfirm(false);
     if (confirm) {
-      delProvince((message) => {
-        setMessageAlert(message);
-        setTitle("Pemberitahuan");
-        setShowModalAlert(true);
-      }, id);
+      if (sectionNumber === 0) {
+        delProvince((message) => {
+          setMessageAlert(message);
+          setTitle("Pemberitahuan");
+          setShowModalAlert(true);
+        }, id);
+
+      } else if (sectionNumber === 1) {
+        delCity((message) => {
+          setMessageAlert(message);
+          setTitle("Pemberitahuan");
+          setShowModalAlert(true);
+        }, id);
+
+      } else if (sectionNumber === 2) {
+        delSubdistrict((message) => {
+          setMessageAlert(message);
+          setTitle("Pemberitahuan");
+          setShowModalAlert(true);
+        }, id);
+
+      } else if (sectionNumber === 3) {
+        delVillage((message) => {
+          setMessageAlert(message);
+          setTitle("Pemberitahuan");
+          setShowModalAlert(true);
+        }, id);
+      }
     }
   };
 
@@ -263,16 +274,33 @@ function DataMasterAlamat() {
     setShowModal(false);
     setShowModalConfirm(false);
     setShowModalAlert(false);
-    setSectionState();
+    setFormData(null);
   };
 
-  const handleDetailVillage = () => { };
-console.log(sectionInfo[sectionNumber].form);
   return (
     <>
-      <h1 className="text-2xl font-bold">{sectionInfo[sectionNumber].name}</h1>
-      <h3 className="mb-4 text-xl font-bold">{sectionState[sectionNumber].name}</h3>
-      <div className="flex justify-between">
+      {
+        sectionNumber <= 0 ?
+          null
+          :
+          <div className="mb-4">
+            <Button
+              variant="danger"
+              icon="arrow-left"
+              onClick={() => {
+                setSectionNumber(sectionNumber - 1);
+              }}
+            >Kembali</Button>
+          </div>
+      }
+      <h1 className="font-bold">{sectionInfo[sectionNumber].name}</h1>
+      {
+        sectionNumber <= 0 ?
+          null
+          :
+          <h3 className="text-2xl font-bold">{sectionState[sectionNumber - 1].name}</h3>
+      }
+      <div className="flex justify-between mt-4">
         <Button
           onClick={() => {
             setShowModal(true);
@@ -298,23 +326,39 @@ console.log(sectionInfo[sectionNumber].form);
               messageErrorEmptyData={errorMessage}
               pagination={pagination}
               getDataByPagination={(pageNumber) => setPageNumber(pageNumber)}
-              actions={[
-                {
-                  name: "Detail",
-                  variant: "info",
-                  function: sectionNumber !== 3 ? handleDetail : handleDetailVillage,
-                },
-                {
-                  name: "Edit",
-                  variant: "warning",
-                  function: handleEdit,
-                },
-                {
-                  name: "Delete",
-                  variant: "danger",
-                  function: (id) => handleDelete(id),
-                },
-              ]}
+              actions={
+                sectionNumber === 3 ?
+                  [
+                    {
+                      name: "Edit",
+                      variant: "warning",
+                      function: (row) => handleEdit(row),
+                    },
+                    {
+                      name: "Delete",
+                      variant: "danger",
+                      function: (row) => handleDelete(row),
+                    },
+                  ]
+                  :
+                  [
+                    {
+                      name: "Detail",
+                      variant: "info",
+                      function: (row) => handleDetail(row),
+                    },
+                    {
+                      name: "Edit",
+                      variant: "warning",
+                      function: (row) => handleEdit(row),
+                    },
+                    {
+                      name: "Delete",
+                      variant: "danger",
+                      function: (row) => handleDelete(row),
+                    },
+                  ]
+              }
             />
           </div>
       }
@@ -324,30 +368,30 @@ console.log(sectionInfo[sectionNumber].form);
         title={title}
         form={sectionInfo[sectionNumber].form}
       >
-      {
-        sectionNumber === 0 ?
-          <FormUpsertProvince data={sectionState} showAlert={handleShowAlert} />
-          :
-          null
-      }
-      {
-        sectionNumber === 1 ?
-          <FormUpsertCity data={sectionState} showAlert={handleShowAlert} />
-          :
-          null
-      }
-      {
-        sectionNumber === 2 ?
-          <FormUpsertSubdistrict data={sectionState} showAlert={handleShowAlert} />
-          :
-          null
-      }
-      {
-        sectionNumber === 3 ?
-          <FormUpsertVillage data={sectionState} showAlert={handleShowAlert} />
-          :
-          null
-      }
+        {
+          sectionNumber === 0 ?
+            <FormUpsertProvince data={formData} showAlert={handleShowAlert} />
+            :
+            null
+        }
+        {
+          sectionNumber === 1 ?
+            <FormUpsertCity data={formData ?? sectionState} showAlert={handleShowAlert} />
+            :
+            null
+        }
+        {
+          sectionNumber === 2 ?
+            <FormUpsertSubdistrict data={formData ?? sectionState} showAlert={handleShowAlert} />
+            :
+            null
+        }
+        {
+          sectionNumber === 3 ?
+            <FormUpsertVillage data={formData ?? sectionState} showAlert={handleShowAlert} />
+            :
+            null
+        }
       </Modal>
 
       <Modal
@@ -361,7 +405,8 @@ console.log(sectionInfo[sectionNumber].form);
       <Modal
         onClose={() => {
           handleCloseModal();
-          location.reload();
+          // location.reload();
+          setRerender(!rerender);
         }}
         visible={showModalAlert}
         title="Pemberitahuan"

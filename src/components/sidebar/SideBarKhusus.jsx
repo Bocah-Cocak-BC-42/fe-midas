@@ -6,9 +6,11 @@ import {
   faServer,
   faCaretDown,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 function SideBarKhusus({ navLinkActive, subNavLinkActive }) {
+  const [sidebar, setSidebar] = useState([]);
   const [openNavDataMaster, setOpenNavDataMaster] = useState(
     navLinkActive === "Data Master"
   );
@@ -16,55 +18,110 @@ function SideBarKhusus({ navLinkActive, subNavLinkActive }) {
     navLinkActive === "User Management"
   );
 
-  const sidebar = [
-    {
-      name: "Verifikasi Kredit",
-      icon: faClipboardCheck,
-      key: 0,
-    },
-    {
-      name: "User Management",
-      icon: faCircleUser,
-      key: 1,
-      children: [
+  useEffect(() => {
+    const user = JSON.parse(Cookies.get("user") ?? null);
+    if (user?.role === "Admin") {
+      setSidebar([
         {
-            name: "Karyawan",
-            location: "/user-management/karyawan"
+          name: "Verifikasi Kredit",
+          icon: faClipboardCheck,
+          key: 0,
         },
         {
-            name: "Nasabah",
-            location: "/user-management/nasabah"
-        }
-      ]
-    },
-    {
-      name: "Data Master",
-      icon: faServer,
-      key: 2,
-      children: [
-        {
-          name: "Role",
-          location: "/data-master/role",
+          name: "User Management",
+          icon: faCircleUser,
+          key: 1,
+          children: [
+            {
+              name: "Karyawan",
+              location: "/user-management/karyawan",
+            },
+            {
+              name: "Nasabah",
+              location: "/user-management/nasabah",
+            },
+          ],
         },
         {
-          name: "Kantor Cabang",
-          location: "/data-master/kantor-cabang",
+          name: "Data Master",
+          icon: faServer,
+          key: 2,
+          children: [
+            {
+              name: "Role",
+              location: "/admin/data-master/role",
+            },
+            {
+              name: "Kantor Cabang",
+              location: "/admin/data-master/kantor-cabang",
+            },
+            {
+              name: "Sektor Usaha",
+              location: "/admin/data-master/sektor-usaha",
+            },
+            {
+              name: "Alamat",
+              location: "/admin/data-master/alamat",
+            },
+            {
+              name: "Bank",
+              location: "/admin/data-master/bank",
+            },
+          ],
         },
-        {
-          name: "Sektor Usaha",
-          location: "/data-master/sektor-usaha",
-        },
-        {
-          name: "Alamat",
-          location: "/data-master/alamat",
-        },
-        {
-          name: "Bank",
-          location: "/data-master/bank",
-        },
-      ],
-    },
-  ];
+      ]);
+    }
+  }, []);
+
+  // const sidebar = [
+  //   {
+  //     name: "Verifikasi Kredit",
+  //     icon: faClipboardCheck,
+  //     key: 0,
+  //   },
+  //   {
+  //     name: "User Management",
+  //     icon: faCircleUser,
+  //     key: 1,
+  //     children: [
+  //       {
+  //           name: "Karyawan",
+  //           location: "/user-management/karyawan"
+  //       },
+  //       {
+  //           name: "Nasabah",
+  //           location: "/user-management/nasabah"
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     name: "Data Master",
+  //     icon: faServer,
+  //     key: 2,
+  //     children: [
+  //       {
+  //         name: "Role",
+  //         location: "/data-master/role",
+  //       },
+  //       {
+  //         name: "Kantor Cabang",
+  //         location: "/data-master/kantor-cabang",
+  //       },
+  //       {
+  //         name: "Sektor Usaha",
+  //         location: "/data-master/sektor-usaha",
+  //       },
+  //       {
+  //         name: "Alamat",
+  //         location: "/data-master/alamat",
+  //       },
+  //       {
+  //         name: "Bank",
+  //         location: "/data-master/bank",
+  //       },
+  //     ],
+  //   },
+  // ];
 
   const mapSideBar = () => {
     let mapedSideBar = [];
