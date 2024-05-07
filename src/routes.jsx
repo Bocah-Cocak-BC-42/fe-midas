@@ -170,7 +170,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "data-master/kantor-cabang/:id/karyawan",
+        path: "data-master/kantor-cabang/karyawan/:id",
         element: (
           <AccessRoleAdminValidation>
             <LayoutKhusus

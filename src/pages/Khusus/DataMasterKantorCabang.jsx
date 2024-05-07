@@ -96,7 +96,7 @@ function DaftarKantorCabang() {
         }
 
         const handleDetail = (data) =>{
-            navigate(`/admin/data-master/kantor-cabang/${data.id}/karyawan`);
+            navigate(`/admin/data-master/kantor-cabang/karyawan/${data.id}`);
         }
     return(
         <>

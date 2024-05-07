@@ -26,11 +26,9 @@ function UpsertKantorCabang(props){
         villageId: "",
         postalCode: ""
     })
-    const { data, showAlert } = props;
     const [messageValidationFieldm, setMessageValidationField] = useState({});
     const [showModalAlert, setShowModalAlert] = useState(false);
     const [messageConfirm, setMessageConfirm] = useState("");
-    const [messageConfirmEdit, setMessageConfirmEdit] = useState("");
     
     function getKantorCabang(id){
         console.log(id)
@@ -55,7 +53,6 @@ function UpsertKantorCabang(props){
     };
 
     function getDataProvinsi() {
-        //hit service get all provinsi
         getAllProvince(null, (res) => {
             setProvinces(res.data);
         }, (err)=>{setCities([])})
@@ -135,7 +132,7 @@ function UpsertKantorCabang(props){
         } else{
             putKantorCabang(
                 (ressMessage) => {
-                    setMessageConfirmEdit(ressMessage);
+                    setMessageConfirm(ressMessage);
                     setShowModalAlert(true);
                 },id, {...form, id:id},
                 (errors) => {
@@ -144,26 +141,12 @@ function UpsertKantorCabang(props){
             );
         }
     }
-    // const { data, showAlert } = props;
-    // const [messageValidationField, setMessageValidationField] = useState({});
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
 
-    //     let namaKantorCabangVal = e.target.namaKantorCabang.value || null;
-    //     let koderKantorCabangVal = e.target.kodeKantorCabang.value || null;
-    //     let alamatVal = e.target.alamatKantorCabang.value || null;
-    //     let provinsiVal = e.target.provinsi.value || null;
-    //     let cityVal = e.target.kabupaten.value || null;
-    //     let subdistrictVal = e.target.kecamatan.value || null;
-    //     let villageVal = e.target.kelurahan.value || null
-
-        
-    // }
     return(
         <>
             <div className="mt-2">
                 <div>
-                    <Link to={"../"}relative="path">
+                    <Link to={id?"../../":"../"}relative="path">
                         <Button icon="arrow-left" variant="danger">
                             Kembali
                         </Button>
@@ -292,19 +275,12 @@ function UpsertKantorCabang(props){
 
                 <Modal
                 onClose={()=>{setShowModalAlert(false);
-                navigate('/data-master/kantor-cabang')}}
+                navigate(id?"../..":"..", {relative:"path"})
+            }}
                 visible={showModalAlert}
                 title={"Pemberitahuan"}
                 >
                     {messageConfirm}
-                </Modal>
-
-                <Modal
-                    onClose={()=>{setShowModalAlert(false);
-                    navigate('/data-master/kantor-cabang')}}
-                    visible={showModalAlert}
-                    title={"Pemberitahuan"}>
-                        {messageConfirmEdit}
                 </Modal>
             </div>
         </>
