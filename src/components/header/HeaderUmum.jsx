@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Logo from './../../assets/Logo-Midas.png'
 import '../styles/main.css';
 import {FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faCircleInfo, faMagnifyingGlassDollar, faTags, faArrowRightToBracket} from '@fortawesome/free-solid-svg-icons'
@@ -12,7 +11,7 @@ function HeaderUmum() {
     <div className="sticky top-0 left-0 right-0">
         <div className="bg-[#FFF7D4] h-20 flex flex-row items-center justify-around">
             <div className="flex-auto h-auto">
-                <img src={Logo} alt='Logo' className="w-20 pl-3"></img>
+                <img srcSet="/Logo-Midas.png" alt='Logo' className="w-20 pl-3"></img>
             </div>
             <div className="nav_link flex-auto text-center">
                 <ul className={`list-none flex justify-around ${openMenu ? "open" : ""}`}>
