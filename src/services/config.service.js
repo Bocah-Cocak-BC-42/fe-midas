@@ -1,17 +1,15 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+
 const user = JSON.parse(Cookies.get("user") ?? null);
 let token = user?.token;
 console.log(user);
 
 export const get = (endpoint, params, callback, errorCallback) => {
   axios
-    .get(`${import.meta.env.VITE_BASE_URL}${endpoint}`, {
-      params: params,
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
+    .get(`${import.meta.env.VITE_BASE_URL}${endpoint}`, { params: params, headers: {
+      Authorization: `Bearer ${token}`
+    }})
     .then((res) => {
       callback(res.data);
     })
@@ -38,10 +36,8 @@ export const getAll = (endpoint, callback, errorCallback) => {
 
 export const getById = (endpoint, id, callback) => {
   axios
-    .get(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
+    .get(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`, { headers: {
+      Authorization: `Bearer ${token}` }
     })
     .then((res) => {
       callback(res.data.data);
@@ -84,16 +80,13 @@ export const put = (
   messageValidationFieldError
 ) => {
   axios
-    .put(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`, data, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
+    .put(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`, data, { headers: {
+      Authorization: `Bearer ${token}`
+    }})
     .then((res) => {
       callback(res.data.message);
     })
     .catch((err) => {
-      console.log(err);
       messageValidationFieldError(err.response.data.errors);
     });
 };
@@ -120,11 +113,8 @@ export const patch = (
 
 export const del = (endpoint, id, callback) => {
   axios
-    .delete(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
+    .delete(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`, {headers: {
+      Authorization: `Bearer ${token}`}})
     .then((res) => {
       callback(res.data.message);
     })
