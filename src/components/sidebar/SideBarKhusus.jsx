@@ -34,11 +34,11 @@ function SideBarKhusus({ navLinkActive, subNavLinkActive }) {
           children: [
             {
               name: "Karyawan",
-              location: "/user-management/karyawan",
+              location: "/admin/user-management/karyawan",
             },
             {
               name: "Nasabah",
-              location: "/user-management/nasabah",
+              location: "/admin/user-management/nasabah",
             },
           ],
         },

@@ -25,6 +25,9 @@ import LayoutAuth from "./components/layout/LayoutAuth.jsx";
 import NotFoundPage from "./pages/NotFoundPage";
 import LandingPage from "./pages/Umum/LandingPage";
 import Login from "./pages/Umum/Login";
+import UserManagementEmployee from "./pages/Khusus/UserManagementEmployee";
+import UpsertUserManagementEmployee from "./pages/Khusus/UpsertUserManagementEmployee";
+import UserManagementCustomer from "./pages/Khusus/UserManagementCustomer";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(Cookies.get("user") ?? null);
@@ -163,16 +166,44 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "data-master/kantor-cabang",
+        path: "user-management/karyawan",
         element: (
           <AccessRoleAdminValidation>
             <LayoutKhusus
-              breadcrumbs={"Data Master Kantor Cabang"}
-              navLinkActive={"Data Master"}
-              subNavLinkActive={"Kantor Cabang"}
+              breadcrumbs={"User Management - Karyawan"}
+              navLinkActive={"User Management"}
+              subNavLinkActive={"Karyawan"}
             >
-              <DaftarKantorCabang />
-            </LayoutKhusus>
+              <UserManagementEmployee />
+             </LayoutKhusus>
+          </AccessRoleAdminValidation>
+          )
+        },
+        {
+          path: "data-master/kantor-cabang",
+          element: (
+            <AccessRoleAdminValidation>
+              <LayoutKhusus
+                breadcrumbs={"Data Master Kantor Cabang"}
+                navLinkActive={"Data Master"}
+                subNavLinkActive={"Kantor Cabang"}
+              >
+                <DaftarKantorCabang />
+               </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        ),
+      },
+      {
+        path: "user-management/karyawan/upsert",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus
+              breadcrumbs={"User Management - Karyawan"}
+              navLinkActive={"User Management"}
+              subNavLinkActive={"Karyawan"}
+            >
+              <UpsertUserManagementEmployee />
+             </LayoutKhusus>
           </AccessRoleAdminValidation>
         ),
       },
@@ -186,6 +217,20 @@ export const router = createBrowserRouter([
               subNavLinkActive={"Kantor Cabang"}
             >
               <FormUpsertKantorCabang />
+                 </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        ),
+      },
+      {
+        path: "user-management/karyawan/upsert/:id",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus
+              breadcrumbs={"User Management - Karyawan"}
+              navLinkActive={"User Management"}
+              subNavLinkActive={"Karyawan"}
+            >
+              <UpsertUserManagementEmployee />
             </LayoutKhusus>
           </AccessRoleAdminValidation>
         ),
@@ -205,6 +250,20 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path: "user-management/nasabah",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus
+              breadcrumbs={"User Management Nasabah"}
+              navLinkActive={"User Management"}
+              subNavLinkActive={"Nasabah"}
+              >
+                <UserManagementCustomer/>
+              </LayoutKhusus>
+           </AccessRoleAdminValidation>
+        )
+      },
+       {
         path: "data-master/kantor-cabang/edit/:id",
         element: (
           <AccessRoleAdminValidation>
