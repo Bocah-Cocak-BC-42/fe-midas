@@ -16,6 +16,7 @@ export const get = (endpoint, params, callback, errorCallback) => {
       callback(res.data);
     })
     .catch((err) => {
+      console.log(err);
       errorCallback(err.response.data.message);
     });
 };
