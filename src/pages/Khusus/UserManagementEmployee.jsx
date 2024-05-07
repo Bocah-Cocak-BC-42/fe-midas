@@ -3,7 +3,7 @@ import Button from "../../components/Button";
 import Modal from "../../components/Modal";
 import Table from "../../components/Table";
 import InputSearch from "../../components/Input/InputSearch";
-import { DelEmployee, getEmployees } from "../../services/user-management.service";
+import { DelUser, getEmployees, patchResetPassword } from "../../services/user-management.service";
 import { useNavigate } from "react-router-dom";
 
 
@@ -61,11 +61,20 @@ function UserManagementEmployee() {
       getData(1, employeeNIPSearch, employeeNameSearch, employeeJabatanSearch);
     }
 
-    const handleResetPassword =(confirm)=>{
-      setShowModalResetPassword(false);
+    const handleResetPassword =(data)=>{
+      setId(data.id);
+      setTitle("Reset Password Employee");
+      setShowModalResetPassword(true);
+    }
+
+    const handleConfirmReset = (confirm)=>{
+      setShowModalAlertReset(false);
       if(confirm){
-        setTitle("Reset Password");
-        setShowModalResetPassword(true);
+       patchResetPassword(
+        (messageAlert)=>{
+          setShowModalAlertReset(true); 
+          setMessageAlert(messageAlert)
+        }, id);
       }
     }
 
@@ -80,10 +89,9 @@ function UserManagementEmployee() {
     };
 
     const handleConfirm = (confirm) => {
-      setShowModalConfirm(true);
       setShowModalConfirm(false);
     if (confirm) {
-      DelEmployee((message) => {
+      DelUser((message) => {
         setMessageAlert(message);
         setTitle("Pemberitahuan");
         setShowModalAlert(true);
@@ -145,7 +153,7 @@ function UserManagementEmployee() {
         onClose={handleCloseModal}
         visible={showModalResetPassword}
         title={title}
-        confirm={handleConfirm}
+        confirm={handleConfirmReset}
       >
         <p>Apakah anda yakin ingin Reset Password Data Ini??</p>
       </Modal>
@@ -154,7 +162,7 @@ function UserManagementEmployee() {
         visible={showModalAlertReset}
         title={title}
       >
-        Password Karyawan Berhasil direset
+        {messageAlert}
       </Modal>
     
       <Modal

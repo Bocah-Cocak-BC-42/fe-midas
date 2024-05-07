@@ -11,6 +11,7 @@ import LandingPage from "./pages/Umum/LandingPage";
 import Login from "./pages/Umum/Login";
 import UserManagementEmployee from "./pages/Khusus/UserManagementEmployee";
 import UpsertUserManagementEmployee from "./pages/Khusus/UpsertUserManagementEmployee";
+import UserManagementCustomer from "./pages/Khusus/UserManagementCustomer";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(Cookies.get("user") ?? null);
@@ -181,6 +182,20 @@ export const router = createBrowserRouter([
             </LayoutKhusus>
           </AccessRoleAdminValidation>
         ),
+      },
+      {
+        path: "user-management/nasabah",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus
+              breadcrumbs={"User Management Nasabah"}
+              navLinkActive={"User Management"}
+              subNavLinkActive={"Nasabah"}
+              >
+                <UserManagementCustomer/>
+              </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        )
       },
     ],
   },

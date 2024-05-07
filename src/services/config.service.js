@@ -100,22 +100,21 @@ export const put = (
 
 export const patch = (
   endpoint,
-  data,
-  callback,
-  messageValidationFieldError
+  id,
+  callback
 ) => {
   axios
-    .patch(`${import.meta.env.VITE_BASE_URL}${endpoint}`, data, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
+    .patch(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`,
+    {},
+  {
+    headers: {
+      Authorization: "Bearer " + token,
+    },})
     .then((res) => {
       callback(res.data.message);
     })
     .catch((err) => {
       console.log(err);
-      messageValidationFieldError(err.response.data.errors);
     });
 };
 
