@@ -1,4 +1,4 @@
-import Logo from "./../../assets/Logo-Midas.png";
+// import Logo from "./../../../public/Logo-Midas.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faClipboardCheck,
@@ -125,7 +125,7 @@ function SideBarKhusus({ navLinkActive, subNavLinkActive }) {
   return (
     <div className="flex flex-col shadow-lg h-screen w-1/5 items-center gap-5">
       <div className="w-10/12 pt-5">
-        <img src={Logo}></img>
+        <img srcSet="/Logo-Midas.png"></img>
       </div>
       <div className="sidebar w-full">
         <ul className="list-none">{mapSideBar()}</ul>

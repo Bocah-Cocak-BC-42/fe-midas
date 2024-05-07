@@ -3,12 +3,15 @@ import LayoutKhusus from "./components/layout/LayoutKhusus";
 import LayoutUmum from "./components/layout/LayoutUmum";
 import DataMasterAlamat from "./pages/Khusus/DataMasterAlamat";
 import DataMasterBank from "./pages/Khusus/DataMasterBank";
-import LayoutKhusus from "./components/layout/LayoutKhusus";
 import DataSektorUsaha from "./pages/Khusus/DataSektorUsaha";
 import DataMasterRole from "./pages/Khusus/DataMasterRole";
 import UserManagementEmployee from "./pages/Khusus/UserManagementEmployee";
 import UpsertUserManagementEmployee from "./pages/Khusus/UpsertUserManagementEmployee";
 import UpsertDataMasterBank from "./pages/Khusus/UpsertDataMasterBank";
+import LandingPage from "./pages/Umum/LandingPage.jsx";
+import NotFoundPage from "./pages/NotFoundPage.jsx";
+import Register from "./pages/Umum/Register.jsx";
+import LayoutAuth from "./components/layout/LayoutAuth.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +43,14 @@ export const router = createBrowserRouter([
         subNavLinkActive="Sektor Usaha">
         <DataSektorUsaha />
       </LayoutKhusus>
+    )
+  },
+  {
+    path: "/register",
+    element: (
+      <LayoutAuth>
+        <Register></Register>
+      </LayoutAuth>
     )
   },
   {
