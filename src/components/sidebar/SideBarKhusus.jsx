@@ -5,6 +5,10 @@ import {
   faCircleUser,
   faServer,
   faCaretDown,
+  faCreditCard,
+  faMoneyBillTransfer,
+  faUserCheck,
+  faMoneyBillWave
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
@@ -17,6 +21,9 @@ function SideBarKhusus({ navLinkActive, subNavLinkActive }) {
   const [openNavUserManage, setOpenNavUserManage] = useState(
     navLinkActive === "User Management"
   );
+  const [openNavPengajuanKredit, setOpenPengajuanKredit] = useState(
+    navLinkActive === "Pengajuan Kredit"
+  )
 
   useEffect(() => {
     const user = JSON.parse(Cookies.get("user") ?? null);
@@ -69,59 +76,49 @@ function SideBarKhusus({ navLinkActive, subNavLinkActive }) {
             },
           ],
         },
+        {
+          name: "Verifikasi Penarikan",
+          icon: faUserCheck,
+          key: 3,
+        }
       ]);
+    } 
+    else if(user?.role === "Nasabah")
+    {
+      setSidebar([
+        {
+          name: "Pengajuan Kredit",
+          icon: faCreditCard,
+          key: 0,
+          children: [
+            {
+              name: "Perseorangan",
+              location: "/nasabah/perseorangan"
+            },
+            {
+              name: "Badan Usaha",
+              location: "/nasabah/badan-usaha"
+            }
+          ]
+        },
+        {
+          name: "Pembayaran Angsuran",
+          icon: faMoneyBillTransfer,
+          key: 1
+        },
+        {
+          name: "Upgrade Kredit",
+          icon: faUserCheck,
+          key: 2,
+        },
+        {
+          name: "Penarikan Dana",
+          icon: faMoneyBillWave,
+          key: 3
+        }
+      ])
     }
   }, []);
-
-  // const sidebar = [
-  //   {
-  //     name: "Verifikasi Kredit",
-  //     icon: faClipboardCheck,
-  //     key: 0,
-  //   },
-  //   {
-  //     name: "User Management",
-  //     icon: faCircleUser,
-  //     key: 1,
-  //     children: [
-  //       {
-  //           name: "Karyawan",
-  //           location: "/user-management/karyawan"
-  //       },
-  //       {
-  //           name: "Nasabah",
-  //           location: "/user-management/nasabah"
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     name: "Data Master",
-  //     icon: faServer,
-  //     key: 2,
-  //     children: [
-  //       {
-  //         name: "Role",
-  //         location: "/data-master/role",
-  //       },
-  //       {
-  //         name: "Kantor Cabang",
-  //         location: "/data-master/kantor-cabang",
-  //       },
-  //       {
-  //         name: "Sektor Usaha",
-  //         location: "/data-master/sektor-usaha",
-  //       },
-  //       {
-  //         name: "Alamat",
-  //         location: "/data-master/alamat",
-  //       },
-  //       {
-  //         name: "Bank",
-  //         location: "/data-master/bank",
-  //       },
-  //     ],
-  //   },
-  // ];
 
   const mapSideBar = () => {
     let mapedSideBar = [];
@@ -132,6 +129,7 @@ function SideBarKhusus({ navLinkActive, subNavLinkActive }) {
             onClick={() => {
               item.key === 2 && setOpenNavDataMaster(!openNavDataMaster);
               item.key === 1 && setOpenNavUserManage(!openNavUserManage);
+              item.key === 0 && setOpenPengajuanKredit(!openNavPengajuanKredit)
             }}
             className={`${
               item.name == navLinkActive && "text-[#C07F00]"
@@ -159,6 +157,21 @@ function SideBarKhusus({ navLinkActive, subNavLinkActive }) {
             </ul>
           )}
           {openNavUserManage && item.key === 1 && (
+            <ul>
+              {item.children.map((child) => (
+                <a href={child.location} key={child.name}>
+                  <li
+                    className={`${
+                      child.name == subNavLinkActive && "text-[#C07F00]"
+                    } pl-10 w-full p-2 cursor-pointer focus:border-r-8 hover:text-[#C07F00] hover:border-r-8 focus:border-r-[#C07F00] hover:border-r-[#C07F00] hover:bg-slate-200`}
+                  >
+                    {child.name}
+                  </li>
+                </a>
+              ))}
+            </ul>
+          )}
+          {openNavPengajuanKredit && item.key === 0 && (
             <ul>
               {item.children.map((child) => (
                 <a href={child.location} key={child.name}>

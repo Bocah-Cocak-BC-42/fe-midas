@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { Navigate, Outlet, createBrowserRouter } from "react-router-dom";
+import { Navigate, Outlet, createBrowserRouter, useParams } from "react-router-dom";
 import LayoutKhusus from "./components/layout/LayoutKhusus";
 import LayoutUmum from "./components/layout/LayoutUmum";
 import LandingPage from "./pages/Umum/LandingPage"
@@ -22,18 +22,20 @@ import UserManagementCustomer from "./pages/Khusus/UserManagementCustomer";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(Cookies.get("user") ?? null);
-
+  let { role } = useParams()
   if (!user) {
     return <Navigate to="/login" replace />;
   } else {
-    // return <Outlet />;
-    return <Outlet />;
+    if(role === user.role.toLowerCase())
+      return <Outlet />;
+    else
+      return <AccessDenied/>
   }
 };
 
 const Session = ({ children }) => {
   const user = JSON.parse(Cookies.get("user") ?? null);
-  if (user) {
+  if (user && user?.role === "Admin") {
     return <Navigate to="/admin/dashboard" replace />;
   } else {
     return children;
@@ -115,19 +117,16 @@ export const router = createBrowserRouter([
     )
   },
   {
-    path: "/admin",
-    element: <ProtectedRoute />,
+    path: '/:role',
+    element: <ProtectedRoute/>,
     children: [
-      //admin
       {
         path: "dashboard",
         index: true,
         element: (
-          <AccessRoleAdminValidation>
-            <LayoutKhusus breadcrumbs={"Dashboard"} navLinkActive={"Dashboard"}>
-              <Dashboard />
-            </LayoutKhusus>
-          </AccessRoleAdminValidation>
+          <LayoutKhusus breadcrumbs={"Dashboard"} navLinkActive={"Dashboard"}>
+            <Dashboard />
+          </LayoutKhusus>
         ),
       },
       {
