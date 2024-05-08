@@ -1,6 +1,6 @@
 import { get, post, put, del, patch } from "./config.service";
-const endPointEmployee = "user/GetAllEmployees";
-const endPointCustomer = "user/GetAllCustomers";
+const endPointEmployee = "user/get-all-employees";
+const endPointCustomer = "user/get-all-customers";
 
 export const getEmployees = (callback,errorCallback, params) => {
     get(endPointEmployee, params, callback, errorCallback);
@@ -11,29 +11,29 @@ export const getCustomers = (callback,errorCallback, params) => {
 };
 
 export const getEmployeeById = (callback, params) => {
-  get("user/GetUserDetail", params, callback);
+  get("user/get-user-detail", params, callback);
 };
 
 export const PostNewCustomer = (callback, messageValidationFieldError, data) => {
-  post("user/AddCustomers", data, callback, messageValidationFieldError);
+  post("user/add-customer", data, callback, messageValidationFieldError);
 };
 
 export const PostNewEmployee = (callback, messageValidationFieldError, data) => {
-  post("user/AddEmployee", data, callback, messageValidationFieldError);
+  post("user/add-employee", data, callback, messageValidationFieldError);
 };
 
 export const putEmployee = (callback, id, data, messageValidationFieldError) => {
-  put("user/UpdateEmployee", id, data, callback, messageValidationFieldError);
+  put("user/update-employee", id, data, callback, messageValidationFieldError);
 }
 
 export const putCustomer = (callback, id, data, messageValidationFieldError) => {
-  put("user/UpdateCustomer", id, data, callback, messageValidationFieldError);
+  put("user/update-customer", id, data, callback, messageValidationFieldError);
 }
 
 export const patchResetPassword =(callback, id)=>{
-  patch("user/ResetPassword", id, callback);
+  patch("user/reset-password", id, callback);
  }
 
 export const DelUser = (callback, id) => {
-  del("User/DeleteUser", id, callback);
+  del("user/delete-user", id, callback);
 };
