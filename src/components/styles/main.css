@@ -1,0 +1,53 @@
+
+@media screen and (max-width: 640px)
+{
+    .nav_login{
+        display: none;
+    }
+
+    .nav_burger {
+        display: block;
+        padding-right: 20px;
+    }
+
+    .nav_link {
+        position: absolute;
+        top: 80px;
+        background-color: rgba(250, 248, 243, 0.9);
+        width: 100%;
+    }
+
+    .nav_link ul {
+        display: none;
+        padding: 10px 20px;
+        text-align: left;
+    }
+
+    .nav_link ul li:hover {
+        background-color: rgba(192, 127, 0, 0.5);
+    }
+
+    .nav_link ul.open {
+        display: block;
+    }
+
+    .nav_link ul {
+        flex-direction: column;
+    }
+    
+}
+
+@media screen and (min-width: 641px)
+{
+    .nav_login, .nav_link {
+        display: block;
+    }
+
+    .nav_burger {
+        display: none;
+    }
+
+    .nav_icon {
+        display: none;
+    }
+}
