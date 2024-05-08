@@ -19,6 +19,7 @@ import Register from "./pages/Umum/Register.jsx";
 import LayoutAuth from "./components/layout/LayoutAuth.jsx";
 import Login from "./pages/Umum/Login";
 import UserManagementCustomer from "./pages/Khusus/UserManagementCustomer";
+import PengajuanKredit from "./pages/Khusus/PengajuanKredit.jsx";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(Cookies.get("user") ?? null);
@@ -112,6 +113,18 @@ export const router = createBrowserRouter([
       <LayoutAuth>
         <Register />
       </LayoutAuth>
+    )
+  },
+  {
+    path: "pengajuan-kredit",
+    element: (
+      // <AccessRoleNasabahValidation>
+        <LayoutKhusus 
+          breadcrumbs="Pengajuan Kredit"
+          navLinkActive="Pengajuan Kredit">
+          <PengajuanKredit />
+        </LayoutKhusus>
+      // </AccessRoleNasabahValidation>
     )
   },
   {
