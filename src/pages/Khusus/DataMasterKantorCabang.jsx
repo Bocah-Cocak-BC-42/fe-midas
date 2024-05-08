@@ -118,6 +118,7 @@ function DaftarKantorCabang() {
                     <Table 
                         tableHeaders={tableDataHeaders}
                         data={cabangCabang}
+                        messageErrorEmptyData={errorMessage}
                         pagination={pagination}
                         getDataByPagination={(pageNumber) => {
                             getData(pageNumber, pencarianNamaCabang, pencarianProvinsi, pecarianKota)
