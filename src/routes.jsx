@@ -11,6 +11,19 @@ import FormUpsertKantorCabang from "./pages/Khusus/UpsertKantorCabang";
 import DataMasterAlamat from "./pages/Khusus/DataMasterAlamat";
 import AccessDenied from "./pages/AccessDenied";
 import Dashboard from "./pages/Khusus/Dashboard";
+import DataMasterAlamat from "./pages/Khusus/DataMasterAlamat";
+import DataMasterBank from "./pages/Khusus/DataMasterBank";
+import DataSektorUsaha from "./pages/Khusus/DataSektorUsaha";
+import DataMasterRole from "./pages/Khusus/DataMasterRole";
+import UserManagementEmployee from "./pages/Khusus/UserManagementEmployee";
+import UpsertUserManagementEmployee from "./pages/Khusus/UpsertUserManagementEmployee";
+import UpsertDataMasterBank from "./pages/Khusus/UpsertDataMasterBank";
+import LandingPage from "./pages/Umum/LandingPage.jsx";
+import NotFoundPage from "./pages/NotFoundPage.jsx";
+import Register from "./pages/Umum/Register.jsx";
+import LayoutAuth from "./components/layout/LayoutAuth.jsx";
+import NotFoundPage from "./pages/NotFoundPage";
+import LandingPage from "./pages/Umum/LandingPage";
 import Login from "./pages/Umum/Login";
 
 const ProtectedRoute = () => {
@@ -96,6 +109,14 @@ export const router = createBrowserRouter([
         <Login />
       </Session>
     ),
+  },
+  {
+    path: "/register",
+    element: (
+      <LayoutAuth>
+        <Register />
+      </LayoutAuth>
+    )
   },
   {
     path: "/admin",
@@ -196,6 +217,32 @@ export const router = createBrowserRouter([
             </LayoutKhusus>
           </AccessRoleAdminValidation>
         ),
+      },
+      {
+        path: "data-master/role",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus
+              breadcrumbs={"Data Master Role"}
+              navLinkActive={"Data Role"}
+              subNavLinkActive={"Role"}
+            >
+              <DataMasterRole />
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        ),
+      }
+        path: "data-master/sektor-usaha",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus 
+              breadcrumbs="Data Master / Sektor Usaha"
+              navLinkActive="Data Master"
+              subNavLinkActive="Sektor Usaha">
+              <DataSektorUsaha />
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        )
       },
     ],
   },

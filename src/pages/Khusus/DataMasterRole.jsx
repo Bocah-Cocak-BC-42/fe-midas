@@ -4,7 +4,7 @@ import FormUpsertRole from "../../components/Form/FormUpsertRole";
 import Modal from "../../components/Modal";
 import Table from "../../components/Table";
 import InputSearch from "../../components/Input/InputSearch";
-import { getRoles, getRoleById, delRole } from "../../services/data-master-role.service";
+import { getRoles, delRole } from "../../services/data-master-role.service";
 
 function DataMasterRole() {
   const [roles, setRoles] = useState([]);
@@ -59,13 +59,16 @@ function DataMasterRole() {
     getData(1, roleNameSearchVal);
   };
 
-  const handleEdit = (id) => {
-    getRoleById(
-      (data) => {
-          setRole(data);
-          setTitle("Ubah Data Role");
-          setShowModal(true)
-      }, id);
+  const handleEdit = (data) => {
+    setRole(data);
+    setTitle("Ubah Data Bank");
+    setShowModal(true);
+    // getRoleById(
+    //   (data) => {
+    //       setRole(data);
+    //       setTitle("Ubah Data Role");
+    //       setShowModal(true)
+    //   }, id);
   };
 
   const handleConfirm = (confirm) => {
@@ -80,8 +83,8 @@ function DataMasterRole() {
     }
   };
 
-  const handleDelete = (id) => {
-    setId(id);
+  const handleDelete = (data) => {
+    setId(data.id);
     setTitle("Hapus Role");
     setShowModalConfirm(true);
   }
