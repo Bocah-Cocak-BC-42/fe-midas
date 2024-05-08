@@ -99,9 +99,11 @@ export const router = createBrowserRouter([
   {
     path: "/login",
     element: (
-      <Session>
-        <Login />
-      </Session>
+      <LayoutAuth>
+        <Session>
+          <Login />
+        </Session>
+      </LayoutAuth>
     ),
   },
   {

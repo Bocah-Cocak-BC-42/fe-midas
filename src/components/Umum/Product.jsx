@@ -1,7 +1,7 @@
 import Button from "../Button"
 function Product() {
   return (
-    <div className="flex justify-between" id="tagline">
+    <div className="flex justify-between" id="produk">
         <div className="flex flex-col gap-4 justify-center items-center p-5 ml-[400px]">
             <h3 className="text-3xl">
                 Product

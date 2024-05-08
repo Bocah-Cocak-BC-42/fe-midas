@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import Joi from "joi";
 import { joiResolver } from '@hookForm/resolvers/joi';
 import { postRegister } from '../../services/register.service';
+import Button from '../Button';
+import { Link } from 'react-router-dom';
 
 const schemaFirstRegis = Joi.object({
   email: Joi.string().required().email({
@@ -202,7 +204,18 @@ function FormInsertRegister( props ) {
 				<span className='text-red-600'>{errors.phoneNumber?.message}</span>
 
 			</div>
-			<button className='w-1/5 h-8 bg-slate-300 rounded-md'>Selanjutnya</button>
+			<div className='flex justify-between'>
+        <Link to={"/login"}>
+          <Button
+            variant="danger">
+            Kembali ke Login
+          </Button>
+        </Link>
+        <Button
+          type="submit">
+          Daftar
+        </Button>
+      </div>
 		</form>
   )
 }

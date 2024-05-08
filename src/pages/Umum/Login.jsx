@@ -1,6 +1,4 @@
 import { useState } from "react";
-import Button from "../../components/Button";
-import Input from "../../components/Input/Input";
 import { postLogin } from "../../services/authentication.service";
 import Modal from "../../components/Modal";
 import Cookies from "js-cookie";
@@ -23,7 +21,6 @@ function Login() {
       password,
     };
 
-    Cookies.set("user", data, { expires: 1, secure: true });
 
     postLogin(
       (dataAuth) => {
@@ -36,6 +33,7 @@ function Login() {
         });
       },
       (errors) => {
+        console.log("masuk");
         if (typeof errors == "object") {
           setMessageValidationField(errors);
         } else if (typeof errors == "string") {
@@ -47,31 +45,29 @@ function Login() {
     );
   };
   return (
-    <div className="bg-[#FFF7D4]">
-      <div>Login</div>
+    <div>
       <form onSubmit={handleSubmit}>
         <div>
-          <Input
+          <input
             type="email"
             name="email"
-            message={messageValidationField?.Email}
-            placeholder="Masukkan Email"
-          >
-            Email
-          </Input>
+            className='w-full p-1 my-1 border-2 border-slate-300 rounded-md' 
+            placeholder='Email'/>
+            <span className="text-red-500">{messageValidationField?.Email}</span>
         </div>
         <div>
-          <Input
+        <input
             type="password"
             name="password"
-            message={messageValidationField?.Password}
-            placeholder="Masukkan Password"
-          >
-            Password
-          </Input>
+            className='w-full p-1 my-1 border-2 border-slate-300 rounded-md' 
+            placeholder='Password'/>
+            <span className="text-red-500">{messageValidationField?.Password}</span>
         </div>
-        <Button type="submit">Login</Button>
+        <button className="w-full p-1 my-1 bg-[#B0C5A4] rounded-md px-2 text-white hover:bg-[#8ea67f]">Login</button>
       </form>
+      <div className="w-full text-center">
+        <p>Belum punya akun? <a className="text-blue-700" href="/register">Daftar disini</a></p>
+      </div>
       <Modal
         onClose={() => {
           setShowModalAlert(false);

@@ -16,7 +16,7 @@ function Tagline() {
             <h3 className="text-3xl">
                 Untuk Investasi Anda
             </h3>
-            <Button variant="info" onClick={() => handleStart}>Mulai</Button>
+            <Button variant="info" onClick={handleStart}>Mulai</Button>
         </div>
         <div className="text-center">
             <img srcSet="/Pict_2.png" width={800} height={400} />

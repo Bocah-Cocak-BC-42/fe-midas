@@ -28,7 +28,7 @@ function Simulation() {
   }
 
   return (
-    <div className="flex justify-between bg-[#F1EF99] text-[#C07F00]" id="aboutus"> 
+    <div className="flex justify-between bg-[#F1EF99] text-[#C07F00]" id="simulasi"> 
       {!showResult ? 
         <CalculatorSimulation onSubmit={handleCalculate} /> :
         <ResultSimulation result={simulationResult} onBack={handleBack} />
