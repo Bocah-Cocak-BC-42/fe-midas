@@ -23,7 +23,6 @@ function Select(props) {
             grow && "grow"
           }`}
         > 
-          <option value=" ">Pilih Provinsi</option>
           {options?.map((option) => (
               <option key={option.id} value={option.id}>
                 {option.name}

@@ -11,10 +11,10 @@ function UpsertKantorCabang(props){
     const navigate = useNavigate();
     const { id } = useParams();
     const [disabled, setDisabled] = useState(true);
-    const [provinces, setProvinces] = useState([]);
-    const [cities, setCities] = useState([]);
-    const [subdistrics, setSubdistricts] = useState([]);
-    const [villages, setVillages] = useState([]);
+    const [provinces, setProvinces] = useState([{id:"", name:"Pilih Provinsi"}]);
+    const [cities, setCities] = useState([{id:"", name:"Pilih Kabupaten/Kota"}]);
+    const [subdistrics, setSubdistricts] = useState([{id:"", name:"Pilih Kecamatan"}]);
+    const [villages, setVillages] = useState([{id:"", name:"Pilih Desa"}]);
     const [form, setForm] = useState({
         id: null,
         code: "",
@@ -54,7 +54,7 @@ function UpsertKantorCabang(props){
 
     function getDataProvinsi() {
         getAllProvince(null, (res) => {
-            setProvinces(res.data);
+            setProvinces(provinces.concat(res.data));
         }, (err)=>{setCities([])})
     }
     useEffect(() => {
@@ -66,7 +66,7 @@ function UpsertKantorCabang(props){
 
     function getDataCity(idProvince) {
         getAllCity(idProvince, (res) =>{
-            setCities(res.data);
+            setCities(cities.concat(res.data));
         },(err)=>{
             setCities([]); 
             setSubdistricts([]); 
@@ -75,7 +75,7 @@ function UpsertKantorCabang(props){
         
         function getDataSubdistrict(idCity) {
             getAllSubDistrict(idCity, (res) =>{
-                setSubdistricts(res.data);
+                setSubdistricts(subdistrics.concat(res.data));
                 console.log(subdistrics);
             },(err)=>{
             setSubdistricts([])
@@ -84,7 +84,7 @@ function UpsertKantorCabang(props){
 
     function getDataVillage(idSubdistrict) {
         getAllVillage(idSubdistrict, (res) =>{
-            setVillages(res.data);
+            setVillages(villages.concat(res.data));
             console.log(villages);
         },(err)=>{ setVillages([]);})
     }

@@ -5,7 +5,7 @@ import InputSearch from "../../components/Input/InputSearch";
 import Modal from "../../components/Modal";
 import { Link, useNavigate } from "react-router-dom";
 import { get, getById } from "../../services/config.service";
-import { deleteKantorCabang, getKantorCabang } from "../../services/data-master-kantor-cabang";
+import { deleteKantorCabang, getKantorCabang, getKantorCabangById } from "../../services/data-master-kantor-cabang";
 
 function DaftarKantorCabang() {
     const [cabangCabang, setCabangCabang] = useState([]);

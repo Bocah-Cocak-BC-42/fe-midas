@@ -3,12 +3,15 @@ import Button from "../../components/Button";
 import Table from "../../components/Table";
 import InputSearch from "../../components/Input/InputSearch";
 import Modal from "../../components/Modal";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import FormUpsertKaryawanCabang from "../../components/Form/FormUpsertKaryawanCabang";
+import { getKantorCabangById } from "../../services/data-master-kantor-cabang";
 
 
 function DataKaryawanKantorCabang(){ 
     const [karyawanCabang, setKaryawanCabang] = useState([]);
+    const [namaCabang, setNamaCabang] = useState()
+    const { id } = useParams();
     const [karyawan, setKaryawan] = useState();
     const [pagination, setPagination] = useState({});
     const [showModalAlert, setModalAlert] = useState(false);
@@ -18,40 +21,38 @@ function DataKaryawanKantorCabang(){
     const [pencarianNamaKaryawan, setPencarianNamaKaryawan] = useState("");
     const [pecarianNIP, setPencarianNIP] = useState("");
     const [pencarianJabatan, setPencarianJabatan] = useState("");
-    const { idCabang, namaCabang } = useParams();
-    console.log(idCabang, namaCabang)
+    // const { idCabang, namaCabang } = useParams();
+    // console.log(idCabang, namaCabang)
+    const tableHeaders = [
+        { code: "id", name: "ID" },
+        { code: "fullName", name: "Nama Lengkap" },
+        { code: "identityNumber", name: "NIP" },
+        { code: "roleName", name: "Jabatan" },
 
-    const getDataKaryawan = (pageNumber, pencarianNamaKaryawan, pecarianNIP, pencarianJabatan) => {
-        // console.log(pageNumber, pecarianNIP, pencarianNamaKaryawan, pencarianJabatan);
+    ]
 
-        setKaryawanCabang([
-            {
-                id: 1,
-                namaLengkap: "Gusto",
-                nip: "201280121029",
-                jabatan: "Manager",
-                tanggalPendaftaran: "29-12-2023"
-            },
-            {
-                id: 2,
-                namaLengkap: "Kevin Orlando",
-                nip: "3212801281021",
-                jabatan: "Supervisor",
-                tanggalPendaftaran: "12-10-2020"
-            },
-            {
-                id: 3, 
-                namaLengkap: "Paulina",
-                nip: "31381201891212",
-                jabatan: "Admin",
-                tanggalPendaftaran: "09-10-2021"
-            }
-        ]);
-        setPagination({pageNumber:1, pageSize:10, totalPages:3});
+    function getKaryawanCabang(pageNumber, pencarianNamaKaryawan, pencarianNIP, pencarianJabatan){
+        console.log(id);
+        getKantorCabangById(
+            (res) => {
+                setNamaCabang(
+                    res.name
+                )
+                setKaryawanCabang(
+                    res.employees.map((item) => 
+                        tableHeaders.reduce((acc, header) => {
+                            acc[header.code] = item[header.code];
+                            return acc;
+                        }, {})
+                    )
+                )
+            }, id
+        )
     }
 
     useEffect(() => {
-        getDataKaryawan(1, "", "", "");
+        // getDataKaryawan(1, "", "", "");
+        getKaryawanCabang(1, "", "", "")
     }, []);
 
     const handleSearch = (e) =>{
@@ -88,12 +89,14 @@ function DataKaryawanKantorCabang(){
         <>
             <div>
                 <div>
-                    <Button icon="arrow-left" variant="danger">
-                        Kembali
-                    </Button>
+                    <Link to="../../"relative="path">
+                        <Button icon="arrow-left" variant="danger">
+                            Kembali
+                        </Button>
+                    </Link>
                 </div>
                 <div className="mt-2">
-                    <h3 className="text-xl font-bold">KCA Sudirman</h3>
+                    <h3 className="text-xl font-bold">{namaCabang}</h3>
                     <h1 className="text-2xl font-bold">Karyawan</h1>
                 </div>
                 <div className="mt-4 flex justify-betwen">
@@ -114,7 +117,7 @@ function DataKaryawanKantorCabang(){
                 </div>
                 <div className="rounded-md border mt-4 shadow">
                     <Table 
-                        tableHeaders={["Nama Lengkap","NIP","Jabatan","Tanggal Daftar", "Aksi"]}
+                        tableHeaders={tableHeaders}
                         data={karyawanCabang}
                         pagination={pagination}
                         getDataByPagination={(pageNumber) => {
@@ -122,17 +125,8 @@ function DataKaryawanKantorCabang(){
                         }}
                         actions={[
                             {
-                                name: "Edit",
-                                variant: "warning"
-                            },
-                            {
                                 name: "Detile",
                                 variant: "info"
-                            },
-                            {
-                                name: "Delete",
-                                variant: "danger",
-                                function: handleDelete
                             }
                         ]}
                     />
