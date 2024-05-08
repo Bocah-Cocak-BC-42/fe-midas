@@ -3,7 +3,6 @@ import Cookies from "js-cookie";
 
 const user = JSON.parse(Cookies.get("user") ?? null);
 let token = user?.token;
-console.log(user);
 
 export const get = (endpoint, params, callback, errorCallback) => {
   axios
