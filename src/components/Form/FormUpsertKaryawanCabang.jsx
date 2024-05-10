@@ -1,32 +1,62 @@
+import { useEffect, useState } from "react";
+import { getAllUser, getEmployees } from "../../services/user-management.service";
 import Input from "../Input/Input";
 import Select from "../Input/Select";
+import { useParams } from "react-router-dom";
+import { postEmployeeBranchOffice } from "../../services/data-master-kantor-cabang";
 
 function FormUpsertKaryawanCabang(props) {
-    const { data } = props;
+    const { data, showAlert, id } = props;
+    console.log(id);
+    const [messageValidationField, setMessageValidationField] = useState({});
+  
     const handleSubmit = (e) =>{
-        e.prventDefault();
-
-        let namaKaryawanVal = e.target.namaKaryawan.value || null;
-        console.log(namaKaryawanVal);
+        e.preventDefault()
+        let namaKaryawan = e.target.karyawan.value || null
+        const newBranchOfficeEmployee = {
+            userId: namaKaryawan,
+            branchOfficeId: id
+        }
+        postEmployeeBranchOffice(
+            (ressMessage) => {
+                showAlert(ressMessage)
+            },
+            (error) => {
+                setMessageValidationField(error)
+            },
+            newBranchOfficeEmployee
+        )
     };
 
+    const mapKaryawan = ()=>{
+        let result = [];
+        result.push({name: "Pilih Karyawan", id: ""})
+        data.map((user) => {
+            if(user.role != "Nasabah"){
+                result.push({name: user.fullName, id: user.id})
+            }
+        })
+
+        return result;
+    }
+    
+    console.log(messageValidationField?.UserId);
     return (
         <div>
+            
             <form id="form-upsert-karyawan-cabang"
-            onSubmit={handleSubmit}
+            onSubmit={(e)=>handleSubmit(e)}
             className="flex flex-col gap-2">
                 <div>
                    <Select
-                    name="namaKaryawan"
+                    name="karyawan"
                     grow
-                    message={"Nama Karyawan Required"}
-                    options={[
-                        {text: "Pilih Karyawan", value: ""},
-                        {text: "Faisal", value: "ksjadhkjsa"},
-                        {text: "Agusto", value: "jhadsghsad"},
-                        {text: "Kevin", value: "skdjkasjdhka"},
-                        {text: "Wisnu", value: "ksdjgfkjsjk"}
-                    ]}
+                    message={messageValidationField?.UserId}
+                    options={
+                        mapKaryawan()
+                    }
+                    handleChange = {() => {}}
+                    
                    >
                     Nama Karyawan
                    </Select>

@@ -1,5 +1,6 @@
 import { del, get, getById, post, put } from "./config.service";
 const endpoint = "branch-office";
+const endPointEmployeBrancOffice = "associate-user-branch";
 
 export const getKantorCabang = (callback, errorCallback, params) =>{
     get(endpoint, params, callback, errorCallback);
@@ -18,4 +19,12 @@ export const putKantorCabang = (callback, id, data, messageValidationFieldError)
 
 export const deleteKantorCabang = (callback, id) =>{
     del(endpoint, id, callback);
+}
+
+export const postEmployeeBranchOffice = (callback, messageValidationFieldError, data) => {
+    post(endPointEmployeBrancOffice, data, callback, messageValidationFieldError)
+}
+
+export const deleteEmployeeBranchOffice = (callback, id) => {
+    del(endPointEmployeBrancOffice, id, callback);
 }

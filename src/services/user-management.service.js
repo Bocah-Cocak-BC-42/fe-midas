@@ -1,6 +1,11 @@
 import { get, post, put, del, patch } from "./config.service";
 const endPointEmployee = "user/get-all-employees";
 const endPointCustomer = "user/get-all-customers";
+const endPointUser = "user/get-all"
+
+export const getAllUser = (callback, errorCallback) => {
+  get(endPointUser, callback, errorCallback);
+};
 
 export const getEmployees = (callback,errorCallback, params) => {
     get(endPointEmployee, params, callback, errorCallback);
