@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import Island from '../../components/Island'
+import Cookies from 'js-cookie';
+import React, { useEffect, useState } from 'react';
 import Submission from '../../components/Dashboard/Submission';
+import Island from '../../components/Island';
 import Table from '../../components/Table';
 
 function Dashboard() {
+  const [userRole, setUserRole] = useState("");
+  useEffect(() => setUserRole(JSON.parse(Cookies.get("user"))), []);
+
   const [creditType, setCreditType] = useState("perseorangan");
   const [dto, setDto] = useState(undefined);
   const [pageNumber, setPageNumber] = useState(1);
@@ -30,7 +34,7 @@ function Dashboard() {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
       currency: "IDR"
-    }).format(number);
+    }).format(number).replace(",00", "");
   };
 
   const tableDataHeaders = [
@@ -46,7 +50,7 @@ function Dashboard() {
     <div className="grid grid-cols-2 gap-8 my-8">
       <div className="flex flex-col gap-8">
         <Island>
-          <div className="grid grid-cols-[auto_12rem]">
+          <div className="grid grid-cols-[auto_12rem] gap-4 mx-4">
             <div className="flex flex-col gap-2 justify-center items-center">
               <div className="flex flex-col gap-2">
                 <span className="text-[#a7a1a1]">Selamat Datang, {dto.gender === "M" ? "Bapak" : dto.gender === "F" ? "Ibu" : "Bapak / Ibu"} {dto.fullName}</span>
@@ -77,7 +81,7 @@ function Dashboard() {
               <div>
                 <a
                   className="p-4 text-white bg-[#b0c5a4] rounded-md"
-                  href="/"
+                  href={`/${userRole.role.toLowerCase()}/upgradecredit`}
                 >Upgrade Limit</a>
               </div>
             </div>
@@ -89,17 +93,20 @@ function Dashboard() {
       </div>
 
       <div className="flex flex-col gap-8">
-        <div className="grid grid-cols-[1fr_12rem] h-fit">
+        <div className="grid grid-cols-[1fr_12rem] gap-8 h-fit">
           <Island>
             <div className="flex flex-col gap-4 p-8">
               <span className="text-[#a7a1a1]">Saldo Saat Ini</span>
-              <span className="text-4xl font-bold text-[#198a1e] text-center overflow-x-auto">{rupiah(dto.personalCreditLimit)}</span>
+              <span className="text-4xl font-bold text-[#198a1e] text-center overflow-x-auto overflow-y-hidden">{rupiah(dto.personalCreditLimit)}</span>
             </div>
           </Island>
           <Island>
             <div className="flex flex-col gap-4 p-8">
-              <span className="text-[#a7a1a1]">Saldo Saat Ini</span>
-              <span className="text-4xl font-bold text-[#198a1e] text-center overflow-x-auto">{dto.creditScore}</span>
+              <span className="text-[#a7a1a1]">Skor Kredit</span>
+              <span
+                className="text-4xl font-bold text-center overflow-x-auto overflow-y-hidden"
+                style={{ color: dto.creditScore >= 100 ? "#198a1e" : dto.creditScore >= 50 ? "#ffd95a" : "red" }}
+              >{dto.creditScore}</span>
             </div>
           </Island>
         </div>
