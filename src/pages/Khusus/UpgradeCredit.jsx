@@ -5,8 +5,8 @@ import Button from '../../components/Button';
 import FormUpgradeCredit from '../../components/Form/FormUpgradeCredit';
 
 function UpgradeCredit() {
-  const [userRole, setUserRole] = useState("");
-  useEffect(() => setUserRole(JSON.parse(Cookies.get("user"))), []);
+  const [user, setUser] = useState("");
+  useEffect(() => setUser(JSON.parse(Cookies.get("user"))), []);
   const navigate = useNavigate();
 
   return (
@@ -15,7 +15,7 @@ function UpgradeCredit() {
         <Button
           icon="arrow-left"
           variant="danger"
-          onClick={() => navigate(`/${userRole.toLowerCase()}/dashboard`)}
+          onClick={() => navigate(`/${user.role.toLowerCase()}/dashboard`)}
         >
           Kembali
         </Button>

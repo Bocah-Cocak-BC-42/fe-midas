@@ -119,6 +119,7 @@ function Dashboard() {
               tableHeaders={tableDataHeaders}
               data={[
                 {
+                  id: 0,
                   creditUpgradeNumber: "B000001",
                   dueDate: "Besok",
                   status: "Berhasil",
