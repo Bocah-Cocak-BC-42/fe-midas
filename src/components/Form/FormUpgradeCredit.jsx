@@ -34,7 +34,7 @@ function FormUpgradeCredit() {
           >Profit Tahunan*</Input>
           <Input
             type="file"
-            accept="application/pdf,application/vnd.ms-excel"
+            accept="application/pdf,image/png,image/jpeg"
             placeholder="Masukkan laporan keuangan terbaru"
             name="laporan-keuangan"
             required
