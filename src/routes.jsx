@@ -307,6 +307,18 @@ export const router = createBrowserRouter([
           </AccessRoleAdminValidation>
         )
       },
+      {
+        path: "verifikasi-penarikan",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus 
+              breadcrumbs="Verifikasi Penarikan"
+              navLinkActive="Verifikasi Penarikan">
+              <VerifyUpgradeCredit/>
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        )
+      },
     ],
   },
   // {
