@@ -296,6 +296,32 @@ export const router = createBrowserRouter([
           </AccessRoleAdminValidation>
         )
       },
+      {
+        path: "data-master/sektor-usaha",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus 
+              breadcrumbs="Data Master / Sektor Usaha"
+              navLinkActive="Data Master"
+              subNavLinkActive="Sektor Usaha">
+              <DataSektorUsaha />
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        )
+      },
+      {
+        path: "perseorangan",
+        element: (
+          <AccessRoleNasabahValidation>
+            <LayoutKhusus 
+              breadcrumbs="Perseorangan"
+              navLinkActive="Pengajuan Kredit"
+              subNavLinkActive="Perseorangan">
+              
+            </LayoutKhusus>
+          </AccessRoleNasabahValidation>
+        )
+      }
     ],
   },
   // {
