@@ -19,7 +19,7 @@ import Register from "./pages/Umum/Register.jsx";
 import LayoutAuth from "./components/layout/LayoutAuth.jsx";
 import Login from "./pages/Umum/Login";
 import UserManagementCustomer from "./pages/Khusus/UserManagementCustomer";
-import PengajuanKredit from "./pages/Khusus/PengajuanKreditBadanUsaha.jsx";
+import DraftPengajuanKreditBadanUsaha from "./pages/Khusus/DraftPengajuanKreditBadanUsaha.jsx";
 import PengajuanKreditBadanUsaha from "./pages/Khusus/PengajuanKreditBadanUsaha.jsx";
 
 const ProtectedRoute = () => {
@@ -125,6 +125,19 @@ export const router = createBrowserRouter([
         navLinkActive="Pengajuan Kredit"
       >
         <PengajuanKreditBadanUsaha />
+      </LayoutKhusus>
+      // </AccessRoleNasabahValidation>
+    ),
+  },
+  {
+    path: "pengajuan-kredit/draft",
+    element: (
+      // <AccessRoleNasabahValidation>
+      <LayoutKhusus
+        breadcrumbs="Pengajuan Kredit"
+        navLinkActive="Pengajuan Kredit"
+      >
+        <DraftPengajuanKreditBadanUsaha />
       </LayoutKhusus>
       // </AccessRoleNasabahValidation>
     ),
