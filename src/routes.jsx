@@ -296,7 +296,7 @@ export const router = createBrowserRouter([
             </LayoutKhusus>
           </AccessRoleAdminValidation>
         )
-      },
+      }
     ],
   },
   // {
@@ -359,6 +359,23 @@ export const router = createBrowserRouter([
   //     // </LayoutKhusus>
   //   ),
   // },
+  {
+    path: "/nasabah",
+    element: <ProtectedRoute />,
+    children: {
+      path: "perseorangan",
+      element: (
+        <AccessRoleNasabahValidation>
+          <LayoutKhusus 
+            breadcrumbs="Pengajuan Kredit"
+            navLinkActive="Pengajuan Kredit"
+            subNavLinkActive="Perseorangan">
+
+          </LayoutKhusus>
+        </AccessRoleNasabahValidation>
+      )
+    }
+  },
   {
     path: "*",
     element: <NotFoundPage />,
