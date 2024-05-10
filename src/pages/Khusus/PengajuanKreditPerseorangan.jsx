@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Button from "../../components/Button";
-import FormDataDiri from "../../components/Form/FormPengajuanKreditPerseorangan";
+import FormDataDiri from "../../components/Form/FormPengajuanKreditPerseorangan/FormDataDiri";
 import StepNavigation from "../../components/StepNavigation";
 
 
