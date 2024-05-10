@@ -1,6 +1,7 @@
 function Input(props) {
   const {
     type,
+    accept,
     name,
     placeholder,
     defaultValue,
@@ -19,6 +20,7 @@ function Input(props) {
         </label>
         <input
           type={type}
+          accept={accept}
           name={name}
           id={name}
           placeholder={placeholder}
@@ -26,9 +28,8 @@ function Input(props) {
           disabled={disabled}
           required={required}
           onChange={onChange}
-          className={`p-1 border-2 border-slate-300 rounded-md ${
-            grow && "grow"
-          }`}
+          className={`p-1 border-2 border-slate-300 rounded-md ${grow && "grow"
+            }`}
         />
       </div>
       <span className="text-red-500">{message}</span>
