@@ -1,12 +1,13 @@
-import React from 'react'
-import Button from '../../components/Button'
-import FormUpgradeCredit from '../../components/Form/FormUpgradeCredit'
-import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Button from '../../components/Button';
+import FormUpgradeCredit from '../../components/Form/FormUpgradeCredit';
 
 function UpgradeCredit() {
+  const [user, setUser] = useState("");
+  useEffect(() => setUser(JSON.parse(Cookies.get("user"))), []);
   const navigate = useNavigate();
-  const user = JSON.parse(Cookies.get("user") ?? null);
 
   return (
     <div>

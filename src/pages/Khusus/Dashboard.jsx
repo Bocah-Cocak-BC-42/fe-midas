@@ -5,8 +5,8 @@ import Island from '../../components/Island';
 import Table from '../../components/Table';
 
 function Dashboard() {
-  const [userRole, setUserRole] = useState("");
-  useEffect(() => setUserRole(JSON.parse(Cookies.get("user"))), []);
+  const [user, setUser] = useState("");
+  useEffect(() => setUser(JSON.parse(Cookies.get("user"))), []);
 
   const [creditType, setCreditType] = useState("perseorangan");
   const [dto, setDto] = useState(undefined);
@@ -50,8 +50,8 @@ function Dashboard() {
     <div className="grid grid-cols-2 gap-8 my-8">
       <div className="flex flex-col gap-8">
         <Island>
-          <div className="grid grid-cols-[auto_12rem] gap-4 mx-4">
-            <div className="flex flex-col gap-2 justify-center items-center">
+          <div className="grid grid-cols-[auto_12rem] gap-4 ml-8 mr-4">
+            <div className="flex flex-col gap-2 justify-center">
               <div className="flex flex-col gap-2">
                 <span className="text-[#a7a1a1]">Selamat Datang, {dto.gender === "M" ? "Bapak" : dto.gender === "F" ? "Ibu" : "Bapak / Ibu"} {dto.fullName}</span>
                 <span className="text-2xl text-[#a7a1a1]">{dto.email}</span>
@@ -66,7 +66,7 @@ function Dashboard() {
         </Island>
 
         <Island>
-          <div className="flex flex-col gap-4 p-8">
+          <div className="flex flex-col gap-4 p-4">
             <span className="text-[#a7a1a1]">Actual Limit</span>
             <select
               className="p-2 w-fit"
@@ -75,19 +75,21 @@ function Dashboard() {
               <option value="perseorangan">Limit Perseorangan</option>
               <option value="perusahaan">Limit Perusahaan</option>
             </select>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center px-4">
               <span className="text-4xl font-bold text-[#198a1e]">{rupiah(dto.personalCreditLimit)}</span>
               <div className="w-0.5 h-24 bg-gray-200" />
               <div>
                 <a
                   className="p-4 text-white bg-[#b0c5a4] rounded-md"
-                  href={`/${userRole.role.toLowerCase()}/upgradecredit`}
+                  href={`/${user.role.toLowerCase()}/upgradecredit`}
                 >Upgrade Limit</a>
               </div>
             </div>
 
-            <Submission data={null} />
-            <Submission data={null} />
+            <div className="flex flex-col gap-8 p-4">
+              <Submission data={null} />
+              <Submission data={null} />
+            </div>
           </div>
         </Island>
       </div>
@@ -95,28 +97,29 @@ function Dashboard() {
       <div className="flex flex-col gap-8">
         <div className="grid grid-cols-[1fr_12rem] gap-8 h-fit">
           <Island>
-            <div className="flex flex-col gap-4 p-8">
+            <div className="flex flex-col p-4">
               <span className="text-[#a7a1a1]">Saldo Saat Ini</span>
-              <span className="text-4xl font-bold text-[#198a1e] text-center overflow-x-auto overflow-y-hidden">{rupiah(dto.personalCreditLimit)}</span>
+              <span className="p-4 text-4xl font-bold text-[#198a1e] text-center overflow-x-auto overflow-y-hidden">{rupiah(dto.personalCreditLimit)}</span>
             </div>
           </Island>
           <Island>
-            <div className="flex flex-col gap-4 p-8">
+            <div className="flex flex-col p-4">
               <span className="text-[#a7a1a1]">Skor Kredit</span>
               <span
-                className="text-4xl font-bold text-center overflow-x-auto overflow-y-hidden"
+                className="p-4 text-4xl font-bold text-center overflow-x-auto overflow-y-hidden"
                 style={{ color: dto.creditScore >= 100 ? "#198a1e" : dto.creditScore >= 50 ? "#ffd95a" : "red" }}
               >{dto.creditScore}</span>
             </div>
           </Island>
         </div>
         <Island>
-          <div className="flex flex-col gap-4 p-8">
+          <div className="flex flex-col gap-4 p-4">
             <span className="text-[#a7a1a1]">Tagihan Pinjaman</span>
             <Table
               tableHeaders={tableDataHeaders}
               data={[
                 {
+                  id: 0,
                   creditUpgradeNumber: "B000001",
                   dueDate: "Besok",
                   status: "Berhasil",
