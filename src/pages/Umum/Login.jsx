@@ -2,11 +2,13 @@ import { useState } from "react";
 import { postLogin } from "../../services/authentication.service";
 import Modal from "../../components/Modal";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [messageValidationField, setMessageValidationField] = useState({});
   const [showModalAlert, setShowModalAlert] = useState(false);
   const [messageAlert, setMessageAlert] = useState("");
+  const navigate = useNavigate();
 
   // console.log(JSON.parse(Cookies.get("user")));
 
@@ -24,13 +26,14 @@ function Login() {
 
     postLogin(
       (dataAuth) => {
-        console.log(dataAuth);
+        // console.log(dataAuth);
         setMessageAlert("Berhasil Login");
         setShowModalAlert(true);
         Cookies.set("user", JSON.stringify(dataAuth), {
           expires: 1,
           secure: true,
         });
+        navigate(`../${dataAuth.role.toLowerCase()}/dashboard`, { replace: true })
       },
       (errors) => {
         console.log("masuk");
@@ -71,7 +74,7 @@ function Login() {
       <Modal
         onClose={() => {
           setShowModalAlert(false);
-          location.reload();
+          // location.reload();
         }}
         visible={showModalAlert}
         title="Pemberitahuan"
