@@ -20,6 +20,7 @@ import LayoutAuth from "./components/layout/LayoutAuth.jsx";
 import Login from "./pages/Umum/Login";
 import UserManagementCustomer from "./pages/Khusus/UserManagementCustomer";
 import UpgradeCredit from "./pages/Khusus/UpgradeCredit.jsx";
+import VerifyUpgradeCredit from "./pages/Khusus/VerifyUpgradeCredit.jsx";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(Cookies.get("user") ?? null);
