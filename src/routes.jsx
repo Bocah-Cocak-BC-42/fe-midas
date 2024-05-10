@@ -295,6 +295,32 @@ export const router = createBrowserRouter([
             </LayoutKhusus>
           </AccessRoleAdminValidation>
         )
+      },
+      {
+        path: "data-master/sektor-usaha",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus 
+              breadcrumbs="Data Master / Sektor Usaha"
+              navLinkActive="Data Master"
+              subNavLinkActive="Sektor Usaha">
+              <DataSektorUsaha />
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        )
+      },
+      {
+        path: "perseorangan",
+        element: (
+          <AccessRoleNasabahValidation>
+            <LayoutKhusus 
+              breadcrumbs="Perseorangan"
+              navLinkActive="Pengajuan Kredit"
+              subNavLinkActive="Perseorangan">
+              
+            </LayoutKhusus>
+          </AccessRoleNasabahValidation>
+        )
       }
     ],
   },
@@ -358,23 +384,6 @@ export const router = createBrowserRouter([
   //     // </LayoutKhusus>
   //   ),
   // },
-  {
-    path: "/nasabah",
-    element: <ProtectedRoute />,
-    children: {
-      path: "perseorangan",
-      element: (
-        <AccessRoleNasabahValidation>
-          <LayoutKhusus 
-            breadcrumbs="Pengajuan Kredit"
-            navLinkActive="Pengajuan Kredit"
-            subNavLinkActive="Perseorangan">
-
-          </LayoutKhusus>
-        </AccessRoleNasabahValidation>
-      )
-    }
-  },
   {
     path: "*",
     element: <NotFoundPage />,
