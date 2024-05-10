@@ -1,24 +1,59 @@
 import { useState } from "react";
 import Button from "../../components/Button";
-import FormDataDiri from "../../components/Form/FormPengajuanKreditPerseorangan/FormDataDiri";
+import FormPengajuanKreditPerseorangan from "../../components/Form/FormPengajuanKreditPerseorangan";
 import StepNavigation from "../../components/StepNavigation";
 
 
 function PengajuanKreditPerseorangan(){
 
-    const [tab, setTab] = useState(1);
+    const [step, setStep] = useState(1);
 
-    const stepOptions = ["Data Diri", "Berkas Diri & Kontak Darurat", "Data Usaha", "Pengajuan"];
+    const [stepOptions, setStepOptions] = useState(["Data Diri", "Berkas Diri & Kontak Darurat", "Data Usaha", "Data Usaha 2", "Pengajuan"]);
     return (
         <>
             <div>
-                <StepNavigation stepOptions={stepOptions} tab={tab}/>
+                <StepNavigation stepOptions={stepOptions} tab={step}/>
             </div>
             <div>
-                <FormDataDiri/>
+                <FormPengajuanKreditPerseorangan page={step}/>
             </div>  
+
+            <div className={`flex justify-${step==1? "end" : "between"}`}>
+               {step !== 1 && (
+                <Button
+                    icon="arrrow-left"
+                    variant="danger"
+                    onClick={()=> setStep(step-1)}
+                >
+                    Kembali
+                </Button>
+
+               )}
+
+               {step <= 4 && (
+                <Button
+                    icon="arrrow-left"
+                    variant="danger"
+                    onClick={()=> setStep(step+1)}
+                >
+                    Selanjutnya
+                </Button>
+               )}
+
+               {step === 5 && (
+                <Button
+                    type="submit"
+                    form="formPengajuanKreditPerseorangan"
+                    icon="check"
+                    variant="success"
+                >
+                    Ajukan
+                </Button>
+                
+               )}
+            </div>
         </>
-    )
+    );
     
 }
 
