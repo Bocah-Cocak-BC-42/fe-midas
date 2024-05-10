@@ -5,8 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 function UpgradeCredit() {
+  const [userRole, setUserRole] = useState("");
+  useEffect(() => setUserRole(JSON.parse(Cookies.get("user"))), []);
   const navigate = useNavigate();
-  const user = JSON.parse(Cookies.get("user") ?? null);
 
   return (
     <div>
@@ -14,7 +15,7 @@ function UpgradeCredit() {
         <Button
           icon="arrow-left"
           variant="danger"
-          onClick={() => navigate(`/${user.role.toLowerCase()}/dashboard`)}
+          onClick={() => navigate(`/${userRole.toLowerCase()}/dashboard`)}
         >
           Kembali
         </Button>
