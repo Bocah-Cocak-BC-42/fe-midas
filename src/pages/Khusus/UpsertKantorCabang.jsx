@@ -31,7 +31,6 @@ function UpsertKantorCabang(props){
     const [messageConfirm, setMessageConfirm] = useState("");
     
     function getKantorCabang(id){
-        console.log(id)
         getKantorCabangById(
             (data)=>{
                 setForm(
@@ -45,7 +44,6 @@ function UpsertKantorCabang(props){
                     villageId:data.village,
                     postalCode:data.postalCode
                 })
-                console.log(data)
                 getDataCity(data.province)
                 getDataSubdistrict(data.city)
                 getDataVillage(data.subDistrict)
@@ -76,7 +74,6 @@ function UpsertKantorCabang(props){
         function getDataSubdistrict(idCity) {
             getAllSubDistrict(idCity, (res) =>{
                 setSubdistricts(subdistrics.concat(res.data));
-                console.log(subdistrics);
             },(err)=>{
             setSubdistricts([])
             setVillages([])})
@@ -85,7 +82,6 @@ function UpsertKantorCabang(props){
     function getDataVillage(idSubdistrict) {
         getAllVillage(idSubdistrict, (res) =>{
             setVillages(villages.concat(res.data));
-            console.log(villages);
         },(err)=>{ setVillages([]);})
     }
 
@@ -94,19 +90,16 @@ function UpsertKantorCabang(props){
     }, [])
 
     const setProvince = (e) =>{
-        console.log(e);
         setForm({...form, provinceId:e})
         getDataCity(e)
     }
 
     const setCity = (e) =>{
-        console.log(e);
         setForm({...form, cityId:e})
         getDataSubdistrict(e)
     }
 
     const setSubdistrict = (e) =>{
-        console.log(e)
         setForm({...form, subdistrictId:e})
         getDataVillage(e)
     }

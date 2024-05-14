@@ -15,10 +15,10 @@ function DataKaryawanKantorCabang(){
     const { id } = useParams();
     const [karyawan, setKaryawan] = useState([]);
     const [pagination, setPagination] = useState({});
-    const [showModalAlert, setModalAlert] = useState(false);
+    const [showModalAlert, setShowModalAlert] = useState(false);
     const [showConfirmModal, setConfirmModal] = useState(false);
     const [showModal, setShowModal] = useState(false)
-    const [showJudluModal, setJudulModal] = useState("");
+    const [showJudulModal, setJudulModal] = useState("");
     const [messageAlert, setMessageAlert] = useState("");
     const [idemployee, setIdKaryawan] = useState(""); 
     const [pencarianNamaKaryawan, setPencarianNamaKaryawan] = useState("");
@@ -33,31 +33,34 @@ function DataKaryawanKantorCabang(){
 
     ]
 
-    function getKaryawanCabang(pageNumber, pencarianNamaKaryawan, pencarianNIP, pencarianJabatan){
+    function getKaryawanCabang(pageNumber, pencarianNamaKaryawan, pencarianJabatan){
         console.log(id);
         getKantorCabangById(
             (res) => {
+                console.log(res);
                 setNamaCabang(
-                    res.name
-                )
+                    res.data.name
+                );
                 setKaryawanCabang(
-                    res.employees.map((item) => 
+                    res.data.employees.map((item) => 
                         tableHeaders.reduce((acc, header) => {
                             acc[header.code] = item[header.code];
                             return acc;
                         }, {})
                     )
-                )
-            }, id
+                );
+                setPagination(res.pagination);
+            }, 
+            id,
+            {page: pageNumber, pageSize: 5, fullName: pencarianNamaKaryawan, role: pencarianJabatan}
+
         )
     }
 
     useEffect(() => {
-        // getDataKaryawan(1, "", "", "");
         getKaryawanCabang(1, "", "", "")
         getEmployees(
             (res) => {
-                console.log(karyawan.concat(res.data));
                 setKaryawan(
                     karyawan.concat(res.data)
                 )
@@ -69,14 +72,12 @@ function DataKaryawanKantorCabang(){
         e.preventDefault();
         let pencarianNamaKaryawanVal = e.target.pencarianNamaKaryawan.value || null;
         setPencarianNamaKaryawan(pencarianNamaKaryawanVal);
-        let pencarianNIPVal = e.target.pencarianNIP.value || null;
-        setPencarianNIP(pencarianNIPVal);
         let pencarianJabatanVal = e.target.pencarianJabatan.value || null;
         setPencarianJabatan(pencarianJabatanVal);
+        getKaryawanCabang(1, pencarianNamaKaryawanVal, pencarianJabatanVal)
     }
 
     const handleDelete = (data) =>{
-        console.log(data.id);
         setIdKaryawan(data.id)
         setJudulModal("Delete Data Karyawan")
         setConfirmModal(true);
@@ -84,19 +85,18 @@ function DataKaryawanKantorCabang(){
 
   
     const handlConfirm = (confirm) => {
-        console.log(idemployee);
         setConfirmModal(true);
         if (confirm) {
             deleteEmployeeBranchOffice((message) => {
                 setMessageAlert(message)
                 setJudulModal("Pemberitahuan");
-                setModalAlert(true)
+                setShowModalAlert(true)
             }, idemployee);
         }
     }
 
     const handleCloseModal = () =>{
-        setModalAlert(false);
+        setShowModalAlert(false);
         setConfirmModal(false);
         setShowModal(false)
     }
@@ -117,7 +117,6 @@ function DataKaryawanKantorCabang(){
                 <div className="mt-4 flex justify-betwen">
                     <form action="" onSubmit={handleSearch} className="flex gap-4">
                         <InputSearch placeholder="Cari berdasarkan Nama" name="pencarianNamaKaryawan"/>
-                        <InputSearch placeholder="Cari Berdasrkan NIP" name="pencarianNIP"/>
                         <InputSearch placeholder="Cari Berdasrkan Jabatan" name="pencarianJabatan" />
                         <Button type="submit">Search</Button>
                     </form>
@@ -147,18 +146,26 @@ function DataKaryawanKantorCabang(){
                         ]}
                     />
                 </div>
-                <Modal onClose={handleCloseModal} visible={showConfirmModal} title={showJudluModal} confirm={handlConfirm}>
+                <Modal onClose={handleCloseModal} visible={showConfirmModal} title={showJudulModal} confirm={handlConfirm}>
                     <p>Apakah anda yakin akan menghapus data ini?</p>
                 </Modal>
                 <Modal onClose={ ()=> {
                     handleCloseModal();
-                    location.reload(); 
+                    getKaryawanCabang(1, "", "", "")
                     }} 
-                    visible={showModalAlert} title={showJudluModal}>
+                    visible={showModalAlert} title={showJudulModal}>
                     {messageAlert}
                 </Modal>
-                <Modal onClose={handleCloseModal} visible={showModal} title={showJudluModal} form="form-upsert-karyawan-cabang">
-                    <FormUpsertKaryawanCabang data={karyawan} id={id}/>
+                <Modal onClose={() => {
+                    handleCloseModal()
+                    getKaryawanCabang(1, "", "", "")
+                }
+                } visible={showModal} title={showJudulModal} form="form-upsert-karyawan-cabang">
+                    <FormUpsertKaryawanCabang data={karyawan} id={id} showAlert={(val)=> {setMessageAlert(val);
+                        setShowModalAlert(true);
+                        setShowModal(false)
+                        location.reload()
+                    }} />
                 </Modal>
             </div>
         </>

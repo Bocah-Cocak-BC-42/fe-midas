@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllUser, getEmployees } from "../../services/user-management.service";
-import Input from "../Input/Input";
 import Select from "../Input/Select";
-import { useParams } from "react-router-dom";
 import { postEmployeeBranchOffice } from "../../services/data-master-kantor-cabang";
 
 function FormUpsertKaryawanCabang(props) {
@@ -19,9 +16,10 @@ function FormUpsertKaryawanCabang(props) {
         }
         postEmployeeBranchOffice(
             (ressMessage) => {
+                console.log(ressMessage)
                 showAlert(ressMessage)
             },
-            (error) => {
+        (error) => {
                 setMessageValidationField(error)
             },
             newBranchOfficeEmployee
@@ -39,8 +37,6 @@ function FormUpsertKaryawanCabang(props) {
 
         return result;
     }
-    
-    console.log(messageValidationField?.UserId);
     return (
         <div>
             

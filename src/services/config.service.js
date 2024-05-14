@@ -47,6 +47,19 @@ export const getById = (endpoint, id, callback) => {
     });
 };
 
+export const getByIdWithPagination = (endpoint, id, params, callback) => {
+  axios
+    .get(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`, { params: params, headers : {
+      Authorization: `Bearer ${token}`}
+    })
+    .then((res) => {
+      callback(res.data)
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+}
+
 export const post = (endpoint, data, callback, messageValidationFieldError) => {
   console.log(token);
   axios
@@ -66,6 +79,7 @@ export const post = (endpoint, data, callback, messageValidationFieldError) => {
       callback(token ? res.data : res.data.message);
     })
     .catch((err) => {
+      console.log(err)
       messageValidationFieldError(
         err.response.data.errors ?? err.response.data.message
       );

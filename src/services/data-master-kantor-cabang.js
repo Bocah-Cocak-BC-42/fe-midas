@@ -1,12 +1,12 @@
-import { del, get, getById, post, put } from "./config.service";
+import { del, get, getById, getByIdWithPagination, post, put } from "./config.service";
 const endpoint = "branch-office";
 const endPointEmployeBrancOffice = "associate-user-branch";
 
 export const getKantorCabang = (callback, errorCallback, params) =>{
     get(endpoint, params, callback, errorCallback);
 };
-export const getKantorCabangById = (callback, id) => {
-    getById(endpoint, id, callback)
+export const getKantorCabangById = (callback, id, params) => {
+    getByIdWithPagination(endpoint, id,params, callback)
 };
 
 export const postKantorCabang = (callback, messageValidationFieldError, data) => {

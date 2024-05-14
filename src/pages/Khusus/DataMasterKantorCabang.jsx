@@ -4,7 +4,6 @@ import Table from "../../components/Table";
 import InputSearch from "../../components/Input/InputSearch";
 import Modal from "../../components/Modal";
 import { Link, useNavigate } from "react-router-dom";
-import { get, getById } from "../../services/config.service";
 import { deleteKantorCabang, getKantorCabang, getKantorCabangById } from "../../services/data-master-kantor-cabang";
 
 function DaftarKantorCabang() {
@@ -41,6 +40,7 @@ function DaftarKantorCabang() {
                     ) 
                 );
                 setPagination(res.pagination);
+                
             },
             (errMessage) => {
                 setErrorMessage(errMessage);
@@ -57,7 +57,6 @@ function DaftarKantorCabang() {
         const handleSearch = (e) => {
             e.preventDefault();
             let pencarianNamaCabangVal = e.target.pencarianNamaCabang.value || null;
-            console.log(pencarianNamaCabang)
             setPencarianNamaCabang(pencarianNamaCabangVal);
             let pencarianProvinsiVal = e.target.pencarianProvinsi.value || null;
             setPencarianProvinsi(pencarianProvinsiVal);
@@ -69,7 +68,6 @@ function DaftarKantorCabang() {
         }
         const handleDelete = (id) =>{
             setId(id);
-            console.log(id);
             setJudul("Hapus Kantor Cabang")
             setConfirmModal(true);
         }
