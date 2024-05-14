@@ -9,10 +9,10 @@ function FormPengajuanKreditBadanUsaha({ page }) {
   const [totalAset, setTotalAset] = useState(1);
   const [defaultValues, setDefaultValues] = useState({
     npwp: "",
-    nama: "",
-    jenisBadanUsaha: "",
-    tempatPendirian: "",
-    noAktaPendirian: "",
+    companyName: "",
+    companyType: "",
+    placeOfEstasblishment: "",
+    establishRegistrationNumber: "",
     nib: "",
     date: "",
     email: "",
@@ -55,76 +55,13 @@ function FormPengajuanKreditBadanUsaha({ page }) {
     laporanFile: "",
   });
 
-  // const {
-  //   setValue,
-  //   watch,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm({
-  //   defaultValues: defaultValues,
-  // });
-
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(defaultValues);
   };
-  // const onSubmit = (form) => {
-  //   const sentData = {
-  //     npwp: form.npwp,
-  //     nama: form.nama,
-  //     jenisBadanUsaha: form.jenisBadanUsaha,
-  //     tempatPendirian: form.tempatPendirian,
-  //     nib: form.nib,
-  //     email: form.email,
-  //     noTelpBadanUsaha: form.noTelpBadanUsaha,
-  //     alamat: form.alamat,
-  //     provinsi: form.provinsi,
-  //     kabupaten: form.kabupaten,
-  //     kelurahan: form.kelurahan,
-  //     kodePos: form.kodePos,
-  //     dataPemilik: form.dataPemilik,
-  //     // dataPemilik: [
-  //     //   {
-  //     //     nik: form.dataPemilik[0].nik,
-  //     //     nip: form.dataPemilik[0].nip,
-  //     //     fullname: form.dataPemilik[0].fullname,
-  //     //     jabatan: form.dataPemilik[0].jabatan,
-  //     //     noTelp: form.dataPemilik[0].noTelp,
-  //     //   },
-  //     //   {
-  //     //     nik: form.dataPemilik[1].nik,
-  //     //     nip: form.dataPemilik[1].nip,
-  //     //     fullname: form.dataPemilik[1].fullname,
-  //     //     jabatan: form.dataPemilik[1].jabatan,
-  //     //     noTelp: form.dataPemilik[1].noTelp,
-  //     //   },
-  //     // ],
-  //   };
 
-  //   console.log(sentData);
-  //   // let npwpVal = e.target.npwp.value || null;
-  //   // let namaVal = e.target.nama.value || null;
-  //   // let badanUsahaVal = e.target.badanUsaha.value || null;
-  //   // let nikVal = e.target.nik1.value || null;
-  //   // let nipVal = e.target.nip1.value || null;
-  //   // let fullnameVal = e.target.fullname1.value || null;
-  //   // let jabatanVal = e.target.value.jabatan.value || null;
-  //   // let noTelpVal = e.target.value.noTelpVal.value || null;
-
-  //   // console.log(npwpVal);
-  //   // console.log(namaVal);
-  //   // console.log(badanUsahaVal);
-  //   // console.log(nikVal);
-  //   // console.log(nipVal);
-  //   // console.log(fullnameVal);
-  //   // console.log(jabatanVal);
-  //   // console.log(noTelpVal);
-  // };
-
-  // const [date, setDate] = useState("");
   const onChangeInput = (value, name) => {
     setDefaultValues({ ...defaultValues, [name]: value });
-    // setValue(name, value);
   };
   const onChangeInputPemilik = (value, name, i) => {
     let defVal = { ...defaultValues };
@@ -170,8 +107,6 @@ function FormPengajuanKreditBadanUsaha({ page }) {
     let dataPemilik = defaultValues.dataPemilik;
     dataPemilik.pop();
     setDefaultValues({ ...defaultValues, dataPemilik });
-
-    // defaultValues.dataPemilik.pop();
   };
   const handleMinAset = () => {
     setTotalAset(totalAset - 1);
@@ -179,8 +114,6 @@ function FormPengajuanKreditBadanUsaha({ page }) {
     let dataAset = defaultValues.assets;
     dataAset.pop();
     setDefaultValues({ ...defaultValues, dataAset });
-
-    // defaultValues.dataPemilik.pop();
   };
 
   return (
@@ -201,16 +134,16 @@ function FormPengajuanKreditBadanUsaha({ page }) {
             <Input
               placeholder="Nama Badan Usaha"
               // defaultValue={watch("nama")}
-              name="nama"
-              onChange={(e) => onChangeInput(e.target.value, "nama")}
+              name="companyName"
+              onChange={(e) => onChangeInput(e.target.value, "companyName")}
               // required
               grow
             >
               Nama
             </Input>
             <Select
-              name="jenisBadanUsaha"
-              handleChange={(val) => onChangeInput(val, "npwp")}
+              name="companyType"
+              handleChange={(val) => onChangeInput(val, "companyType")}
               options={[
                 { id: "", name: "Pilih Jenis Badan Usaha" },
                 { id: 1, name: "Badan Usaha 1" },
@@ -223,9 +156,9 @@ function FormPengajuanKreditBadanUsaha({ page }) {
             </Select>
             <Input
               placeholder="Tempat Pendirian Badan Usaha"
-              // defaultValue={watch("tempatPendirian")}
-              name="tempatPendirian"
-              onChange={(e) => onChangeInput(e.target.value, "tempatPendirian")}
+              // defaultValue={watch("placeOfEstasblishment")}
+              name="placeOfEstasblishment"
+              onChange={(e) => onChangeInput(e.target.value, "placeOfEstasblishment")}
               // required
               grow
             >
@@ -233,8 +166,8 @@ function FormPengajuanKreditBadanUsaha({ page }) {
             </Input>
             <Input
               placeholder="No. Akta Pendirian Badan Usaha"
-              onChange={(e) => onChangeInput(e.target.value, "noAktaPendirian")}
-              name="noAktaPendirian"
+              onChange={(e) => onChangeInput(e.target.value, "establishRegistrationNumber")}
+              name="establishRegistrationNumber"
               // required
               grow
             >

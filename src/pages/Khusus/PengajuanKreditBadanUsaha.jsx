@@ -89,7 +89,7 @@ function PengajuanKreditBadanUsaha() {
 
   return (
     <>
-      <Link to="/pengajuan-kredit-badan-usaha/draft">
+      <Link to="/nasabah/pengajuan-kredit-badan-usaha/draft">
         <Button>Tambah Draft</Button>
       </Link>
       <div className="rounded-md border mt-4 shadow">

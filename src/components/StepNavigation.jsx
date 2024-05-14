@@ -2,9 +2,6 @@ function StepNavigation(props) {
   const { stepOptions, tab } = props;
   return (
     <div className="flex flex-wrap justify-center gap-4 border-b-8 pb-8 mb-4 items-baseline">
-      {/* <div
-      className={`grid grid-cols-${stepOptions.length} border-b-8 pb-8 mb-4 items-baseline`}
-    > */}
       {stepOptions.map((step, index) => (
         <div
           key={index}

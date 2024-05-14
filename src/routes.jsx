@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { Navigate, Outlet, createBrowserRouter } from "react-router-dom";
+import { Navigate, Outlet, createBrowserRouter, useParams } from "react-router-dom";
 import LayoutKhusus from "./components/layout/LayoutKhusus";
 import LayoutUmum from "./components/layout/LayoutUmum";
 import LandingPage from "./pages/Umum/LandingPage";
@@ -21,21 +21,24 @@ import Login from "./pages/Umum/Login";
 import UserManagementCustomer from "./pages/Khusus/UserManagementCustomer";
 import DraftPengajuanKreditBadanUsaha from "./pages/Khusus/DraftPengajuanKreditBadanUsaha.jsx";
 import PengajuanKreditBadanUsaha from "./pages/Khusus/PengajuanKreditBadanUsaha.jsx";
+import UpgradeCredit from "./pages/Khusus/UpgradeCredit.jsx";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(Cookies.get("user") ?? null);
-
+  let { role } = useParams()
   if (!user) {
     return <Navigate to="/login" replace />;
   } else {
-    // return <Outlet />;
-    return <Outlet />;
+    if (role === user.role.toLowerCase())
+      return <Outlet />;
+    else
+      return <AccessDenied />
   }
 };
 
 const Session = ({ children }) => {
   const user = JSON.parse(Cookies.get("user") ?? null);
-  if (user) {
+  if (user && user?.role === "Admin") {
     return <Navigate to="/admin/dashboard" replace />;
   } else {
     return children;
@@ -116,46 +119,55 @@ export const router = createBrowserRouter([
       </LayoutAuth>
     ),
   },
+  
   {
-    path: "pengajuan-kredit-badan-usaha",
-    element: (
-      // <AccessRoleNasabahValidation>
-      <LayoutKhusus
-        breadcrumbs="Pengajuan Kredit"
-        navLinkActive="Pengajuan Kredit"
-      >
-        <PengajuanKreditBadanUsaha />
-      </LayoutKhusus>
-      // </AccessRoleNasabahValidation>
-    ),
-  },
-  {
-    path: "pengajuan-kredit-badan-usaha/draft",
-    element: (
-      // <AccessRoleNasabahValidation>
-      <LayoutKhusus
-        breadcrumbs="Pengajuan Kredit"
-        navLinkActive="Pengajuan Kredit"
-      >
-        <DraftPengajuanKreditBadanUsaha />
-      </LayoutKhusus>
-      // </AccessRoleNasabahValidation>
-    ),
-  },
-  {
-    path: "/admin",
+    path: '/:role',
     element: <ProtectedRoute />,
     children: [
-      //admin
       {
         path: "dashboard",
         index: true,
         element: (
-          <AccessRoleAdminValidation>
-            <LayoutKhusus breadcrumbs={"Dashboard"} navLinkActive={"Dashboard"}>
-              <Dashboard />
-            </LayoutKhusus>
-          </AccessRoleAdminValidation>
+          <LayoutKhusus breadcrumbs={"Dashboard"} navLinkActive={"Dashboard"}>
+            <Dashboard />
+          </LayoutKhusus>
+        ),
+      },
+      {
+        path: "upgradecredit",
+        index: true,
+        element: (
+          <LayoutKhusus breadcrumbs={"Upgrade Credit"} navLinkActive={"UpgradeCredit"}>
+            <UpgradeCredit />
+          </LayoutKhusus>
+        ),
+      },
+      {
+        path: "pengajuan-kredit-badan-usaha",
+        element: (
+          // <AccessRoleNasabahValidation>
+          <LayoutKhusus
+            breadcrumbs="Pengajuan Kredit Badan Usaha"
+            navLinkActive="Pengajuan Kredit"
+            subNavLinkActive="Badan Usaha"
+          >
+            <PengajuanKreditBadanUsaha />
+          </LayoutKhusus>
+          // </AccessRoleNasabahValidation>
+        ),
+      },
+      {
+        path: "pengajuan-kredit-badan-usaha/draft",
+        element: (
+          // <AccessRoleNasabahValidation>
+          <LayoutKhusus
+            breadcrumbs="Pengajuan Kredit Badan Usaha"
+            navLinkActive="Pengajuan Kredit"
+            subNavLinkActive="Badan Usaha"
+          >
+            <DraftPengajuanKreditBadanUsaha />
+          </LayoutKhusus>
+          // </AccessRoleNasabahValidation>
         ),
       },
       {
@@ -199,6 +211,7 @@ export const router = createBrowserRouter([
             </LayoutKhusus>
           </AccessRoleAdminValidation>
         ),
+        
       },
       {
         path: "data-master/kantor-cabang",
@@ -283,6 +296,7 @@ export const router = createBrowserRouter([
             </LayoutKhusus>
           </AccessRoleAdminValidation>
         ),
+        
       },
       {
         path: "data-master/kantor-cabang/edit/:id",
