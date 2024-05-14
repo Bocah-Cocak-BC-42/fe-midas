@@ -3,13 +3,32 @@ import React, { useEffect, useState } from 'react';
 import Submission from '../../components/Dashboard/Submission';
 import Island from '../../components/Island';
 import Table from '../../components/Table';
+import { getUserDetail } from '../../services/dashboard-nasabah';
 
 function Dashboard() {
   const [user, setUser] = useState("");
   useEffect(() => setUser(JSON.parse(Cookies.get("user"))), []);
 
   const [creditType, setCreditType] = useState("perseorangan");
+  useEffect(() => { }, [creditType]);
+
   const [dto, setDto] = useState(undefined);
+  useEffect(() => { if (user.userId !== undefined) getUserData() }, [user]);
+  const getUserData = () => {
+    getUserDetail(
+      { id: user.userId },
+      (dto) => {
+        if (dto.status === "OK") setDto(dto.data);
+        else if (dto.status === "FAILED") console.log(dto.message);
+        else if (dto.status === "NOTFOUND") console.log(dto.message);
+      },
+      (errMessage) => {
+        setErrorMessage(errMessage);
+        setDto([]);
+      },
+    );
+  };
+
   const [pageNumber, setPageNumber] = useState(1);
   const [pagination, setPagination] = useState({
     page: 1,
@@ -17,18 +36,6 @@ function Dashboard() {
     totalPage: 0,
   });
   const [errorMessage, setErrorMessage] = useState("Gagal Memuat Data Role");
-  useEffect(() => { getUserData() }, [creditType]);
-
-  const getUserData = () => {
-    setDto({
-      fullName: "John Doe",
-      gender: "L",
-      email: "johnd@midas.com",
-      creditScore: 100,
-      personalCreditLimit: 1_000_000,
-      companyCreditLimit: 1_000_000_000
-    });
-  };
 
   const rupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -67,7 +74,7 @@ function Dashboard() {
 
         <Island>
           <div className="flex flex-col gap-4 p-4">
-            <span className="text-[#a7a1a1]">Actual Limit</span>
+            <span className="text-[#a7a1a1]">Limit Kredit</span>
             <select
               className="p-2 w-fit"
               onChange={el => setCreditType(el.currentTarget.value)}
@@ -76,7 +83,7 @@ function Dashboard() {
               <option value="perusahaan">Limit Perusahaan</option>
             </select>
             <div className="flex justify-between items-center px-4">
-              <span className="text-4xl font-bold text-[#198a1e]">{rupiah(dto.personalCreditLimit)}</span>
+              <span className="text-4xl font-bold text-[#198a1e]">{rupiah(creditType === "perseorangan" ? dto.personalCreditLimit : dto.companyCreditLimit)}</span>
               <div className="w-0.5 h-24 bg-gray-200" />
               <div>
                 <a
@@ -99,7 +106,7 @@ function Dashboard() {
           <Island>
             <div className="flex flex-col p-4">
               <span className="text-[#a7a1a1]">Saldo Saat Ini</span>
-              <span className="p-4 text-4xl font-bold text-[#198a1e] text-center overflow-x-auto overflow-y-hidden">{rupiah(dto.personalCreditLimit)}</span>
+              <span className="p-4 text-4xl font-bold text-[#198a1e] text-center overflow-x-auto overflow-y-hidden">{rupiah(creditType === "perseorangan" ? dto.personalCreditLimit : dto.companyCreditLimit)}</span>
             </div>
           </Island>
           <Island>

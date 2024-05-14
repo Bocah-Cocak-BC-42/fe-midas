@@ -6,11 +6,13 @@ let token = user?.token;
 
 export const get = (endpoint, params, callback, errorCallback) => {
   axios
-    .get(`${import.meta.env.VITE_BASE_URL}${endpoint}`, { params: params, headers: {
-      Authorization: `Bearer ${token}`
-    }})
-    .then((res) => {
-      callback(res.data);
+    .get(`${import.meta.env.VITE_BASE_URL}${endpoint}`, {
+      params: params, headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(async (res) => {
+      callback(await res.data);
     })
     .catch((err) => {
       console.log(err);
@@ -25,8 +27,8 @@ export const getAll = (endpoint, callback, errorCallback) => {
         Authorization: "Bearer " + token,
       },
     })
-    .then((res) => {
-      callback(res.data);
+    .then(async (res) => {
+      callback(await res.data);
     })
     .catch((err) => {
       errorCallback(err.response.data.message);
@@ -35,11 +37,13 @@ export const getAll = (endpoint, callback, errorCallback) => {
 
 export const getById = (endpoint, id, callback) => {
   axios
-    .get(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`, { headers: {
-      Authorization: `Bearer ${token}` }
+    .get(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     })
-    .then((res) => {
-      callback(res.data.data);
+    .then(async (res) => {
+      callback(await res.data.data);
     })
     .catch((err) => {
       console.log(err);
@@ -47,22 +51,21 @@ export const getById = (endpoint, id, callback) => {
 };
 
 export const post = (endpoint, data, callback, messageValidationFieldError) => {
-  console.log(token);
   axios
     .post(
       `${import.meta.env.VITE_BASE_URL}${endpoint}`,
       data,
       token != null
         ? {
-            headers: {
-              Authorization: "Bearer " + token,
-            },
-          }
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
         : null
     )
-    .then((res) => {
-      token = res.data.token;
-      callback(token ? res.data : res.data.message);
+    .then(async (res) => {
+      token = await res.data.token;
+      callback(token ? await res.data : await res.data.message);
     })
     .catch((err) => {
       messageValidationFieldError(
@@ -79,11 +82,13 @@ export const put = (
   messageValidationFieldError
 ) => {
   axios
-    .put(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`, data, { headers: {
-      Authorization: `Bearer ${token}`
-    }})
-    .then((res) => {
-      callback(res.data.message);
+    .put(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(async (res) => {
+      callback(await res.data.message);
     })
     .catch((err) => {
       messageValidationFieldError(err.response.data.errors);
@@ -97,13 +102,14 @@ export const patch = (
 ) => {
   axios
     .patch(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`,
-    {},
-  {
-    headers: {
-      Authorization: "Bearer " + token,
-    },})
-    .then((res) => {
-      callback(res.data.message);
+      {},
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+    .then(async (res) => {
+      callback(await res.data.message);
     })
     .catch((err) => {
       console.log(err);
@@ -112,12 +118,40 @@ export const patch = (
 
 export const del = (endpoint, id, callback) => {
   axios
-    .delete(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`, {headers: {
-      Authorization: `Bearer ${token}`}})
-    .then((res) => {
-      callback(res.data.message);
+    .delete(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(async (res) => {
+      callback(await res.data.message);
     })
     .catch((err) => {
       console.log(err);
+    });
+};
+
+export const postFile = (endpoint, data, callback, messageValidationFieldError) => {
+  axios
+    .post(
+      `${import.meta.env.VITE_BASE_URL}${endpoint}`,
+      data,
+      token != null
+        ? {
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+        : null
+    )
+    .then(async (res) => {
+      callback(await res.data);
+    })
+    .catch((err) => {
+      console.log(err)
+      messageValidationFieldError(
+        err.response.data.errors ?? err.response.data.message
+      );
     });
 };
