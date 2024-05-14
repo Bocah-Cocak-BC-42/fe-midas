@@ -117,7 +117,7 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "pengajuan-kredit",
+    path: "pengajuan-kredit-badan-usaha",
     element: (
       // <AccessRoleNasabahValidation>
       <LayoutKhusus
@@ -130,7 +130,7 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "pengajuan-kredit/draft",
+    path: "pengajuan-kredit-badan-usaha/draft",
     element: (
       // <AccessRoleNasabahValidation>
       <LayoutKhusus

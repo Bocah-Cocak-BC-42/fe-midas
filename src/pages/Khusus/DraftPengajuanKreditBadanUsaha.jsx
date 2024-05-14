@@ -52,7 +52,7 @@ function DraftPengajuanKreditBadanUsaha() {
             icon="check"
             variant="success"
           >
-            Ajukan
+            Save
           </Button>
         )}
       </div>

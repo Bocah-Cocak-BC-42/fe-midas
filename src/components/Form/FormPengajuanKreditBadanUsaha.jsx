@@ -2,66 +2,197 @@ import { useState } from "react";
 import Button from "../Button";
 import Input from "../Input/Input";
 import Select from "../Input/Select";
-import { useForm } from "react-hook-form";
+// import { useForm } from "react-hook-form";
 
 function FormPengajuanKreditBadanUsaha({ page }) {
-  const [totalOwner, setTotalOwner] = useState(1);
+  const [totalOwner, setTotalOwner] = useState(2);
   const [totalAset, setTotalAset] = useState(1);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    let npwpVal = e.target.npwp.value || null;
-    let namaVal = e.target.nama.value || null;
-    let badanUsahaVal = e.target.badanUsaha.value || null;
-    let nikVal = e.target.nik1.value || null;
-    let nipVal = e.target.nip1.value || null;
-    let fullnameVal = e.target.fullname1.value || null;
-    let jabatanVal = e.target.value.jabatan.value || null;
-    let noTelpVal = e.target.value.noTelpVal.value || null;
-
-    console.log(npwpVal);
-    console.log(namaVal);
-    console.log(badanUsahaVal);
-    console.log(nikVal);
-    console.log(nipVal);
-    console.log(fullnameVal);
-    console.log(jabatanVal);
-    console.log(noTelpVal);
-  };
-  const { setValue, watch, formState: { errors }} = useForm({
-    defaultValues: {
-      npwp: '',
-      nama: '',
-      jenisBadanUsaha: '',
-      tempatPendirian:'',
-      nib: '',
-      email: '',
-      noTelpBadanUsaha: '',
-      alamat: '',
-      provinsi: '',
-      kabupaten: '',
-      kelurahan: '',
-      kodePos: '',
-
-      
-    }
+  const [defaultValues, setDefaultValues] = useState({
+    npwp: "",
+    nama: "",
+    jenisBadanUsaha: "",
+    tempatPendirian: "",
+    noAktaPendirian: "",
+    nib: "",
+    date: "",
+    email: "",
+    noTelpBadanUsaha: "",
+    alamat: "",
+    provinsi: "",
+    kabupaten: "",
+    kelurahan: "",
+    kodePos: "",
+    dataPemilik: [
+      {
+        nik: "",
+        nip: "",
+        fullname: "",
+        jabatan: "",
+        noTelp: "",
+      },
+      {
+        nik: "",
+        nip: "",
+        fullname: "",
+        jabatan: "",
+        noTelp: "",
+      },
+    ],
+    dataAset: [
+      {
+        namaAset: "",
+        nilaiAset: "",
+      },
+    ],
+    kantorCabang: "",
+    nominal: "",
+    jangkaWaktu: "",
+    aktaFile: "",
+    nibFile: "",
+    npwpFile: "",
+    ktpFile: "",
+    susunanPengurusFile: "",
+    laporanFile: "",
   });
-  const [date, setDate] = useState("");
+
+  // const {
+  //   setValue,
+  //   watch,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = useForm({
+  //   defaultValues: defaultValues,
+  // });
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log(defaultValues);
+  };
+  // const onSubmit = (form) => {
+  //   const sentData = {
+  //     npwp: form.npwp,
+  //     nama: form.nama,
+  //     jenisBadanUsaha: form.jenisBadanUsaha,
+  //     tempatPendirian: form.tempatPendirian,
+  //     nib: form.nib,
+  //     email: form.email,
+  //     noTelpBadanUsaha: form.noTelpBadanUsaha,
+  //     alamat: form.alamat,
+  //     provinsi: form.provinsi,
+  //     kabupaten: form.kabupaten,
+  //     kelurahan: form.kelurahan,
+  //     kodePos: form.kodePos,
+  //     dataPemilik: form.dataPemilik,
+  //     // dataPemilik: [
+  //     //   {
+  //     //     nik: form.dataPemilik[0].nik,
+  //     //     nip: form.dataPemilik[0].nip,
+  //     //     fullname: form.dataPemilik[0].fullname,
+  //     //     jabatan: form.dataPemilik[0].jabatan,
+  //     //     noTelp: form.dataPemilik[0].noTelp,
+  //     //   },
+  //     //   {
+  //     //     nik: form.dataPemilik[1].nik,
+  //     //     nip: form.dataPemilik[1].nip,
+  //     //     fullname: form.dataPemilik[1].fullname,
+  //     //     jabatan: form.dataPemilik[1].jabatan,
+  //     //     noTelp: form.dataPemilik[1].noTelp,
+  //     //   },
+  //     // ],
+  //   };
+
+  //   console.log(sentData);
+  //   // let npwpVal = e.target.npwp.value || null;
+  //   // let namaVal = e.target.nama.value || null;
+  //   // let badanUsahaVal = e.target.badanUsaha.value || null;
+  //   // let nikVal = e.target.nik1.value || null;
+  //   // let nipVal = e.target.nip1.value || null;
+  //   // let fullnameVal = e.target.fullname1.value || null;
+  //   // let jabatanVal = e.target.value.jabatan.value || null;
+  //   // let noTelpVal = e.target.value.noTelpVal.value || null;
+
+  //   // console.log(npwpVal);
+  //   // console.log(namaVal);
+  //   // console.log(badanUsahaVal);
+  //   // console.log(nikVal);
+  //   // console.log(nipVal);
+  //   // console.log(fullnameVal);
+  //   // console.log(jabatanVal);
+  //   // console.log(noTelpVal);
+  // };
+
+  // const [date, setDate] = useState("");
   const onChangeInput = (value, name) => {
-    setValue(name, value);
-  }
+    setDefaultValues({ ...defaultValues, [name]: value });
+    // setValue(name, value);
+  };
+  const onChangeInputPemilik = (value, name, i) => {
+    let defVal = { ...defaultValues };
+    let dataPemilik = [...defVal.dataPemilik];
+    dataPemilik[i][name] = value;
+  };
+
+  const onChangeInputAset = (value, name, i) => {
+    let defVal = { ...defaultValues };
+    let dataAset = [...defVal.dataAset];
+    dataAset[i][name] = value;
+    // setValue(name, value);
+  };
+
+  const handlePlusOwner = () => {
+    setTotalOwner(totalOwner + 1);
+
+    let dataPemilik = defaultValues.dataPemilik;
+    dataPemilik.push({
+      nik: "",
+      nip: "",
+      fullname: "",
+      jabatan: "",
+      noTelp: "",
+    });
+    setDefaultValues({ ...defaultValues, dataPemilik });
+  };
+
+  const handlePlusAset = () => {
+    setTotalAset(totalAset + 1);
+
+    let dataAset = defaultValues.dataAset;
+    dataAset.push({
+      namaAset: "",
+      nilaiAset: "",
+    });
+    setDefaultValues({ ...defaultValues, dataAset });
+  };
+
+  const handleMinOwner = () => {
+    setTotalOwner(totalOwner - 1);
+
+    let dataPemilik = defaultValues.dataPemilik;
+    dataPemilik.pop();
+    setDefaultValues({ ...defaultValues, dataPemilik });
+
+    // defaultValues.dataPemilik.pop();
+  };
+  const handleMinAset = () => {
+    setTotalAset(totalAset - 1);
+
+    let dataAset = defaultValues.assets;
+    dataAset.pop();
+    setDefaultValues({ ...defaultValues, dataAset });
+
+    // defaultValues.dataPemilik.pop();
+  };
 
   return (
     <>
-      <form id="formPengajuanKreditBadanUsaha" onSubmit={handleSubmit}>
+      <form id="formPengajuanKreditBadanUsaha" onSubmit={onSubmit}>
         <div className={`${page !== 1 && "hidden"}`}>
           <div className="flex flex-col gap-2 p-2 mb-4 border-2 rounded-lg shadow-lg">
             <Input
               placeholder="NPWP Badan Usaha"
-              defaultValue={watch('npwp')}
+              // defaultValue={watch("npwp")}
               name="npwp"
-              onChange = {(e) => onChangeInput(e.target.value, 'npwp')}
+              onChange={(e) => onChangeInput(e.target.value, "npwp")}
               // required
               grow
             >
@@ -69,9 +200,9 @@ function FormPengajuanKreditBadanUsaha({ page }) {
             </Input>
             <Input
               placeholder="Nama Badan Usaha"
-              defaultValue={watch('nama')}
+              // defaultValue={watch("nama")}
               name="nama"
-              onChange = {(e) => onChangeInput(e.target.value, 'nama')}
+              onChange={(e) => onChangeInput(e.target.value, "nama")}
               // required
               grow
             >
@@ -79,7 +210,7 @@ function FormPengajuanKreditBadanUsaha({ page }) {
             </Input>
             <Select
               name="jenisBadanUsaha"
-              handleChange={() => {}}
+              handleChange={(val) => onChangeInput(val, "npwp")}
               options={[
                 { id: "", name: "Pilih Jenis Badan Usaha" },
                 { id: 1, name: "Badan Usaha 1" },
@@ -92,9 +223,9 @@ function FormPengajuanKreditBadanUsaha({ page }) {
             </Select>
             <Input
               placeholder="Tempat Pendirian Badan Usaha"
-              defaultValue={watch('tempatPendirian')}
+              // defaultValue={watch("tempatPendirian")}
               name="tempatPendirian"
-              onChange = {(e) => onChangeInput(e.target.value, 'tempatPendirian')}
+              onChange={(e) => onChangeInput(e.target.value, "tempatPendirian")}
               // required
               grow
             >
@@ -102,6 +233,7 @@ function FormPengajuanKreditBadanUsaha({ page }) {
             </Input>
             <Input
               placeholder="No. Akta Pendirian Badan Usaha"
+              onChange={(e) => onChangeInput(e.target.value, "noAktaPendirian")}
               name="noAktaPendirian"
               // required
               grow
@@ -110,58 +242,61 @@ function FormPengajuanKreditBadanUsaha({ page }) {
             </Input>
             <Input
               type="date"
-              value={date}
+              // value={date}
               placeholder="DD/MM/YY"
-              onChange={(e) => setDate(e.target.value)}
+              onChange={(e) => onChangeInput(e.target.value, "date")}
               grow
-              >
-                Tanggal Akta Pendirian
+            >
+              Tanggal Akta Pendirian
             </Input>
             <Input
-            placeholder = "Nomor Induk Berusaha"
-            defaultValue={watch('nib')}
-            name="nib"
-            onChange={(e) => onChangeInput(e.target.value, 'nib')}
-            // required
-            grow
+              placeholder="Nomor Induk Berusaha"
+              // defaultValue={watch("nib")}
+              name="nib"
+              onChange={(e) => onChangeInput(e.target.value, "nib")}
+              // required
+              grow
             >
               NIB
             </Input>
             <Input
-            placeholder="Email Badan Usaha"
-            defaultValue = {watch('email')}
-            name="email"
-            onChange = {(e) => onChangeInput(e.target.value, 'email')}
-            // required
-            grow
+              placeholder="Email Badan Usaha"
+              // defaultValue={watch("email")}
+              name="email"
+              onChange={(e) => onChangeInput(e.target.value, "email")}
+              // required
+              grow
+              // message={errors.email?.message}
             >
               Email
             </Input>
-            <span className='text-red-600'>{errors.email?.message}</span>
+
             <Input
-            placeholder="Nomor Telepon Badan Usaha"
-            defaultValue = {watch('noTelpBadanUsaha')}
-            name="noTelpBadanUsaha"
-            onChange = {(e) => onChangeInput(e.target.value, 'noTelpBadanUsaha')}
-            required
-            grow
+              placeholder="Nomor Telepon Badan Usaha"
+              // defaultValue={watch("noTelpBadanUsaha")}
+              name="noTelpBadanUsaha"
+              onChange={(e) =>
+                onChangeInput(e.target.value, "noTelpBadanUsaha")
+              }
+              // required
+              grow
             >
               No. Telp
             </Input>
             <Input
-            placeholder="Alamat Badan Usaha"
-            defaultValue = {watch('alamat')}
-            name="alamat"
-            onChange = {(e) => onChangeInput(e.target.value, 'alamat')}
-            grow
+              placeholder="Alamat Badan Usaha"
+              // defaultValue={watch("alamat")}
+              name="alamat"
+              onChange={(e) => onChangeInput(e.target.value, "alamat")}
+              grow
             >
               Alamat Badan Usaha
             </Input>
             <Select
-              defaultValue = {watch('provinsi')}
-              onChange = {(e) => onChangeInput(e.target.value, 'provinsi')}
+              // defaultValue={watch("provinsi")}
+              // onChange={(e) => onChangeInput(e.target.value, "provinsi")}
               name="provinsi"
-              handleChange={() => {}}
+              handleChange={(val) => onChangeInput(val, "provinsi")}
               options={[
                 { id: "", name: "Pilih Provinsi Badan Usaha" },
                 { id: 1, name: "Nusa Tenggara Barat" },
@@ -173,10 +308,10 @@ function FormPengajuanKreditBadanUsaha({ page }) {
               Provinsi Badan Usaha
             </Select>
             <Select
-              defaultValue = {watch('kabupaten')}
-              onChange = {(e) => onChangeInput(e.target.value, 'kabupaten')}
+              // defaultValue={watch("kabupaten")}
+              // onChange={(e) => onChangeInput(e.target.value, "kabupaten")}
               name="kabupaten"
-              handleChange={() => {}}
+              handleChange={(val) => onChangeInput(val, "kabupaten")}
               options={[
                 { id: "", name: "Pilih Kabupaten/Kota Badan Usaha" },
                 { id: 1, name: "Lombok Barat" },
@@ -188,12 +323,12 @@ function FormPengajuanKreditBadanUsaha({ page }) {
               Kabupaten/Kota Badan Usaha
             </Select>
             <Select
-              defaultValue = {watch('kelurahan')}
-              onChange = {(e) => onChangeInput(e.target.value, 'kelurahan')}
-              name="keluharan"
-              handleChange={() => {}}
+              // defaultValue={watch("kelurahan")}
+              // onChange={(e) => onChangeInput(e.target.value, "kelurahan")}
+              name="kelurahan"
+              handleChange={(val) => onChangeInput(val, "kelurahan")}
               options={[
-                { id: "", name: "Pilih Keluharan Badan Usaha" },
+                { id: "", name: "Pilih Kelurahan Badan Usaha" },
                 { id: 1, name: "Turida" },
                 { id: 2, name: "Lombok Timur" },
                 { id: 3, name: "Lombok Tengah" },
@@ -203,11 +338,11 @@ function FormPengajuanKreditBadanUsaha({ page }) {
               Kabupaten/Kota Badan Usaha
             </Select>
             <Input
-            placeholder="Kode Pos Badan Usaha"
-            defaultValue = {watch('kodePos')}
-            name="kodePos"
-            onChange = {(e) => onChangeInput(e.target.value, 'kodePos')}
-            grow
+              placeholder="Kode Pos Badan Usaha"
+              // defaultValue={watch("kodePos")}
+              name="kodePos"
+              onChange={(e) => onChangeInput(e.target.value, "kodePos")}
+              grow
             >
               Kode Pos Badan Usaha
             </Input>
@@ -216,10 +351,12 @@ function FormPengajuanKreditBadanUsaha({ page }) {
 
         <div className={`${page !== 2 && "hidden"}`}>
           <h1 className="text-red-600">
-            *Note: Jika terdapat lebih dari dua pemilik/pengurus badan usaha anda dapat menambahkannya dengan klik tombol +
+            *Note: Jika terdapat lebih dari dua pemilik/pengurus badan usaha
+            anda dapat menambahkannya dengan klik tombol +
           </h1>
           <h1 className="text-red-600">
-            *Note: Jika terdapat hanya satu pemilik/pengurus badan usaha. Anda dapat mengisi satu form saja.
+            *Note: Jika terdapat hanya satu pemilik/pengurus badan usaha. Anda
+            dapat mengisi satu form saja.
           </h1>
           {[...Array(totalOwner)].map((x, i) => (
             <div
@@ -231,17 +368,17 @@ function FormPengajuanKreditBadanUsaha({ page }) {
               </h1>
               <Input
                 placeholder="NIK Pemilik / Pengurus Badan Usaha"
-                defaultValue = {watch('nik')}
-                onChange = {(e) => onChangeInput(e.target.value, 'nik')}
-                name={`nik${i}`}
+                // defaultValue={watch(`dataPemilik.${i}.nik`)}
+                onChange={(e) => onChangeInputPemilik(e.target.value, `nik`, i)}
+                // name={`nik${i}`}
                 grow
               >
                 NIK
               </Input>
               <Input
                 placeholder="NIP Pemilik / Pengurus Badan Usaha"
-                defaultValue = {watch('nip')}
-                onChange = {(e) => onChangeInput(e.target.value, 'nip')}
+                // defaultValue={watch(`dataPemilik.${i}.nip`)}
+                onChange={(e) => onChangeInputPemilik(e.target.value, `nip`, i)}
                 name={`nip${i}`}
                 grow
               >
@@ -249,8 +386,10 @@ function FormPengajuanKreditBadanUsaha({ page }) {
               </Input>
               <Input
                 placeholder="Nama Lengkap Pemilik / Pengurus Badan Usaha"
-                defaultValue = {watch('fullname')}
-                onChange = {(e) => onChangeInput(e.target.value, 'fullname')}
+                // defaultValue={watch(`dataPemilik.${i}.fullname`)}
+                onChange={(e) =>
+                  onChangeInputPemilik(e.target.value, `fullname`, i)
+                }
                 name={`fullname${i}`}
                 grow
               >
@@ -258,8 +397,10 @@ function FormPengajuanKreditBadanUsaha({ page }) {
               </Input>
               <Input
                 placeholder="Jabatan Dalam Badan Usaha"
-                defaultValue = {watch('jabatan')}
-                onChange = {(e) => onChangeInput(e.target.value, 'jabatan')}
+                // defaultValue={watch(`dataPemilik.${i}.jabatan`)}
+                onChange={(e) =>
+                  onChangeInputPemilik(e.target.value, `jabatan`, i)
+                }
                 name={`jabatan${i}`}
                 grow
               >
@@ -267,8 +408,10 @@ function FormPengajuanKreditBadanUsaha({ page }) {
               </Input>
               <Input
                 placeholder="Nomor Telepon Badan Usaha"
-                defaultValue = {watch('noTelp')}
-                onChange = {(e) => onChangeInput(e.target.value, 'noTelp')}
+                // defaultValue={watch(`dataPemilik.${i}.noTelp`)}
+                onChange={(e) =>
+                  onChangeInputPemilik(e.target.value, `noTelp`, i)
+                }
                 name={`noTelp${i}`}
                 grow
               >
@@ -278,12 +421,9 @@ function FormPengajuanKreditBadanUsaha({ page }) {
           ))}
 
           <div className="flex justify-end gap-2 mb-4">
-            <Button onClick={() => setTotalOwner(totalOwner + 1)}>+</Button>
-            {totalOwner > 1 && (
-              <Button
-                onClick={() => setTotalOwner(totalOwner - 1)}
-                variant="danger"
-              >
+            <Button onClick={handlePlusOwner}>+</Button>
+            {totalOwner > 2 && (
+              <Button onClick={handleMinOwner} variant="danger">
                 -
               </Button>
             )}
@@ -291,24 +431,26 @@ function FormPengajuanKreditBadanUsaha({ page }) {
         </div>
 
         <div className={`${page !== 3 && "hidden"}`}>
-        <h1 className="text-red-600">
-            *Note: Jika terdapat lebih dari satu aset perusahaan. Anda dapat menambahkannya dengan klik tombol +
+          <h1 className="text-red-600">
+            *Note: Jika terdapat lebih dari satu aset perusahaan. Anda dapat
+            menambahkannya dengan klik tombol +
           </h1>
           <h1 className="text-red-600">
-            *Note: Jika terdapat hanya satu aset perusahaan. Anda dapat mengisi satu form saja.
+            *Note: Jika terdapat hanya satu aset perusahaan. Anda dapat mengisi
+            satu form saja.
           </h1>
           {[...Array(totalAset)].map((x, i) => (
             <div
               key={i}
               className="flex flex-col gap-2 p-2 mb-4 border-2 rounded-lg shadow-lg"
             >
-              <h1 className="text-lg font-semibold">
-                Aset Perusahaan {i + 1}
-              </h1>
+              <h1 className="text-lg font-semibold">Aset Perusahaan {i + 1}</h1>
               <Input
                 placeholder="Nama Aset Perusahaan"
-                defaultValue = {watch('namaAset')}
-                onChange = {(e) => onChangeInput(e.target.value, 'namaAset')}
+                // defaultValue={watch(`namaAset${i}`)}
+                onChange={(e) =>
+                  onChangeInputAset(e.target.value, `namaAset`, i)
+                }
                 name={`namaAset${i}`}
                 grow
               >
@@ -317,9 +459,11 @@ function FormPengajuanKreditBadanUsaha({ page }) {
               <Input
                 placeholder="Nilai Aset Perusahaan"
                 type="number"
-                value={"number"}
-                defaultValue = {watch('nilaiAset')}
-                onChange = {(e) => onChangeInput(e.target.value, 'nilaiAset')}
+                // value={"number"}
+                // defaultValue={watch(`nilaiAset${i}`)}
+                onChange={(e) =>
+                  onChangeInputAset(e.target.value, `nilaiAset`, i)
+                }
                 name={`nilaiAset${i}`}
                 grow
               >
@@ -329,12 +473,9 @@ function FormPengajuanKreditBadanUsaha({ page }) {
           ))}
 
           <div className="flex justify-end gap-2 mb-4">
-            <Button onClick={() => setTotalAset(totalAset + 1)}>+</Button>
+            <Button onClick={handlePlusAset}>+</Button>
             {totalAset > 1 && (
-              <Button
-                onClick={() => setTotalAset(totalAset - 1)}
-                variant="danger"
-              >
+              <Button onClick={handleMinAset} variant="danger">
                 -
               </Button>
             )}
@@ -342,16 +483,12 @@ function FormPengajuanKreditBadanUsaha({ page }) {
         </div>
 
         <div className={`${page !== 4 && "hidden"}`}>
-          {[...Array(totalOwner)].map((x, i) => (
-            <div
-              key={i}
-              className="flex flex-col gap-2 p-2 mb-4 border-2 rounded-lg shadow-lg"
-            >
-              <Select
-              defaultValue = {watch('kantorCabang')}
-              onChange = {(e) => onChangeInput(e.target.value, 'kantorCabang')}
+          <div className="flex flex-col gap-2 p-2 mb-4 border-2 rounded-lg shadow-lg">
+            <Select
+              // defaultValue={watch("kantorCabang")}
+              // onChange={(e) => onChangeInput(e.target.value, "kantorCabang")}
               name="kantorCabang"
-              handleChange={() => {}}
+              handleChange={(val) => onChangeInput(val, "kantorCabang")}
               options={[
                 { id: "", name: "Pilih Kantor Cabang Pengajuan Anda" },
                 { id: 1, name: "Turida" },
@@ -362,87 +499,88 @@ function FormPengajuanKreditBadanUsaha({ page }) {
             >
               Kantor Cabang Pengajuan*
             </Select>
-              <Input
-                type="number"
-                placeholder="Nominal Pengajuan Anda"
-                defaultValue = {watch('nominal')}
-                onChange = {(e) => onChangeInput(e.target.value, 'nominal')}
-                name={`nominal${i}`}
-                grow
-              >
-                Nominal Pengajuan*
-              </Input>
-              <Input
-                placeholder="Jangka Waktu Pengajuan Anda"
-                defaultValue = {watch('jangkaWaktu')}
-                onChange = {(e) => onChangeInput(e.target.value, 'jangkaWaktu')}
-                name={`jangkaWaktu${i}`}
-                grow
-              >
-                Jangka Waktu Pengajuan*
-              </Input>
-              <Input
-                type="file"
-                placeholder="Akta Pendirian"
-                defaultValue = {watch('akta')}
-                onChange = {(e) => onChangeInput(e.target.value, 'akta')}
-                name={`akta${i}`}
-                grow
-              >
-                Akta Pendirian*
-              </Input>
-              <Input
-                type="file"
-                placeholder="Nomor Induk Berusaha"
-                defaultValue = {watch('nib')}
-                onChange = {(e) => onChangeInput(e.target.value, 'nib')}
-                name={`nib${i}`}
-                grow
-              >
-                Nomor Induk Berusaha*
-              </Input>
-              <Input
-                type="file"
-                placeholder="NPWP Perusahaan"
-                defaultValue = {watch('npwpPerusahaan')}
-                onChange = {(e) => onChangeInput(e.target.value, 'npwpPerusahaan')}
-                name={`npwpPerusahaan${i}`}
-                grow
-              >
-                NPWP Perusahaan*
-              </Input>
-              <Input
-                type="file"
-                placeholder="Kartu Tanda Penduduk"
-                defaultValue = {watch('ktp')}
-                onChange = {(e) => onChangeInput(e.target.value, 'ktp')}
-                name={`ktp${i}`}
-                grow
-              >
-                Kartu Tanda Penduduk*
-              </Input>
-              <Input
-                type="file"
-                placeholder="Susunan Pengurus"
-                defaultValue = {watch('susunanPengurus')}
-                onChange = {(e) => onChangeInput(e.target.value, 'susunanPengurus')}
-                name={`susunanPengurus${i}`}
-                grow
-              >
-                Susunan Pengurus*
-              </Input>
-              <Input
-                type="file"
-                placeholder="Laporan Keuangan Terbaru"
-                defaultValue = {watch('laporan')}
-                onChange = {(e) => onChangeInput(e.target.value, 'laporan')}
-                name={`laporan${i}`}
-                grow
-              >
-                Laporan Keuangan Terbaru*
-              </Input>
-            </div>
-          ))}
+            <Input
+              type="number"
+              placeholder="Nominal Pengajuan Anda"
+              // defaultValue={watch("nominal")}
+              onChange={(e) => onChangeInput(e.target.value, "nominal")}
+              name="nominal"
+              grow
+            >
+              Nominal Pengajuan*
+            </Input>
+            <Input
+              placeholder="Jangka Waktu Pengajuan Anda"
+              // defaultValue={watch("jangkaWaktu")}
+              onChange={(e) => onChangeInput(e.target.value, "jangkaWaktu")}
+              name="jangkaWaktu"
+              grow
+            >
+              Jangka Waktu Pengajuan*
+            </Input>
+            <Input
+              type="file"
+              placeholder="Akta Pendirian"
+              // defaultValue={watch("akta")}
+              onChange={(e) => onChangeInput(e.target.value, "aktaFile")}
+              name="akta"
+              grow
+            >
+              Akta Pendirian*
+            </Input>
+            <Input
+              type="file"
+              placeholder="Nomor Induk Berusaha"
+              // defaultValue={watch("nib")}
+              onChange={(e) => onChangeInput(e.target.value, "nibFile")}
+              name="nib"
+              grow
+            >
+              Nomor Induk Berusaha*
+            </Input>
+            <Input
+              type="file"
+              placeholder="NPWP Perusahaan"
+              // defaultValue={watch("npwpPerusahaan")}
+              onChange={(e) => onChangeInput(e.target.value, "npwpFile")}
+              name="npwpPerusahaan"
+              grow
+            >
+              NPWP Perusahaan*
+            </Input>
+            <Input
+              type="file"
+              placeholder="Kartu Tanda Penduduk"
+              // defaultValue={watch("ktp")}
+              onChange={(e) => onChangeInput(e.target.value, "ktpFile")}
+              name="ktp"
+              grow
+            >
+              Kartu Tanda Penduduk*
+            </Input>
+            <Input
+              type="file"
+              placeholder="Susunan Pengurus"
+              // defaultValue={watch("susunanPengurus")}
+              onChange={(e) =>
+                onChangeInput(e.target.value, "susunanPengurusFile")
+              }
+              name="susunanPengurus"
+              grow
+            >
+              Susunan Pengurus*
+            </Input>
+            <Input
+              type="file"
+              placeholder="Laporan Keuangan Terbaru"
+              // defaultValue={watch("laporan")}
+              onChange={(e) => onChangeInput(e.target.value, "laporanFile")}
+              name="laporan"
+              grow
+            >
+              Laporan Keuangan Terbaru*
+            </Input>
+          </div>
         </div>
       </form>
     </>
