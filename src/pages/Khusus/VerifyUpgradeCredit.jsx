@@ -2,6 +2,7 @@ import Table from "../../components/Table";
 import InputSearch from "../../components/Input/InputSearch";
 import Button from "../../components/Button";
 import { useState, useEffect } from "react";
+import Status from "../../components/Status";
 function VerifyUpgradeCredit() {
     const [dataCredits, setDataCredit] = useState([]);
     const [pagination, setPagination] = useState({});
@@ -36,35 +37,35 @@ function VerifyUpgradeCredit() {
                 fullName: "John Doe",
                 numberUpgradeCode: 123456789,
                 createdAt: "2022-01-01",
-                status: "Approved",
+                status: <Status>Approved</Status>,
               },
               {
                 id: 2,
                 fullName: "Jane Smith",
                 numberUpgradeCode: 987654321,
                 createdAt: "2022-01-02",
-                status: "Pending",
+                status: <Status>Pending</Status>,
               },
               {
                 id: 3,
                 fullName: "Alice Johnson",
                 numberUpgradeCode: 456789123,
                 createdAt: "2022-01-03",
-                status: "Rejected",
+                status: <Status>Rejected</Status>,
               },
               {
                 id: 4,
                 fullName: "Bob Brown",
                 numberUpgradeCode: 789123456,
                 createdAt: "2022-01-04",
-                status: "Approved",
+                status: <Status>Approved</Status>,
               },
               {
                 id: 5,
                 fullName: "Eve Wilson",
                 numberUpgradeCode: 321654987,
                 createdAt: "2022-01-05",
-                status: "Pending",
+                status: <Status>Pending</Status>,
               }
         ])
         
