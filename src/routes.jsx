@@ -22,6 +22,8 @@ import UserManagementCustomer from "./pages/Khusus/UserManagementCustomer";
 import DraftPengajuanKreditBadanUsaha from "./pages/Khusus/DraftPengajuanKreditBadanUsaha.jsx";
 import PengajuanKreditBadanUsaha from "./pages/Khusus/PengajuanKreditBadanUsaha.jsx";
 import UpgradeCredit from "./pages/Khusus/UpgradeCredit.jsx";
+import VerifikasiPengajuanKreditBadanUsaha from "./pages/Khusus/VerifikasiPengajuanKreditBadanUsaha.jsx";
+import DetailVerifikasiPengajuanKreditBadanUsaha from "./pages/Khusus/DetailVerifikasiPengajuanKreditBadanUsaha.jsx";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(Cookies.get("user") ?? null);
@@ -168,6 +170,34 @@ export const router = createBrowserRouter([
             <DraftPengajuanKreditBadanUsaha />
           </LayoutKhusus>
           // </AccessRoleNasabahValidation>
+        ),
+      },
+      {
+        path: "verifikasi-pengajuan-kredit-badan-usaha",
+        element: (
+          <AccessRoleSupervisorValidation>
+          <LayoutKhusus
+            breadcrumbs="Verifikasi Pengajuan Kredit Badan Usaha"
+            navLinkActive="Verifikasi Pengajuan Kredit"
+            subNavLinkActive="Badan Usaha"
+          >
+            <VerifikasiPengajuanKreditBadanUsaha />
+          </LayoutKhusus>
+          </AccessRoleSupervisorValidation>
+        ),
+      },
+      {
+        path: "verifikasi-pengajuan-kredit-badan-usaha/detail/",
+        element: (
+          <AccessRoleSupervisorValidation>
+          <LayoutKhusus
+            breadcrumbs="Verifikasi Pengajuan Kredit Badan Usaha"
+            navLinkActive="Verifikasi Pengajuan Kredit"
+            subNavLinkActive="Badan Usaha"
+          >
+            <DetailVerifikasiPengajuanKreditBadanUsaha />
+          </LayoutKhusus>
+          </AccessRoleSupervisorValidation>
         ),
       },
       {

@@ -118,6 +118,22 @@ function SideBarKhusus({ navLinkActive, subNavLinkActive }) {
         }
       ])
     }
+    else if(user?.role === "Supervisor")
+      {
+        setSidebar([
+          {
+            name: "Verifikasi Kredit",
+            icon: faUserCheck,
+            key: 0,
+            children: [
+              {
+                name: "Badan Usaha",
+                location: "/supervisor/verifikasi-pengajuan-kredit-badan-usaha"
+              }
+            ]
+          }
+        ])
+      }
   }, []);
 
   const mapSideBar = () => {
