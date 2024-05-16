@@ -116,6 +116,27 @@ export const patch = (
     });
 };
 
+export const patchBody = (
+  endpoint,
+  data,
+  callback
+) => {
+  axios
+    .patch(`${import.meta.env.VITE_BASE_URL}${endpoint}`,
+      data,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+    .then(async (res) => {
+      callback(await res.data.message);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 export const del = (endpoint, id, callback) => {
   axios
     .delete(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`, {
