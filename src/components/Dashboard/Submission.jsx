@@ -2,7 +2,7 @@ import React from 'react'
 
 function Submission({ data }) {
   return (
-    <div className="flex flex-col gap-2 mt-4">
+    <div className="flex flex-col gap-2">
       <span>Pengajuan Pertama</span>
       <div className="grid grid-cols-4 text-center">
         <span className="border-r">B0000001</span>

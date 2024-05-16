@@ -22,6 +22,7 @@ import UserManagementCustomer from "./pages/Khusus/UserManagementCustomer";
 import DraftPengajuanKreditBadanUsaha from "./pages/Khusus/DraftPengajuanKreditBadanUsaha.jsx";
 import PengajuanKreditBadanUsaha from "./pages/Khusus/PengajuanKreditBadanUsaha.jsx";
 import UpgradeCredit from "./pages/Khusus/UpgradeCredit.jsx";
+import VerifyUpgradeCredit from "./pages/Khusus/VerifyUpgradeCredit.jsx";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(Cookies.get("user") ?? null);
@@ -339,6 +340,18 @@ export const router = createBrowserRouter([
             </LayoutKhusus>
           </AccessRoleAdminValidation>
         ),
+      },
+      {
+        path: "verifikasi-penarikan",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus 
+              breadcrumbs="Verifikasi Penarikan"
+              navLinkActive="Verifikasi Penarikan">
+              <VerifyUpgradeCredit/>
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        )
       },
     ],
   },
