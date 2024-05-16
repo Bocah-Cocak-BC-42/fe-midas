@@ -1,28 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import FormPengajuanKreditBadanUsaha from "../../components/Form/FormPengajuanKreditBadanUsaha";
 import StepNavigation from "../../components/StepNavigation";
+import Cookies from "js-cookie";
+import { getUserDetail } from "../../services/user.service";
 
 function DraftPengajuanKreditBadanUsaha() {
   const [step, setStep] = useState(1);
-  // const [stepOptions, setStepOptions] = useState([
-  //   { label: "Data Badan Usaha" },
-  //   { label: "Data Pemilik / Pengurus Badan Usaha" },
-  //   { label: "Aset Perusahaan" },
-  //   { label: "Pengajuan" },
-  // ]);
   const [stepOptions, setStepOptions] = useState([
     "Data Badan Usaha",
     "Data Pemilik / Pengurus Badan Usaha",
     "Aset Perusahaan",
     "Pengajuan",
   ]);
+  const [userDetail, setUserDetail] = useState({});
+
+  const getUserDetailCurrentLogin = (userId) => {
+    getUserDetail(
+      (res) => {
+        setUserDetail(res.data);
+      },
+      (errMessage) => {
+        console.log(errMessage);
+      },
+      { id: userId }
+    );
+  };
+
+  useEffect(() => {
+    const user = JSON.parse(Cookies.get("user") ?? null);
+    let userId = user?.userId;
+    getUserDetailCurrentLogin(userId);
+  }, []);
 
   return (
     <>
       <StepNavigation stepOptions={stepOptions} tab={step} />
       <div>
-        <FormPengajuanKreditBadanUsaha page={step} />
+        <FormPengajuanKreditBadanUsaha page={step} userDetail={userDetail} />
       </div>
 
       <div className={`flex justify-${step == 1 ? "end" : "between"}`}>

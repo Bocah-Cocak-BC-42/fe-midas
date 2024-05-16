@@ -6,9 +6,12 @@ let token = user?.token;
 
 export const get = (endpoint, params, callback, errorCallback) => {
   axios
-    .get(`${import.meta.env.VITE_BASE_URL}${endpoint}`, { params: params, headers: {
-      Authorization: `Bearer ${token}`
-    }})
+    .get(`${import.meta.env.VITE_BASE_URL}${endpoint}`, {
+      params: params,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
     .then((res) => {
       callback(res.data);
     })
@@ -35,8 +38,10 @@ export const getAll = (endpoint, callback, errorCallback) => {
 
 export const getById = (endpoint, id, callback) => {
   axios
-    .get(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`, { headers: {
-      Authorization: `Bearer ${token}` }
+    .get(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
     .then((res) => {
       callback(res.data.data);
@@ -79,9 +84,11 @@ export const put = (
   messageValidationFieldError
 ) => {
   axios
-    .put(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`, data, { headers: {
-      Authorization: `Bearer ${token}`
-    }})
+    .put(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
     .then((res) => {
       callback(res.data.message);
     })
@@ -90,18 +97,17 @@ export const put = (
     });
 };
 
-export const patch = (
-  endpoint,
-  id,
-  callback
-) => {
+export const patch = (endpoint, id, callback) => {
   axios
-    .patch(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`,
-    {},
-  {
-    headers: {
-      Authorization: "Bearer " + token,
-    },})
+    .patch(
+      `${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`,
+      {},
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    )
     .then((res) => {
       callback(res.data.message);
     })
@@ -112,8 +118,11 @@ export const patch = (
 
 export const del = (endpoint, id, callback) => {
   axios
-    .delete(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`, {headers: {
-      Authorization: `Bearer ${token}`}})
+    .delete(`${import.meta.env.VITE_BASE_URL}${endpoint}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
     .then((res) => {
       callback(res.data.message);
     })
