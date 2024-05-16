@@ -20,6 +20,9 @@ import LayoutAuth from "./components/layout/LayoutAuth.jsx";
 import Login from "./pages/Umum/Login";
 import UserManagementCustomer from "./pages/Khusus/UserManagementCustomer";
 import PengajuanKreditPerseorangan from "./pages/Khusus/PengajuanKreditPerseorangan.jsx"
+import VerifikasiAdminPengajuanKreditPerseorangan from "./pages/Khusus/VerifikasiAdminPengajuanKreditPerseorangan.jsx";
+import FormVerifikasiAdminPengajuanKreditPerseorangan from "./pages/Khusus/FormVerifikasiAdminPengajuanKreditPerseorangan.jsx";
+
 
 const ProtectedRoute = () => {
   const user = JSON.parse(Cookies.get("user") ?? null);
@@ -322,7 +325,38 @@ export const router = createBrowserRouter([
             </LayoutKhusus>
           </AccessRoleNasabahValidation>
         )
-      }
+      },
+      {
+        path: "verifikasi",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus 
+              breadcrumbs="Perseorangan"
+              navLinkActive="Verifikasi Kredit"
+              subNavLinkActive="Perseorangan"
+            >
+              <VerifikasiAdminPengajuanKreditPerseorangan/>
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+
+        )
+      },
+      {
+        path: "verifikasi/detail",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus 
+              breadcrumbs="Perseorangan/detail"
+              navLinkActive="Verifikasi Kredit"
+              subNavLinkActive="Perseorangan"
+            >
+              <FormVerifikasiAdminPengajuanKreditPerseorangan/>
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+
+        )
+      },
+
     ],
   },
   // {
