@@ -13,7 +13,6 @@ export const get = (endpoint, params, callback, errorCallback) => {
       callback(res.data);
     })
     .catch((err) => {
-      console.log(err);
       errorCallback(err.response.data.message);
     });
 };
@@ -47,7 +46,6 @@ export const getById = (endpoint, id, callback) => {
 };
 
 export const post = (endpoint, data, callback, messageValidationFieldError) => {
-  console.log(token);
   axios
     .post(
       `${import.meta.env.VITE_BASE_URL}${endpoint}`,

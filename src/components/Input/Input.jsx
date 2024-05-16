@@ -10,6 +10,7 @@ function Input(props) {
     onChange,
     grow,
     children,
+    register
   } = props;
   return (
     <>
@@ -29,6 +30,7 @@ function Input(props) {
           className={`p-1 border-2 border-slate-300 rounded-md ${
             grow && "grow"
           }`}
+          register={register}
         />
       </div>
       <span className="text-red-500">{message}</span>

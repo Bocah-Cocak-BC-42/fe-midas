@@ -10,7 +10,7 @@ function PengajuanKreditPerseorangan(){
 
     const [stepOptions, setStepOptions] = useState(["Data Diri", "Berkas Diri & Kontak Darurat", "Data Usaha", "Data Usaha 2", "Pengajuan"]);
     return (
-        <>
+        <div className="bg-white rounded-lg">
             <div>
                 <StepNavigation stepOptions={stepOptions} tab={step}/>
             </div>
@@ -52,7 +52,7 @@ function PengajuanKreditPerseorangan(){
                 
                )}
             </div>
-        </>
+        </div>
     );
     
 }

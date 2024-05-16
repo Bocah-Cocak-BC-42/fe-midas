@@ -5,6 +5,7 @@ import { joiResolver } from '@hookForm/resolvers/joi';
 import { postRegister } from '../../services/register.service';
 import Button from '../Button';
 import { Link } from 'react-router-dom';
+import Input from "../../components/Input/Input";
 
 const schemaFirstRegis = Joi.object({
   email: Joi.string().required().email({
@@ -53,8 +54,8 @@ const schemaFirstRegis = Joi.object({
     .max(13)
     .required().messages({
       'string.empty': 'No Telefon tidak boleh kosong',
-      'string.min': 'No Telfon minimal 10 huruf',
-      'string.max': 'No Telfon maximal 13 huruf',
+      'string.min': 'No Telfon minimal 10 angka',
+      'string.max': 'No Telfon maximal 13 angka',
       'string.pattern.base': 'No Telfon tidak boleh mengandung huruf',
   }),
 })
@@ -104,8 +105,6 @@ function FormInsertRegister( props ) {
       phoneNumber: form.phoneNumber
     }
 
-		console.log(sentData);
-
     try {
       postRegister(
         (resMessage) => {
@@ -124,6 +123,7 @@ function FormInsertRegister( props ) {
 		<form className='my-3 gap-3' onSubmit={handleSubmit(onSubmit)}>
 			<div>
 				Form Registrasi
+
 				<input 
 					value={watch('email')} 
 					className='w-full p-1 my-1 border-2 border-slate-300 rounded-md' 
@@ -200,7 +200,8 @@ function FormInsertRegister( props ) {
 					value={watch('phoneNumber')} 
 					className='w-full p-1 my-1 border-2 border-slate-300 rounded-md' 
 					placeholder='No Telfon'
-					onChange={(e) => onChangeInput(e.target.value, 'phoneNumber')}/>
+					onChange={(e) => onChangeInput(e.target.value, 'phoneNumber')}
+          />
 				<span className='text-red-600'>{errors.phoneNumber?.message}</span>
 
 			</div>

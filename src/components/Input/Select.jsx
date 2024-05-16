@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 function Select(props) {
-  const { options, name, message, value, children, grow, disabled, handleChange } = props;
+  const { options, name, message, value, children, grow, disabled, handleChange, register } = props;
   // const [value, setValue] = useState("");
   // useEffect(() => {
   //   setValue(value);
@@ -22,8 +22,8 @@ function Select(props) {
           className={`p-1 border-2 border-slate-300 rounded-md ${
             grow && "grow"
           }`}
+          register={register}
         > 
-          <option value=" ">Pilih Provinsi</option>
           {options?.map((option) => (
               <option key={option.id} value={option.id}>
                 {option.name}
