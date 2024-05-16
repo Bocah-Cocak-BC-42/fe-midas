@@ -73,7 +73,7 @@ function FormUpsertUmEmployee(props) {
 
     return result;
   };
-console.log(data);
+  
   return (
     <div>
       <form
