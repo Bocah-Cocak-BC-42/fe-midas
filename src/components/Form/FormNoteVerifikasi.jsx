@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { patchNote } from '../../services/notes-rejection-service';
+import { patchNote } from '../../services/verification-service';
 import Input from '../Input/Input';
 
 function FormNoteVerifikasi(props) {
