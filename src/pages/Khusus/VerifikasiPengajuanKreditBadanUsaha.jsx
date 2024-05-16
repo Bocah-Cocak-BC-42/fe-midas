@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import Table from "../../components/Table";
 import Button from "../../components/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 function VerifikasiPengajuanKreditBadanUsaha() {
     const [creditRequests, setCreditRequests] = useState([]);
     const [pagination, setPagination] = useState({});
     const [errorMessage, setErrorMessage] = useState("Gagal Memuat Data");
+    const navigate = useNavigate();
 
     const tableDataHeaders = [
         { code: "id", name: "ID" },
@@ -80,19 +82,14 @@ function VerifikasiPengajuanKreditBadanUsaha() {
         getData(1);
     }, []);
 
-    const handleVerifikasi = (data) => {
-        console.log(data);
-    };
 
     const handleDetail = (data) => {
+      navigate(`/supervisor/verifikasi-pengajuan-kredit-badan-usaha/detail/${data.id}`);
         console.log(data);
     };
 
   return (
     <>
-      <Link to="/supervisor/verifikasi-pengajuan-kredit-badan-usaha/detail">
-        <Button>Detail Pengajuan Kredit</Button>
-      </Link>
       <div className="rounded-md border mt-4 shadow">
         <Table
           tableHeaders={tableDataHeaders}
@@ -102,13 +99,8 @@ function VerifikasiPengajuanKreditBadanUsaha() {
           getDataByPagination={getData}
           actions={[
             {
-              name: "Verifikasi",
-              variant: "success",
-              function: handleVerifikasi,
-            },
-            {
               name: "Detail",
-              variant: "warning",
+              variant: "info",
               function: handleDetail,
             },
           ]}

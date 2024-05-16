@@ -187,7 +187,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "verifikasi-pengajuan-kredit-badan-usaha/detail/",
+        path: "verifikasi-pengajuan-kredit-badan-usaha/detail/:id",
         element: (
           <AccessRoleSupervisorValidation>
           <LayoutKhusus
