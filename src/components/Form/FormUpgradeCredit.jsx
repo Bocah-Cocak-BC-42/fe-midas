@@ -42,6 +42,12 @@ function FormUpgradeCredit(props) {
     );
   };
 
+  const handleNegativeNumber = (num) => {
+
+
+    return num
+  };
+
   return (
     <Island>
       <div className="m-4 p-4">
@@ -54,6 +60,8 @@ function FormUpgradeCredit(props) {
             placeholder="Masukkan nominal penghasilan per bulan"
             name="penghasilan-perbulan"
             message={messageValidationField?.Name}
+            onChange={() => {}}
+            pattern="[0-9]*"
             required
             grow
           >Penghasilan Perbulan*</Input>
@@ -62,6 +70,8 @@ function FormUpgradeCredit(props) {
             placeholder="Masukkan omset usaha per tahun"
             name="omset-usaha-tahunan"
             message={messageValidationField?.Name}
+            onChange={() => {}}
+            pattern="[0-9]*"
             required
             grow
           >Omset Tahunan*</Input>
@@ -70,12 +80,14 @@ function FormUpgradeCredit(props) {
             placeholder="Masukkan profit usaha per tahun"
             name="profit-usaha-tahunan"
             message={messageValidationField?.Name}
+            onChange={() => {}}
+            pattern="[0-9]*"
             required
             grow
           >Profit Tahunan*</Input>
           <Input
             type="file"
-            accept="application/pdf,image/png,image/jpeg"
+            accept="application/pdf"
             placeholder="Masukkan laporan keuangan terbaru"
             name="laporan-keuangan"
             message={messageValidationField?.Name}

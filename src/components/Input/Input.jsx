@@ -9,6 +9,7 @@ function Input(props) {
     required,
     message,
     onChange,
+    pattern,
     grow,
     children,
   } = props;
@@ -28,8 +29,8 @@ function Input(props) {
           disabled={disabled}
           required={required}
           onChange={onChange}
-          className={`p-1 border-2 border-slate-300 rounded-md ${grow && "grow"
-            }`}
+          pattern={pattern}
+          className={`p-1 border-2 border-slate-300 rounded-md ${grow && "grow"}`}
         />
       </div>
       <span className="text-red-500">{message}</span>
