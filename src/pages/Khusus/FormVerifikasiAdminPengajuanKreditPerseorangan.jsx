@@ -3,6 +3,7 @@ import Button from "../../components/Button";
 import FormattingTable from "../../components/FormattingTable";
 import Modal from "../../components/Modal";
 import FormNoteVerifikasi from "../../components/Form/FormNoteVerifikasi";
+import { patchNote } from "../../services/verification.service";
 
 function FormVerifikasiAdminPengajuanKreditPerseorangan({}) {
     const [data, setData] = useState([]);
@@ -10,59 +11,103 @@ function FormVerifikasiAdminPengajuanKreditPerseorangan({}) {
     const [showModal, setShowModal] = useState(false);
     const [showModalConfirm, setShowModalConfirm] = useState(false);
     const [title, setTitle] = useState("");
+    const [id, setId] = useState("");
+
+    const dataDummy = [
+        {
+            id : 1,
+            fullName: "string string",
+            province: "Jakarta",
+        
+            familyCardNumber: "1111111111111111",
+            address: "string",
+            villageId: "59a370b6-0db0-4f5e-8d2a-d5835b38d242",
+            businessSectorId: "ba4289cb-c761-470f-a1b1-03c4e391ca64",
+            businessAddress: "string",
+            businessPhoneNumber: "84938274857",
+            businessPeriod: 1,
+            businessPlaceStatus: "Kontrak",
+            totalEmployee: 1,
+            businessVillage: "59a370b6-0db0-4f5e-8d2a-d5835b38d242",
+            branchOfficeId: "8b5894c1-0076-4da0-8cbf-d1727dd5b2b8",
+            applicationAmount: 1000000,
+            applicationPeriod: 1,
+            domicileFile: "2754ff9b-2567-4bf3-aaa5-c7cbe3396737",
+            identityCardFile: "2754ff9b-2567-4bf3-aaa5-c7cbe3396737",
+            identityCardSelfieFile: "2754ff9b-2567-4bf3-aaa5-c7cbe3396737",
+            familyCardFile: "2754ff9b-2567-4bf3-aaa5-c7cbe3396737",
+            businessCertificateFile: "2754ff9b-2567-4bf3-aaa5-c7cbe3396737",
+            emergencyContacts: [
+              {
+                phoneNumber: "890427945",
+                name: "WbEMlmeuDJ fIapInovmdKFKzelR",
+                relative: "Ayah"
+              },
+              {
+                phoneNumber: "8433250584",
+                name: "WbEMlmeuDJ fIapInovmdKFKzelR",
+                relative: "Ibu"
+              }
+            ]
+        }
+    ]
+
+    console.log(dataDummy[0].emergencyContacts)
 
     const dataDiri = [
-        {code:"NIK", value:""},
-        {code:"Nama Lengkap", value:""},
-        {code:"Alamat Rumah", value:""},
-        {code:"Provinsi", value:""},
-        {code:"Kabupaten/Kota", value:""},
-        {code:"Kecamatan", value:""},
-        {code:"Kelurahan/Desa", value:""},
-        {code:"Kode Pos", value:""}
+        {code:"Id", value:dataDummy.id},
+        {code:"NIK", value:dataDummy.familyCardNumber},
+        {code:"Nama Lengkap", value:dataDummy.fullName},
+        {code:"Alamat Rumah", value:dataDummy.address},
+        {code:"Provinsi", value:dataDummy.province},
+        {code:"Kabupaten/Kota", value:"Jakarta Barat"},
+        {code:"Kecamatan", value:"Grogol"},
+        {code:"Kelurahan/Desa", value:"Tanjung Duren"},
+        {code:"Kode Pos", value:"13980"}
     ]
 
     const berkasDiri = [
-        {code:"Surat Domisili", value:""},
-        {code:"Foto KTP", value:""},
-        {code:"Foto Selfie KTP", value:""},
-        {code:"Foto KK", value:""},
+        {code:"Surat Domisili", value:dataDummy.domicileFile},
+        {code:"Foto KTP", value:dataDummy.identityCardFile},
+        {code:"Foto Selfie KTP", value:dataDummy.identityCardSelfieFile},
+        {code:"Foto KK", value:dataDummy.familyCardFile},
         {code:"Kontak Darurat", value:""},
-        {code:"Nama Lengkap", value:""},
-        {code:"Hubungan", value:""},
-        {code:"Nomor Telepon", value:""}
+        {code:"Nama Lengkap", value:dataDummy[0].emergencyContacts[0].name},
+        {code:"Hubungan", value:dataDummy[0].emergencyContacts[0].relative},
+        {code:"Nomor Telepon", value:dataDummy[0].emergencyContacts[0].phoneNumber}
     ]
 
     const dataUsaha = [
-        {code:"Sektor Usaha", value:""},
-        {code:"Nama Usaha", value:""},
-        {code:"No. Telepon Usaha", value:""},
-        {code:"Lama Usaha", value:""},
-        {code:"Status Tempat", value:""},
-        {code:"Jumlah Karyawan", value:""},
-        {code:"Alamat Usaha", value:""},
-        {code:"Provinsi Usaha", value:""},
+        {code:"Sektor Usaha", value:dataDummy.businessSectorId},
+        {code:"Nama Usaha", value:dataDummy.businessSectorId},
+        {code:"No. Telepon Usaha", value:dataDummy.businessPhoneNumber},
+        {code:"Lama Usaha", value:dataDummy.businessPeriod},
+        {code:"Status Tempat", value:dataDummy.businessPlaceStatus},
+        {code:"Jumlah Karyawan", value:dataDummy.totalEmployee},
+        {code:"Alamat Usaha", value:dataDummy.businessAddress},
+        {code:"Provinsi Usaha", value:dataDummy.businessVillage},
         {coda:"Kabupaten/kota", value:""},
         {code:"Kecamatan", value:""},
         {code:"Kelurahan/Desa", value:""},
         {code:"Kode Pos Usaha", value:""},
-        {code:"Surat Keterangan Usaha", value:""}
+        {code:"Surat Keterangan Usaha", value:dataDummy.businessCertificateFile}
     ]
 
     const pengajuan = [
-        {code:"Kantor Cabang Pengajuan", value:""},
-        {code:"Nominal Pengajuan", value:""},
-        {code:"Jangka Waktu", value:""},
+        {code:"Kantor Cabang Pengajuan", value:dataDummy.branchOfficeId},
+        {code:"Nominal Pengajuan", value:dataDummy.applicationAmount},
+        {code:"Jangka Waktu", value:dataDummy.applicationPeriod},
     ]
 
     const handleConfirm = (confirm) => {
         console.log(confirm);
         setShowModalConfirm(false);
-        // if(confirm) {
-        //     rejectForm((message) => {
-        //         serMessageAlert()
-        //     }, id);
-        // }
+        if(confirm) {
+            patchNote((message) => {
+                serMessageAlert(message);
+                setTitle("Pemberitahuan");
+            }, id);
+        }
     }
 
     const handleCloseModal = () => {
@@ -70,12 +115,12 @@ function FormVerifikasiAdminPengajuanKreditPerseorangan({}) {
         setShowModalConfirm(false);
     }
 
-    const handleReject = () => {
+    const handleReject = (id) => {
         setTitle("Tolak Pengajuan Kredit")
         setShowModal(true)
     }
 
-    const handleApprove = (data) => {
+    const handleApprove = (id) => {
         setTitle("Setujui Pengajuan Kredit");
         setShowModalConfirm(true);
     }
@@ -167,7 +212,7 @@ function FormVerifikasiAdminPengajuanKreditPerseorangan({}) {
                 <Button
                     variant="danger"
                     onClick={() => {
-                        handleReject(data);
+                        handleReject(dataDummy.id);
                     }}
                 >
                     Tolak
@@ -175,7 +220,7 @@ function FormVerifikasiAdminPengajuanKreditPerseorangan({}) {
                 <Button
                     variant="success"
                     onClick={()=> {
-                        handleApprove(data);
+                        handleApprove(dataDummy.id);
                     }}
                 >
                     Setujui
