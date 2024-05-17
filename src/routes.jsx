@@ -23,6 +23,9 @@ import PengajuanKreditPerseorangan from "./pages/Khusus/PengajuanKreditPerseoran
 import VerifikasiAdminPengajuanKreditPerseorangan from "./pages/Khusus/VerifikasiAdminPengajuanKreditPerseorangan.jsx";
 import FormVerifikasiAdminPengajuanKreditPerseorangan from "./pages/Khusus/FormVerifikasiAdminPengajuanKreditPerseorangan.jsx";
 
+import UpgradeCredit from "./pages/Khusus/UpgradeCredit.jsx";
+import VerifyUpgradeCredit from "./pages/Khusus/VerifyUpgradeCredit.jsx";
+import VerifySubmissionUpgradeCredit from "./pages/Khusus/VerifySubmissionUpgradeCredit.jsx";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(Cookies.get("user") ?? null);
@@ -30,10 +33,10 @@ const ProtectedRoute = () => {
   if (!user) {
     return <Navigate to="/login" replace />;
   } else {
-    if(role === user.role.toLowerCase())
+    if (role === user.role.toLowerCase())
       return <Outlet />;
     else
-      return <AccessDenied/>
+      return <AccessDenied />
   }
 };
 
@@ -122,7 +125,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/:role',
-    element: <ProtectedRoute/>,
+    element: <ProtectedRoute />,
     children: [
       {
         path: "dashboard",
@@ -130,6 +133,15 @@ export const router = createBrowserRouter([
         element: (
           <LayoutKhusus breadcrumbs={"Dashboard"} navLinkActive={"Dashboard"}>
             <Dashboard />
+          </LayoutKhusus>
+        ),
+      },
+      {
+        path: "upgradecredit",
+        index: true,
+        element: (
+          <LayoutKhusus breadcrumbs={"Upgrade Credit"} navLinkActive={"UpgradeCredit"}>
+            <UpgradeCredit />
           </LayoutKhusus>
         ),
       },
@@ -171,21 +183,21 @@ export const router = createBrowserRouter([
               subNavLinkActive={"Karyawan"}
             >
               <UserManagementEmployee />
-             </LayoutKhusus>
+            </LayoutKhusus>
           </AccessRoleAdminValidation>
-          )
-        },
-        {
-          path: "data-master/kantor-cabang",
-          element: (
-            <AccessRoleAdminValidation>
-              <LayoutKhusus
-                breadcrumbs={"Data Master Kantor Cabang"}
-                navLinkActive={"Data Master"}
-                subNavLinkActive={"Kantor Cabang"}
-              >
-                <DaftarKantorCabang />
-               </LayoutKhusus>
+        )
+      },
+      {
+        path: "data-master/kantor-cabang",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus
+              breadcrumbs={"Data Master Kantor Cabang"}
+              navLinkActive={"Data Master"}
+              subNavLinkActive={"Kantor Cabang"}
+            >
+              <DaftarKantorCabang />
+            </LayoutKhusus>
           </AccessRoleAdminValidation>
         ),
       },
@@ -199,7 +211,7 @@ export const router = createBrowserRouter([
               subNavLinkActive={"Karyawan"}
             >
               <UpsertUserManagementEmployee />
-             </LayoutKhusus>
+            </LayoutKhusus>
           </AccessRoleAdminValidation>
         ),
       },
@@ -213,7 +225,7 @@ export const router = createBrowserRouter([
               subNavLinkActive={"Kantor Cabang"}
             >
               <FormUpsertKantorCabang />
-                 </LayoutKhusus>
+            </LayoutKhusus>
           </AccessRoleAdminValidation>
         ),
       },
@@ -253,13 +265,13 @@ export const router = createBrowserRouter([
               breadcrumbs={"User Management Nasabah"}
               navLinkActive={"User Management"}
               subNavLinkActive={"Nasabah"}
-              >
-                <UserManagementCustomer/>
-              </LayoutKhusus>
-           </AccessRoleAdminValidation>
+            >
+              <UserManagementCustomer />
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
         )
       },
-       {
+      {
         path: "data-master/kantor-cabang/edit/:id",
         element: (
           <AccessRoleAdminValidation>
@@ -291,7 +303,7 @@ export const router = createBrowserRouter([
         path: "data-master/sektor-usaha",
         element: (
           <AccessRoleAdminValidation>
-            <LayoutKhusus 
+            <LayoutKhusus
               breadcrumbs="Data Master / Sektor Usaha"
               navLinkActive="Data Master"
               subNavLinkActive="Sektor Usaha">
@@ -309,6 +321,17 @@ export const router = createBrowserRouter([
               navLinkActive="Data Master"
               subNavLinkActive="Sektor Usaha">
               <DataSektorUsaha />
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        )
+      },
+      {path: "verifikasi-penarikan",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus 
+              breadcrumbs="Verifikasi Penarikan"
+              navLinkActive="Verifikasi Penarikan">
+              <VerifyUpgradeCredit/>
             </LayoutKhusus>
           </AccessRoleAdminValidation>
         )
@@ -356,7 +379,18 @@ export const router = createBrowserRouter([
 
         )
       },
-
+      {
+        path: "verifikasi-penarikan/verifikasi/:id",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus 
+              breadcrumbs="Verifikasi Penarikan"
+              navLinkActive="Verifikasi Penarikan">
+              <VerifySubmissionUpgradeCredit/>
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        )
+      },
     ],
   },
   // {
