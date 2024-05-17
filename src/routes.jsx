@@ -21,6 +21,7 @@ import Login from "./pages/Umum/Login";
 import UserManagementCustomer from "./pages/Khusus/UserManagementCustomer";
 import UpgradeCredit from "./pages/Khusus/UpgradeCredit.jsx";
 import VerifyUpgradeCredit from "./pages/Khusus/VerifyUpgradeCredit.jsx";
+import VerifyUpgradeCreditSupervisor from "./pages/Khusus/VerifyUpgradeCreditSupervisor.jsx";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(Cookies.get("user") ?? null);
@@ -331,6 +332,18 @@ export const router = createBrowserRouter([
           </AccessRoleAdminValidation>
         )
       },
+      {
+        path: "verifikasi-upgrade-supervisor",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus
+              breadcrumbs="Verifikasi Upgrade Kredit"
+              navLinkActive="Verifikasi Penarikan">
+              <VerifyUpgradeCreditSupervisor/>
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        )
+      }
     ],
   },
   // {
