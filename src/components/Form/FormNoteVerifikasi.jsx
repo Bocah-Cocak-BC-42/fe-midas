@@ -23,25 +23,25 @@ function FormNoteVerifikasi(props) {
 			);
 		}
 	};
-  	return (
-    	<div>
-			<form 
-				id="form-insert-note" 
-				onSubmit={handleSubmit} 
-				className='flex flex-col gap-2'
-			>
-				<div>
-					<Input
-						placeholder="Masukkan notes"
-						name="rejectionNote"
-						grow
-					>
-						Catatan Penolakan
-					</Input>
-				</div>
-			</form>
-    	</div>
-  	)
+return (
+	<div>
+		<form 
+			id="form-insert-note" 
+			onSubmit={handleSubmit} 
+			className='flex flex-col gap-2'
+		>
+			<div>
+				<Input
+					placeholder="Masukkan notes"
+					name="rejectionNote"
+					grow
+				>
+					Catatan Penolakan
+				</Input>
+			</div>
+		</form>
+	</div>
+)
 }
 
 export default FormNoteVerifikasi

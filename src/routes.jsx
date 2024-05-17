@@ -24,6 +24,11 @@ import VerifikasiPengajuanKreditBadanUsaha from "./pages/Khusus/VerifikasiPengaj
 import DetailVerifikasiPengajuanKreditBadanUsaha from "./pages/Khusus/DetailVerifikasiPengajuanKreditBadanUsaha.jsx";
 import VerifyUpgradeCredit from "./pages/Khusus/VerifyUpgradeCredit.jsx";
 import VerifySubmissionUpgradeCredit from "./pages/Khusus/VerifySubmissionUpgradeCredit.jsx";
+import PengajuanKreditBadanUsaha from "./pages/Khusus/PengajuanKreditBadanUsaha.jsx";
+import DraftPengajuanKreditBadanUsaha from "./pages/Khusus/DraftPengajuanKreditBadanUsaha.jsx";
+import VerifikasiAdminPengajuanKreditPerseorangan from "./pages/Khusus/VerifikasiAdminPengajuanKreditPerseorangan.jsx";
+import PengajuanKreditPerseorangan from "./pages/Khusus/PengajuanKreditPerseorangan.jsx";
+import FormVerifikasiAdminPengajuanKreditPerseorangan from "./pages/Khusus/FormVerifikasiAdminPengajuanKreditPerseorangan.jsx";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(Cookies.get("user") ?? null);
