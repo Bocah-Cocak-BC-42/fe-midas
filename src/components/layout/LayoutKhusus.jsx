@@ -13,7 +13,7 @@ function LayoutKhusus({
         navLinkActive={navLinkActive}
         subNavLinkActive={subNavLinkActive}
       />
-      <div className="w-screen">
+      <div className="w-screen bg-[#F3F3F3]">
         <HeaderKhusus breadcrumbs={breadcrumbs} />
         <div className="p-4 px-12">{children}</div>
       </div>

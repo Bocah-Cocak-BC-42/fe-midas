@@ -80,6 +80,7 @@ function SideBarKhusus({ navLinkActive, subNavLinkActive }) {
           name: "Verifikasi Penarikan",
           icon: faUserCheck,
           key: 3,
+          location: "/admin/verifikasi-penarikan",
         }
       ]);
     } 

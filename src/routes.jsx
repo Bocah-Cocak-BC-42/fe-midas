@@ -19,11 +19,11 @@ import Register from "./pages/Umum/Register.jsx";
 import LayoutAuth from "./components/layout/LayoutAuth.jsx";
 import Login from "./pages/Umum/Login";
 import UserManagementCustomer from "./pages/Khusus/UserManagementCustomer";
-import DraftPengajuanKreditBadanUsaha from "./pages/Khusus/DraftPengajuanKreditBadanUsaha.jsx";
-import PengajuanKreditBadanUsaha from "./pages/Khusus/PengajuanKreditBadanUsaha.jsx";
 import UpgradeCredit from "./pages/Khusus/UpgradeCredit.jsx";
 import VerifikasiPengajuanKreditBadanUsaha from "./pages/Khusus/VerifikasiPengajuanKreditBadanUsaha.jsx";
 import DetailVerifikasiPengajuanKreditBadanUsaha from "./pages/Khusus/DetailVerifikasiPengajuanKreditBadanUsaha.jsx";
+import VerifyUpgradeCredit from "./pages/Khusus/VerifyUpgradeCredit.jsx";
+import VerifySubmissionUpgradeCredit from "./pages/Khusus/VerifySubmissionUpgradeCredit.jsx";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(Cookies.get("user") ?? null);
@@ -369,6 +369,85 @@ export const router = createBrowserRouter([
             </LayoutKhusus>
           </AccessRoleAdminValidation>
         ),
+      },
+      {
+        path: "data-master/sektor-usaha",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus 
+              breadcrumbs="Data Master / Sektor Usaha"
+              navLinkActive="Data Master"
+              subNavLinkActive="Sektor Usaha">
+              <DataSektorUsaha />
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        )
+      },
+      {path: "verifikasi-penarikan",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus 
+              breadcrumbs="Verifikasi Penarikan"
+              navLinkActive="Verifikasi Penarikan">
+              <VerifyUpgradeCredit/>
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        )
+      },
+      {
+        path: "perseorangan",
+        element: (
+          <AccessRoleNasabahValidation>
+            <LayoutKhusus 
+              breadcrumbs="Perseorangan"
+              navLinkActive="Pengajuan Kredit"
+              subNavLinkActive="Perseorangan">
+              <PengajuanKreditPerseorangan/>
+            </LayoutKhusus>
+          </AccessRoleNasabahValidation>
+        )
+      },
+      {
+        path: "verifikasi",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus 
+              breadcrumbs="Perseorangan"
+              navLinkActive="Verifikasi Kredit"
+              subNavLinkActive="Perseorangan"
+            >
+              <VerifikasiAdminPengajuanKreditPerseorangan/>
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+
+        )
+      },
+      {
+        path: "verifikasi/detail",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus 
+              breadcrumbs="Perseorangan/detail"
+              navLinkActive="Verifikasi Kredit"
+              subNavLinkActive="Perseorangan"
+            >
+              <FormVerifikasiAdminPengajuanKreditPerseorangan/>
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+
+        )
+      },
+      {
+        path: "verifikasi-penarikan/verifikasi/:id",
+        element: (
+          <AccessRoleAdminValidation>
+            <LayoutKhusus 
+              breadcrumbs="Verifikasi Penarikan"
+              navLinkActive="Verifikasi Penarikan">
+              <VerifySubmissionUpgradeCredit/>
+            </LayoutKhusus>
+          </AccessRoleAdminValidation>
+        )
       },
     ],
   },

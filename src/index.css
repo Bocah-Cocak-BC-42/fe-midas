@@ -5,6 +5,9 @@
 tr:nth-child(even) {
   background-color: #ebe4e4;
 }
+#tableformat tr:nth-child(even) {
+  background-color: #f3f3f3;
+}
 
 tr td{
   padding: 20px;
