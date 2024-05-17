@@ -1,27 +1,27 @@
 import Cookies from "js-cookie";
 import { Navigate, Outlet, createBrowserRouter, useParams } from "react-router-dom";
+import LayoutAuth from "./components/layout/LayoutAuth.jsx";
 import LayoutKhusus from "./components/layout/LayoutKhusus";
 import LayoutUmum from "./components/layout/LayoutUmum";
-import LandingPage from "./pages/Umum/LandingPage"
-import NotFoundPage from "./pages/NotFoundPage"
-import DaftarKantorCabang from "./pages/Khusus/DataMasterKantorCabang";
-import DataMasterKaryawanKantorCabang from "./pages/Khusus/DataMasterKaryawanKantorCabang"
-import FormUpsertKantorCabang from "./pages/Khusus/UpsertKantorCabang";
-import DataMasterAlamat from "./pages/Khusus/DataMasterAlamat";
 import AccessDenied from "./pages/AccessDenied";
 import Dashboard from "./pages/Khusus/Dashboard";
+import DataMasterAlamat from "./pages/Khusus/DataMasterAlamat";
 import DataMasterBank from "./pages/Khusus/DataMasterBank";
-import DataSektorUsaha from "./pages/Khusus/DataSektorUsaha";
+import DaftarKantorCabang from "./pages/Khusus/DataMasterKantorCabang";
+import DataMasterKaryawanKantorCabang from "./pages/Khusus/DataMasterKaryawanKantorCabang";
 import DataMasterRole from "./pages/Khusus/DataMasterRole";
-import UserManagementEmployee from "./pages/Khusus/UserManagementEmployee";
-import UpsertUserManagementEmployee from "./pages/Khusus/UpsertUserManagementEmployee";
-import Register from "./pages/Umum/Register.jsx";
-import LayoutAuth from "./components/layout/LayoutAuth.jsx";
-import Login from "./pages/Umum/Login";
-import UserManagementCustomer from "./pages/Khusus/UserManagementCustomer";
+import DataSektorUsaha from "./pages/Khusus/DataSektorUsaha";
 import UpgradeCredit from "./pages/Khusus/UpgradeCredit.jsx";
-import VerifyUpgradeCredit from "./pages/Khusus/VerifyUpgradeCredit.jsx";
+import FormUpsertKantorCabang from "./pages/Khusus/UpsertKantorCabang";
+import UpsertUserManagementEmployee from "./pages/Khusus/UpsertUserManagementEmployee";
+import UserManagementCustomer from "./pages/Khusus/UserManagementCustomer";
+import UserManagementEmployee from "./pages/Khusus/UserManagementEmployee";
 import VerifySubmissionUpgradeCredit from "./pages/Khusus/VerifySubmissionUpgradeCredit.jsx";
+import VerifyUpgradeCredit from "./pages/Khusus/VerifyUpgradeCredit.jsx";
+import NotFoundPage from "./pages/NotFoundPage";
+import LandingPage from "./pages/Umum/LandingPage";
+import Login from "./pages/Umum/Login";
+import Register from "./pages/Umum/Register.jsx";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(Cookies.get("user") ?? null);
@@ -312,10 +312,10 @@ export const router = createBrowserRouter([
         path: "verifikasi-penarikan",
         element: (
           <AccessRoleAdminValidation>
-            <LayoutKhusus 
+            <LayoutKhusus
               breadcrumbs="Verifikasi Penarikan"
               navLinkActive="Verifikasi Penarikan">
-              <VerifyUpgradeCredit/>
+              <VerifyUpgradeCredit />
             </LayoutKhusus>
           </AccessRoleAdminValidation>
         )
@@ -324,10 +324,10 @@ export const router = createBrowserRouter([
         path: "verifikasi-penarikan/verifikasi/:id",
         element: (
           <AccessRoleAdminValidation>
-            <LayoutKhusus 
+            <LayoutKhusus
               breadcrumbs="Verifikasi Penarikan"
               navLinkActive="Verifikasi Penarikan">
-              <VerifySubmissionUpgradeCredit/>
+              <VerifySubmissionUpgradeCredit />
             </LayoutKhusus>
           </AccessRoleAdminValidation>
         )
