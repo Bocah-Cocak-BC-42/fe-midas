@@ -9,6 +9,7 @@ function Input(props) {
     required,
     message,
     onChange,
+    pattern,
     grow,
     children,
   } = props;
@@ -27,6 +28,7 @@ function Input(props) {
         disabled={disabled}
         required={required}
         onChange={onChange}
+        pattern={pattern}
         className={disabled === true
           ? "p-1" + (grow ? " w-full" : "")
           : "p-1 border-2 border-slate-300 rounded-md" + (grow ? " w-full" : "")

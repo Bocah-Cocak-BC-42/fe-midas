@@ -1,10 +1,10 @@
-import Table from "../../components/Table";
-import InputSearch from "../../components/Input/InputSearch";
-import Button from "../../components/Button";
-import { useState, useEffect } from "react";
-import Status from "../../components/Status";
-import { GetUpgrades } from "../../services/upgrade-credit";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "../../components/Button";
+import InputSearch from "../../components/Input/InputSearch";
+import Status from "../../components/Status";
+import Table from "../../components/Table";
+import { GetUpgrades } from "../../services/upgrade-credit";
 
 function VerifyUpgradeCredit() {
     const [dataCredits, setDataCredit] = useState([]);

@@ -1,14 +1,23 @@
-import React from 'react'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import Button from '../Button';
 
-function Submission({ data }) {
+function Submission({ data, index }) {
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col gap-2">
-      <span>Pengajuan Pertama</span>
-      <div className="grid grid-cols-4 text-center">
-        <span className="border-r">B0000001</span>
-        <span className="border-x">04/04/2024</span>
-        <span className="border-x">Pending</span>
-        <span className="border-l">Edit</span>
+      <span>Pengajuan ke-{index + 1}</span>
+      <div className="grid grid-cols-[auto_auto_auto_auto] text-center">
+        <span className="border-r">{data.creditUpgradeNumber}</span>
+        <span className="border-x">{data.createdAt.split('T')[0]}</span>
+        <span className="border-x">{data.status}</span>
+        <div className="">
+          <Button
+            variant="warning"
+            onClick={() => navigate("/nasabah/upgradecredit/" + data.creditUpgradeNumber)}
+          >Edit</Button>
+        </div>
       </div>
     </div>
   )

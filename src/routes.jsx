@@ -22,6 +22,7 @@ import UserManagementCustomer from "./pages/Khusus/UserManagementCustomer";
 import UpgradeCredit from "./pages/Khusus/UpgradeCredit.jsx";
 import VerifyUpgradeCredit from "./pages/Khusus/VerifyUpgradeCredit.jsx";
 import VerifyUpgradeCreditSupervisor from "./pages/Khusus/VerifyUpgradeCreditSupervisor.jsx";
+import VerifySubmissionUpgradeCredit from "./pages/Khusus/VerifySubmissionUpgradeCredit.jsx";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(Cookies.get("user") ?? null);
@@ -327,7 +328,7 @@ export const router = createBrowserRouter([
             <LayoutKhusus 
               breadcrumbs="Verifikasi Penarikan"
               navLinkActive="Verifikasi Penarikan">
-              <UpgradeCredit />
+              <VerifySubmissionUpgradeCredit/>
             </LayoutKhusus>
           </AccessRoleAdminValidation>
         )
