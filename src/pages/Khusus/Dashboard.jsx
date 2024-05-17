@@ -85,7 +85,11 @@ function Dashboard() {
     if (dtoSubmissions.length <= 0) submissionsElements = <span className="text-center">Tidak ada data</span>;
     else {
       submissionsElements = dtoSubmissions.map((submission, index) => (
-        <Submission data={submission} index={index} />
+        <Submission
+          data={submission}
+          index={index}
+          key={index}
+        />
       ));
     }
   }
