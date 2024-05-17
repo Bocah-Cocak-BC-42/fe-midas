@@ -5,7 +5,7 @@ export const getUserDetail = (params, callback, errorCallback) => {
 };
 
 export const getSubmissions = (params, callback, errorCallback) => {
-    get("", params, callback, errorCallback);
+    get("credit-upgrade/customer", params, callback, errorCallback);
 };
 
 export const getLoans = (params, callback, errorCallback) => {
