@@ -6,13 +6,12 @@ import Input from '../Input/Input';
 import Island from '../Island';
 
 function FormUpgradeCredit(props) {
-  const { data, dataNasabah, pathFile, showAlert, showTolak } = props;
+  const { data, dataNasabah, showAlert } = props;
   const [messageValidationField, setMessageValidationField] = useState({});
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    if (data.role === "Nasabah") {
       const penghasilanPerBulan = e.currentTarget["penghasilan-perbulan"].value || "";
       const omsetUsahaTahunan = e.currentTarget["omset-usaha-tahunan"].value || "";
       const profitUsahaTahunan = e.currentTarget["profit-usaha-tahunan"].value || "";
@@ -41,12 +40,6 @@ function FormUpgradeCredit(props) {
           FileCategory: "LaporanKeuangan",
         }
       );
-    } else {
-      ApproveUpgrade(
-        (messageAlert) => {
-          console.log(messageAlert);
-        }, { creditUpgradeId: dataNasabah.id });
-    }
   };
 
   const handleNegativeNumber = (num) => {
@@ -68,7 +61,6 @@ function FormUpgradeCredit(props) {
             name="penghasilan-perbulan"
             message={messageValidationField?.Name}
             defaultValue={dataNasabah?.monthlyIncome}
-            disabled={dataNasabah?.monthlyIncome ? true : false}
             onChange={() => { }}
             pattern="[0-9]*"
             required
@@ -80,7 +72,6 @@ function FormUpgradeCredit(props) {
             name="omset-usaha-tahunan"
             message={messageValidationField?.Name}
             defaultValue={dataNasabah?.annualBusinessGross}
-            disabled={dataNasabah?.annualBusinessGross ? true : false}
             onChange={() => { }}
             pattern="[0-9]*"
             required
@@ -92,14 +83,12 @@ function FormUpgradeCredit(props) {
             name="profit-usaha-tahunan"
             message={messageValidationField?.Name}
             defaultValue={dataNasabah?.profitBusinessGross}
-            disabled={dataNasabah?.profitBusinessGross ? true : false}
             onChange={() => { }}
             pattern="[0-9]*"
             required
             grow
           >Profit Tahunan*</Input>
 
-          {data.role === "Admin" ? <Download link={pathFile} name="Laporan Keuangan" /> :
             <Input
               type="file"
               accept="application/pdf"
@@ -107,22 +96,13 @@ function FormUpgradeCredit(props) {
               name="laporan-keuangan"
               message={messageValidationField?.Name}
               defaultValue={dataNasabah?.financialStatementFile}
-              disabled={dataNasabah?.financialStatementFile ? true : false}
               required
               grow
             >Laporan Keuangan*</Input>
-          }
-
-          {data.role === "Admin" ?
-            <div className="flex gap-2 self-end">
-              <Button type="submit">Setuju</Button>
-              <Button variant="danger" onClick={showTolak}>Tolak</Button>
-            </div>
-            :
+          
             <div className="self-end">
               <Button type="submit">Ajukan</Button>
             </div>
-          }
         </form>
       </div>
     </Island>
