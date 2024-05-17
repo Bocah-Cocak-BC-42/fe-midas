@@ -1,6 +1,7 @@
 function Input(props) {
   const {
     type,
+    accept,
     name,
     placeholder,
     defaultValue,
@@ -8,6 +9,7 @@ function Input(props) {
     required,
     message,
     onChange,
+    pattern,
     grow,
     children,
     register
